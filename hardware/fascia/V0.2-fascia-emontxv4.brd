@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -211,32 +211,33 @@
 <wire x1="23.25" y1="8.7" x2="23.25" y2="22.7" width="0.001" layer="20"/>
 <wire x1="23.25" y1="22.7" x2="9.25" y2="22.7" width="0.001" layer="20"/>
 <wire x1="9.25" y1="22.7" x2="9.25" y2="8.7" width="0.001" layer="20"/>
-<text x="30.25" y="17" size="2.54" layer="20" ratio="0" align="bottom-center">CT1</text>
-<text x="43.25" y="17" size="2.54" layer="20" ratio="0" align="bottom-center">CT2</text>
-<text x="56.25" y="17" size="2.54" layer="20" ratio="0" align="bottom-center">CT3</text>
-<text x="69.25" y="17" size="2.54" layer="20" ratio="0" align="bottom-center">CT4</text>
-<text x="82.25" y="17" size="2.54" layer="20" ratio="0" align="bottom-center">CT5</text>
-<text x="95.25" y="17" size="2.54" layer="20" ratio="0" align="bottom-center">CT6</text>
+<text x="30.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">1</text>
+<text x="43.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">2</text>
+<text x="56.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">3</text>
+<text x="69.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">4</text>
+<text x="82.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">5</text>
+<text x="95.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">6</text>
 <text x="62.75" y="23" size="2.54" layer="20" ratio="0" align="bottom-center">333mV CT Inputs</text>
 <wire x1="48" y1="24" x2="27" y2="24" width="0.001" layer="20"/>
 <wire x1="98.5" y1="23.5" x2="77.5" y2="23.5" width="0.001" layer="20"/>
 <text x="17.25" y="24" size="2.54" layer="20" ratio="0" align="bottom-center">AC Vsens</text>
-<text x="12.75" y="5" size="2.54" layer="20" ratio="0" align="bottom-center">PSU</text>
-<wire x1="28.25" y1="70.5" x2="28.25" y2="78.4" width="0.001" layer="20"/>
+<text x="16.55" y="5" size="2.54" layer="20" ratio="0" align="bottom-center">PSU</text>
+<wire x1="29.15" y1="70.5" x2="29.15" y2="78.4" width="0.001" layer="20"/>
 <wire x1="64.25" y1="70.5" x2="64.25" y2="63" width="0.001" layer="20"/>
-<wire x1="12.25" y1="63" x2="12.25" y2="78.4" width="0.001" layer="20"/>
-<wire x1="12.25" y1="78.4" x2="28.25" y2="78.4" width="0.001" layer="20"/>
+<wire x1="11.25" y1="63" x2="11.25" y2="78.4" width="0.001" layer="20"/>
+<wire x1="11.25" y1="78.4" x2="29.15" y2="78.4" width="0.001" layer="20"/>
 <wire x1="52.25" y1="70.5" x2="41.25" y2="70.5" width="0.001" layer="20"/>
 <wire x1="66.75" y1="68.5" x2="78.75" y2="68.5" width="0.001" layer="20"/>
 <wire x1="66.75" y1="61.5" x2="78.75" y2="61.5" width="0.001" layer="20"/>
 <wire x1="66.75" y1="61.5" x2="66.75" y2="68.5" width="0.001" layer="20"/>
 <wire x1="78.75" y1="68.5" x2="78.75" y2="61.5" width="0.001" layer="20"/>
-<wire x1="28.25" y1="70.5" x2="64.25" y2="70.5" width="0.001" layer="20"/>
+<wire x1="29.15" y1="70.5" x2="64.25" y2="70.5" width="0.001" layer="20"/>
 <circle x="91.25" y="70.4" radius="3.25" width="0.001" layer="20"/>
-<wire x1="12.25" y1="63" x2="64.25" y2="63" width="0.001" layer="20"/>
-<text x="39.25" y="58.5" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org</text>
-<text x="75.5" y="69.5" size="2.54" layer="20" ratio="0" align="bottom-center">USB</text>
-<text x="50.5" y="73.5" size="2.54" layer="20" ratio="0" align="bottom-center">One-wire temp &amp; aux I/O</text>
+<wire x1="11.25" y1="63" x2="64.25" y2="63" width="0.001" layer="20"/>
+<text x="53.95" y="2.3" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org      emonTx V4</text>
+<text x="73" y="69.5" size="2.54" layer="20" ratio="0" align="bottom-center">USB</text>
+<text x="46.4" y="71.8" size="2.54" layer="20" ratio="0" align="bottom-center">1wire temp &amp; aux I/O</text>
+<text x="54.05" y="57" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org      emonTx V4</text>
 </plain>
 <libraries>
 </libraries>
