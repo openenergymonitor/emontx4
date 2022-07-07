@@ -5600,7 +5600,7 @@ Made in UK</text>
 <dimension x1="100" y1="81" x2="88" y2="81" x3="94" y3="84.699928125" textsize="1.778" layer="50"/>
 <dimension x1="88" y1="81" x2="74" y2="81" x3="81" y3="84.699928125" textsize="1.778" layer="50"/>
 <dimension x1="22" y1="81" x2="9" y2="81" x3="15.5" y3="84.699928125" textsize="1.778" layer="50"/>
-<dimension x1="-1" y1="80" x2="-1" y2="15" x3="-4" y3="47.5" textsize="1.778" layer="1"/>
+<dimension x1="-1" y1="80" x2="-1" y2="15" x3="-4" y3="47.5" textsize="1.778" layer="50"/>
 <text x="25.0825" y="48.26" size="0.8128" layer="21" font="vector" ratio="20">GND</text>
 <text x="28.575" y="49.2125" size="0.8128" layer="21" font="vector" ratio="20" rot="R270">3.3V</text>
 <text x="31.115" y="49.2125" size="0.8128" layer="21" font="vector" ratio="20" rot="R270">VREFA</text>
