@@ -1,8 +1,6 @@
 # EmonTx v4
 
-See forum post: [https://community.openenergymonitor.org/t/avr-db-emontx-v4-new-hardware-in-progress/20209](https://community.openenergymonitor.org/t/avr-db-emontx-v4-new-hardware-in-progress/20209)
-
-The first set of emonTx v4 prototype PCB's have arrived. Here's a picture of the first assembled board, testing in progress!
+The emonTx v4 is an energy monitoring transmitter unit that can monitor up to 6 AC circuits using CT sensors and the OpenEnergyMonitor 1-3 phase voltage sensing unit. At it's core is a Microchip AVR128DB48 microcontroller - responsible for sampling the current and voltage waveforms and calculating the power and energy values. These are then either transmitted to a emonPi or emonBase base-station via the 433MHz radio link or sent directly to a remote EmonCMS server using an optional ESP32 WiFi adapter. The emonTx v4 also supports temperature sensing and pulse counting.
 
 ![emontx4.jpg](emontx4.jpg)
 
