@@ -24,13 +24,9 @@ The board is designed to support both single and full 3-phase electricity monito
 
 The on-board USB to serial chip will make it easier and neater to have a hard-wired installation linking the emonTx to a RaspberryPi based base station.
 
-## Frimware
+## [Frimware](firmware)
 
-See [firmware readme](firmware).
-
-## Schematic and board files
-
-See [hardware readme](hardware).
+## [Hardware](hardware)
 
 ## Community & Support
 
