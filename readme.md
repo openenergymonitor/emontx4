@@ -24,26 +24,27 @@ The board is designed to support both single and full 3-phase electricity monito
 
 The on-board USB to serial chip will make it easier and neater to have a hard-wired installation linking the emonTx to a RaspberryPi based base station.
 
-## Schematic and board file images:
+## Frimware
 
-![schematic.png](hardware/schematic.png)
+See [firmware readme](firmware).
 
-![board2.png](hardware/board2.png)
+## Schematic and board files
 
+See [hardware readme](hardware).
 
-### Community & Support
+## Community & Support
 
 - [OpenEnergyMonitor Forums](https://community.openenergymonitor.org)
 
 OpenEnergyMonitor Shop Support: support@openenergymonitor.zendesk.com
 
-### License
+## License
 
 - The hardware designs (schematics and CAD files) are licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
 - The firmware is released under the GNU GPL V3 license The documentation is subject to GNU Free Documentation License
 - The hardware designs follow the terms of the OSHW (Open-source hardware) Statement of Principles 1.0.
 
-### Disclaimer
+## Disclaimer
 
 ```
 OUR PRODUCTS AND ASSEMBLY KITS MAY BE USED BY EXPERIENCED, SKILLED USERS, AT THEIR OWN RISK. TO THE FULLEST EXTENT PERMISSIBLE BY THE APPLICABLE LAW, WE HEREBY DISCLAIM ANY AND ALL RESPONSIBILITY, RISK, LIABILITY AND DAMAGES ARISING OUT OF DEATH OR PERSONAL INJURY RESULTING FROM ASSEMBLY OR OPERATION OF OUR PRODUCTS.
