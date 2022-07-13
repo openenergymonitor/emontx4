@@ -9,7 +9,7 @@ The emonTx v4 is an energy monitoring transmitter unit that can monitor up to 6 
 * Micro-controller: AVR128DB48 (VQFN 128 kb flash, 48-pin package)
 * 3 voltage channels (via RJ11 connector top-right, interfaces with separate voltage sensing board)
 * 6 CT current channels on the base board.
-* Option to extend the number of CT channels to [s]11[/s] 12 via an additional extender board.
+* Option to extend the number of CT channels to 12 via an additional extender board.
 * Precision voltage reference for the ADC to improve accuracy.
 * RJ45 socket for pulse counter and DS18B20 temperature sensing.
 * 3x 3-WAY pluggable terminal blocks for selectable temperature sensing, pulse or additional analog input.
