@@ -16,3 +16,7 @@
 3. Upload the micropython example using ampy, e.g:
 
     ampy --port /dev/ttyACM0 put basic_emoncms_client.py main.py
+    
+### Uploading Arduino code
+
+This guide provides a good overview of getting started with the Pi Pico W and Arduino IDE: https://dronebotworkshop.com/picow-arduino/
