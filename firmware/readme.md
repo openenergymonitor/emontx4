@@ -51,7 +51,7 @@ Under Tools, select the following configuration options:
 
 - Select Chip: AVR128DB48
 - Clock Speed: 24 MHz Internal
-- Bootloader serial port: UART1: TXPC0, TXPC1
+- Bootloader serial port: UART3: TXPB0, RXPB1
 
 ![compile_settings.png](img/compile_settings.png)
 

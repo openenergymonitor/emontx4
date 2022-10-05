@@ -18,13 +18,13 @@ The emonTx v4 is an energy monitoring transmitter unit that can monitor up to 6 
 * USB-C power and integrated CP2102 usb to serial chip
 * Serial and SPI pin headers designed for ESP8266+I2C LCD based shield module (more details soon).
 
-The dimensions of this board are slightly smaller than that of the emonTx v3 at 65mm long rather than 80mm this provides a proportional saving on the cost and material requirements for the aluminium enclosure, which goes part of the way to offset the additional cost of some of the additional components on the board.
+The dimensions are slightly smaller than that of the emonTx v3 at 65mm long rather than 80mm.
 
 The board is designed to support both single and full 3-phase electricity monitoring when used in conjunction with the relevant external voltage sensing board. And the CT extender pin headers should provide a cost effective way of gaining additional CT channels.
 
 The on-board USB to serial chip will make it easier and neater to have a hard-wired installation linking the emonTx to a RaspberryPi based base station.
 
-## [Frimware](firmware)
+## [Firmware](firmware)
 
 ## [Hardware](hardware)
 
