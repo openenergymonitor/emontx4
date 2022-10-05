@@ -9,17 +9,17 @@ Data from the emonTx can be transmitted over the 433 Mhz RFM69cw radio link or r
 **Key features**
 
 * Micro-controller: AVR128DB48 (VQFN 128 kb flash, 48-pin package)
-* 3 voltage channels (via RJ11 connector top-right, interfaces with separate voltage sensing board)
+* 3 voltage channels (via RJ11 connector top-right, interfaces with separate voltage sensing board, single phase firmware only at present).
 * 6 CT current channels on the base board.
-* Option to extend the number of CT channels to 12 via an additional extender board.
+* Option to extend the number of CT channels to 12 via an additional extender board (firmware not yet developed for this).
 * Precision voltage reference for the ADC to improve accuracy.
 * RJ45 socket for pulse counter and DS18B20 temperature sensing.
 * 3x 3-WAY pluggable terminal blocks for selectable temperature sensing, pulse or additional analog input.
 * RFM69CW 433MHz radio transceiver
 * DIP Switch to select node id
 * USB-C power and integrated CP2102 usb to serial chip
-* Serial and SPI pin headers designed for ESP8266+I2C LCD based shield module (more details soon).
-
+* Serial and SPI pin headers breakout internally, designed for use with adapter boards.
+ 
 The dimensions are slightly smaller than that of the emonTx v3 at 65mm long rather than 80mm.
 
 The board is designed to support both single and full 3-phase electricity monitoring when used in conjunction with the relevant external voltage sensing board. And the CT extender pin headers should provide a cost effective way of gaining additional CT channels.
