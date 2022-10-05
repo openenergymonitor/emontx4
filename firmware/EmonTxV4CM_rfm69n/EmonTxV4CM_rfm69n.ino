@@ -65,22 +65,23 @@ copy the following into emonhub.conf:
 
 // Radio - checks for traffic
 const int busyThreshold = -97;                             // Signal level below which the radio channel is clear to transmit
-const byte busyTimeout = 15;                               // Time in ms to wait for the channel to become clear, before transmitting anyway
+const byte busyTimeout = 5;                               // Time in ms to wait for the channel to become clear, before transmitting anyway
 
-struct {
+typedef struct {
     unsigned long Msg;
     int Vrms,P1,P2,P3,P4,P5,P6; 
     long E1,E2,E3,E4,E5,E6; 
     int T1,T2,T3;
     unsigned long pulse;
-} emontx;                                                  // create a data packet for the RFM
+} PayloadTX;                                                  // create a data packet for the RFM
+PayloadTX emontx;
 static void showString (PGM_P s);
  
 #define MAX_TEMPS 3                                        // The maximum number of temperature sensors
  
 //---------------------------- emonTx Settings - Stored in EEPROM and shared with config.ino ------------------------------------------------
-#define DEFAULT_ICAL 75.075                                // 25A / 333mV output = 75.075
-#define DEFAULT_LEAD 1.5
+#define DEFAULT_ICAL 60.06                                // 25A / 333mV output = 75.075
+#define DEFAULT_LEAD 3.2
 
 struct {
   byte RF_freq = RFM_433MHZ;                               // Frequency of radio module can be RFM_433MHZ, RFM_868MHZ or RFM_915MHZ. 
@@ -88,14 +89,14 @@ struct {
   byte nodeID = 15;                                        // node ID for this emonTx.
   byte rf_on = 1;                                          // RF - 0 = no RF, 1 = RF on.
   byte rfPower = 25;                                       // 7 = -10.5 dBm, 25 = +7 dBm for RFM12B; 0 = -18 dBm, 31 = +13 dBm for RFM69CW. Default = 25 (+7 dBm)
-  float vCal  = 810.4;                                     // (6 x 10000) / 75 = 800.0
-  float vCal_USA = 810.4;                                  // same as above
+  float vCal  = 807.86;                                    // (6 x 10000) / 75 = 800.0
+  float vCal_USA = 810.34;                                 // same as above
   float assumedVrms = 240.0;                               // Assumed Vrms when no a.c. is detected
   float lineFreq = 50;                                     // Line Frequency = 50 Hz
 
-  float i1Cal =  DEFAULT_ICAL;
+  float i1Cal =  300.30;
   float i1Lead = DEFAULT_LEAD;
-  float i2Cal =  DEFAULT_ICAL;
+  float i2Cal =  150.15;
   float i2Lead = DEFAULT_LEAD;
   float i3Cal =  DEFAULT_ICAL;
   float i3Lead = DEFAULT_LEAD;
@@ -106,7 +107,7 @@ struct {
   float i6Cal =  DEFAULT_ICAL;
   float i6Lead = DEFAULT_LEAD;
   
-  float period = 9.85;                                     // datalogging period - should be fractionally less than the PHPFINA database period in emonCMS
+  float period = 9.8;                                     // datalogging period - should be fractionally less than the PHPFINA database period in emonCMS
   bool  pulse_enable = true;                               // pulse counting
   int   pulse_period = 100;                                // pulse min period - 0 = no de-bounce
   bool  temp_enable = true;                                // enable temperature measurement
@@ -133,7 +134,7 @@ int allTemps[MAX_TEMPS];                                   // Array to receive t
 
 bool  USA=false;
 
-bool calibration_enable = false;                           // Enable on-line calibration when running. 
+bool calibration_enable = true;                           // Enable on-line calibration when running. 
                                                            // For safety, thus MUST default to false. (Required due to faulty ESP8266 software.)
 
 //----------------------------emonTx V3 hard-wired connections-----------------------------------
@@ -336,10 +337,16 @@ void loop()
     emontx.T3 = allTemps[2];
 
     emontx.pulse = EmonLibCM_getPulseCount();
-    
+        
     if (EEProm.rf_on)
     {
-      rfm_send((byte *)&emontx, sizeof(emontx), EEProm.networkGroup, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);     //send data
+
+      PayloadTX tmp = emontx;
+      //byte WHITENING = 0x55;
+      //for (byte i = 0, *p = (byte *)&tmp; i < sizeof tmp; i++, p++)
+      //    *p ^= (byte)WHITENING;
+      
+      rfm_send((byte *)&tmp, sizeof(tmp), EEProm.networkGroup, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);     //send data
       delay(50);
     }
 
@@ -368,7 +375,7 @@ void loop()
       if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
       if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
 
-      Serial.print(F(",pulse:")); Serial.println(emontx.pulse);  
+      Serial.print(F(",pulse:")); Serial.print(emontx.pulse);
 #else
       Serial.print(EEProm.nodeID); Serial.print(F(" "));
       Serial.print(emontx.Msg); Serial.print(F(" "));
@@ -414,7 +421,7 @@ void loop()
       Serial.print(F(",pf6:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(6)),4);
     }
     Serial.println();
-    delay(20);
+    delay(40);
 
     digitalWrite(LEDpin,HIGH); delay(50);digitalWrite(LEDpin,LOW);
     // End of print out ----------------------------------------------------

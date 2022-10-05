@@ -265,32 +265,32 @@ void getSettings(void)
                 EEProm.vCal = k2;
               break;
                 
-            case 1 : EmonLibCM_ReCalibrate_IChannel(1, k2, k3);
+            case 1 : EmonLibCM_ReCalibrate_IChannel(3, k2, k3);
               EEProm.i1Cal = k2;
               EEProm.i1Lead = k3;
               break;
 
-            case 2 : EmonLibCM_ReCalibrate_IChannel(2, k2, k3);
+            case 2 : EmonLibCM_ReCalibrate_IChannel(4, k2, k3);
               EEProm.i2Cal = k2;
               EEProm.i2Lead = k3;
               break;
 
-            case 3 : EmonLibCM_ReCalibrate_IChannel(3, k2, k3);
+            case 3 : EmonLibCM_ReCalibrate_IChannel(5, k2, k3);
               EEProm.i3Cal = k2;
               EEProm.i3Lead = k3;
               break;
 
-            case 4 : EmonLibCM_ReCalibrate_IChannel(4, k2, k3);
+            case 4 : EmonLibCM_ReCalibrate_IChannel(6, k2, k3);
               EEProm.i4Cal = k2;
               EEProm.i4Lead = k3;
               break;
 
-            case 5 : EmonLibCM_ReCalibrate_IChannel(5, k2, k3);
+            case 5 : EmonLibCM_ReCalibrate_IChannel(8, k2, k3);
               EEProm.i5Cal = k2;
               EEProm.i5Lead = k3;
               break;
 
-            case 6 : EmonLibCM_ReCalibrate_IChannel(6, k2, k3);
+            case 6 : EmonLibCM_ReCalibrate_IChannel(9, k2, k3);
               EEProm.i6Cal = k2;
               EEProm.i6Lead = k3;
               break;
