@@ -30,6 +30,13 @@ The on-board USB to serial chip will make it easier and neater to have a hard-wi
 
 ## [Hardware](hardware)
 
+## Extensions
+
+- [6CT Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/CTExt)
+- [ESP32 Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/ESP32)
+- [Pi Pico Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/PiPico)
+- [Pi Zero Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/PiZero)
+
 ## Community & Support
 
 - [OpenEnergyMonitor Forums](https://community.openenergymonitor.org)
