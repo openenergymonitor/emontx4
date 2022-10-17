@@ -156,7 +156,7 @@ void setup()
     Serial.println(F("describe:EmonTX4CM"));
   #endif
  
-  //load_config(true);                                                   // Load RF config from EEPROM (if any exists)
+  load_config(true);                                                   // Load RF config from EEPROM (if any exists)
 
   delay(1000);
   pinMode(RFMSELPIN, INPUT_PULLUP);
