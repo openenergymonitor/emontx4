@@ -69,6 +69,7 @@ int networkGroup = 210;                                 // wireless network grou
 const int busyThreshold = -97;                          // Signal level below which the radio channel is clear to transmit
 const byte busyTimeout = 15;                            // Time in ms to wait for the channel to become clear, before transmitting anyway
 int rf_whitening = 2;                                   // RF & data whitening - 0 = no RF, 1 = RF on, no whitening, default = 2: RF is ON with whitening.
+bool json_enabled = false;                              // JSON Enabled - false = key,Value pair, true = JSON, default = false: Key,Value pair.
 
 typedef struct {
     unsigned long Msg;
@@ -344,31 +345,63 @@ void loop()
       delay(50);
     }
 
-    // ---------------------------------------------------------------------
-    // Key:Value format, used by EmonESP & emonhub EmonHubTx3eInterfacer
-    // ---------------------------------------------------------------------
-    Serial.print(F("MSG:")); Serial.print(emontx.Msg);
-    Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
+    if (json_enabled)
+    {
+      // ---------------------------------------------------------------------
+      // JSON Format
+      // ---------------------------------------------------------------------
+      Serial.print(F("{\"MSG\":")); Serial.print(emontx.Msg);
+      Serial.print(F("\",Vrms\":")); Serial.print(emontx.Vrms*0.01);
+      
+      Serial.print(F(",\"P1\":")); Serial.print(emontx.P1);
+      Serial.print(F(",\"P2\":")); Serial.print(emontx.P2);
+      Serial.print(F(",\"P3\":")); Serial.print(emontx.P3);
+      Serial.print(F(",\"P4\":")); Serial.print(emontx.P4);
+      Serial.print(F(",\"P5\":")); Serial.print(emontx.P5);
+      Serial.print(F(",\"P6\":")); Serial.print(emontx.P6);
     
-    Serial.print(F(",P1:")); Serial.print(emontx.P1);
-    Serial.print(F(",P2:")); Serial.print(emontx.P2);
-    Serial.print(F(",P3:")); Serial.print(emontx.P3);
-    Serial.print(F(",P4:")); Serial.print(emontx.P4);
-    Serial.print(F(",P5:")); Serial.print(emontx.P5);
-    Serial.print(F(",P6:")); Serial.print(emontx.P6);
-  
-    Serial.print(F(",E1:")); Serial.print(emontx.E1);
-    Serial.print(F(",E2:")); Serial.print(emontx.E2);
-    Serial.print(F(",E3:")); Serial.print(emontx.E3);
-    Serial.print(F(",E4:")); Serial.print(emontx.E4);
-    Serial.print(F(",E5:")); Serial.print(emontx.E5);
-    Serial.print(F(",E6:")); Serial.print(emontx.E6);
-    
-    if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
-    if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
-    if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
+      Serial.print(F(",\"E1\":")); Serial.print(emontx.E1);
+      Serial.print(F(",\"E2\":")); Serial.print(emontx.E2);
+      Serial.print(F(",\"E3\":")); Serial.print(emontx.E3);
+      Serial.print(F(",\"E4\":")); Serial.print(emontx.E4);
+      Serial.print(F(",\"E5\":")); Serial.print(emontx.E5);
+      Serial.print(F(",\"E6\":")); Serial.print(emontx.E6);
+      
+      if (emontx.T1!=30000) { Serial.print(F(",\"T1\":")); Serial.print(emontx.T1*0.01); }
+      if (emontx.T2!=30000) { Serial.print(F(",\"T2\":")); Serial.print(emontx.T2*0.01); }
+      if (emontx.T3!=30000) { Serial.print(F(",\"T3\":")); Serial.print(emontx.T3*0.01); }
 
-    Serial.print(F(",pulse:")); Serial.print(emontx.pulse);  
+      Serial.print(F(",\"pulse\":")); Serial.print(emontx.pulse);
+      Serial.print(F("}"));
+
+    } else {
+      // ---------------------------------------------------------------------
+      // Key:Value format, used by EmonESP & emonhub EmonHubTx3eInterfacer
+      // ---------------------------------------------------------------------
+      Serial.print(F("MSG:")); Serial.print(emontx.Msg);
+      Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
+      
+      Serial.print(F(",P1:")); Serial.print(emontx.P1);
+      Serial.print(F(",P2:")); Serial.print(emontx.P2);
+      Serial.print(F(",P3:")); Serial.print(emontx.P3);
+      Serial.print(F(",P4:")); Serial.print(emontx.P4);
+      Serial.print(F(",P5:")); Serial.print(emontx.P5);
+      Serial.print(F(",P6:")); Serial.print(emontx.P6);
+    
+      Serial.print(F(",E1:")); Serial.print(emontx.E1);
+      Serial.print(F(",E2:")); Serial.print(emontx.E2);
+      Serial.print(F(",E3:")); Serial.print(emontx.E3);
+      Serial.print(F(",E4:")); Serial.print(emontx.E4);
+      Serial.print(F(",E5:")); Serial.print(emontx.E5);
+      Serial.print(F(",E6:")); Serial.print(emontx.E6);
+      
+      if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
+      if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
+      if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
+
+      Serial.print(F(",pulse:")); Serial.print(emontx.pulse);  
+
+    }
     delay(20);
 
     digitalWrite(LEDpin,HIGH); delay(50);digitalWrite(LEDpin,LOW);

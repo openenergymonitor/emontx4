@@ -53,6 +53,7 @@ const PROGMEM char helpText1[] =
 "  ?         - show this text again\n"
 "\n"
 "Available commands only when running:\n"
+"  j<x>      - turn JSON Serial format on (1) or off (0):\n"
 "  k<x> <yy.y> <zz.z>\n"
 "            - Calibrate an analogue input channel:\n"
 "            - x = a single numeral: 0 = voltage calibration, 1 = ct1 calibration, 2 = ct2 calibration, etc\n"
@@ -80,6 +81,7 @@ const PROGMEM char helpText1[] =
 struct eeprom {byte nodeID, RF_freq, networkGroup; 
       float vCal, i1Cal, i1Lead, i2Cal, i2Lead, i3Cal, i3Lead, i4Cal, i4Lead, i5Cal, i5Lead, i6Cal, i6Lead, period; 
       bool pulse_enable; int pulse_period; bool temp_enable; byte temp_sensors[48]; int rf_whitening; float assumedVrms;
+      bool json_enabled;
       } data;
 
 extern DeviceAddress *temperatureSensors;
@@ -140,6 +142,7 @@ static void load_config(bool verbose)
     temp_enable  = data.temp_enable;
     rf_whitening = data.rf_whitening;
     assumedVrms2  = data.assumedVrms;
+    json_enabled = data.json_enabled;
       
     memcpy(temp_addr, data.temp_sensors, sizeof(temp_addr)>sizeof(data.temp_sensors)?sizeof(data.temp_sensors):sizeof(temp_addr));
       
@@ -191,7 +194,9 @@ static void list_calibration(void)
   Serial.print(F("pulses = ")); Serial.println(pulse_enable);
   Serial.print(F("pulse period = ")); Serial.println(pulse_period);
   Serial.print(F("temp_enable = ")); Serial.println(temp_enable);
-  Serial.print(rf_whitening ? (rf_whitening ==1 ? "RF on":"RF whitened"):"RF off"); Serial.print("\n");
+  Serial.println(rf_whitening ? (rf_whitening ==1 ? "RF on":"RF whitened"):"RF off");
+  Serial.println(json_enabled ? "JSON Format on":"JSON Format Off");
+  Serial.print("\n");
 }
 
 static void save_config()
@@ -222,6 +227,7 @@ static void save_config()
   data.temp_enable  = temp_enable;
   data.rf_whitening = rf_whitening;
   data.assumedVrms  = assumedVrms2;
+  data.json_enabled = json_enabled;
   memcpy(data.temp_sensors, temp_addr, sizeof(temp_addr)>sizeof(data.temp_sensors)?sizeof(data.temp_sensors):sizeof(temp_addr));
 
   for (byte j=0; j<sizeof(data); j++, src++)
@@ -398,6 +404,30 @@ void getCalibration(void)
         Serial.print(F("Freq: "));Serial.println(k1);
         break;
       
+      case 'j' :
+        /*  Format expected: j[x]
+         * 
+         * where:
+         *  [x] = a single numeral: 0 = JSON OFF, 1 = JSON ON,
+         */
+        k1 = Serial.parseFloat(); 
+        while (Serial.available())
+          Serial.read(); 
+
+        switch (k1) {
+          case 0 :
+            // EmonLibCM_setPulseEnable(false);
+            json_enabled = false;
+            Serial.println("JSON off");        
+            break;
+          
+          case 1 :
+            // EmonLibCM_setPulseEnable(true);
+            json_enabled = true;
+            Serial.println("JSON on");        
+            break;
+        }
+
       case 'k':
         /*  Format expected: k[x] [y] [z]
         * 
