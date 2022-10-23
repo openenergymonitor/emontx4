@@ -124,7 +124,8 @@ void setup() {
   WiFi.mode(WIFI_STA);
 
   // Only start WiFi if configuration is valid
-  if (strlen(conf.ssid)>=4 && strlen(conf.pass)>=4 && strlen(conf.apikey)==32) {  
+  if (strlen(conf.ssid)>=4 && strlen(conf.pass)>=4 && strlen(conf.apikey)==32) {
+    Serial.println("Attempting to connect to WiFi");  
     // Start WiFi with supplied parameters
     WiFi.begin(conf.ssid, conf.pass);
     // Convert apikey to binary
@@ -202,8 +203,7 @@ void loop() {
       last_wifi_connected = true;
       
       // Connection established
-      Serial.println("");
-      Serial.print("Pico W is connected to WiFi network ");
+      Serial.print("Connected to WiFi network ");
       Serial.println(WiFi.SSID());
 
       // Print IP Address
@@ -211,6 +211,7 @@ void loop() {
       Serial.println(WiFi.localIP());
 
       // Test packet
+      Serial.println("Sending test packet");
       memset(packet, 0, 128);
       strcpy(packet,nodestr);
       packet_index = strlen(nodestr);
@@ -224,8 +225,6 @@ void loop() {
     data_ready = 0;
 
     uint8_t packetSize = strlen(packet);
-    Serial.println(packetSize);
-    
     if(WiFi.status()== WL_CONNECTED){
       
       HTTPClient http;
