@@ -103,6 +103,35 @@ bool set_conf(char* input, char *tag, char *conf_var, byte max_len) {
   return false;      
 }
 
+void handle_conf(char* ptr) {
+  if (set_conf(ptr,"ssid:",conf.ssid,32)) {
+    Serial.print("Set:");
+    Serial.println(conf.ssid);
+  } else if (set_conf(ptr,"psk:",conf.pass,32)) {
+    Serial.print("Set:");
+    Serial.println(conf.pass); 
+  } else if (set_conf(ptr,"apikey:",conf.apikey,32)) {
+    Serial.print("Set:");
+    Serial.println(conf.apikey);   
+  } else if (strncmp(ptr,"save",4)==0) {
+    eepromSave((byte *)&conf,sizeof(conf));
+
+    // Only start WiFi if configuration is valid
+    if (strlen(conf.ssid)>=4 && strlen(conf.pass)>=4 && strlen(conf.apikey)==32) {
+      last_wifi_connected = false;
+      Serial.println("Attempting to connect to WiFi");
+      // Start WiFi with supplied parameters
+      WiFi.begin(conf.ssid, conf.pass);
+      // Convert apikey to binary
+      hex2bin(conf.apikey, key, strlen(conf.apikey));
+    } 
+    
+  } else if (strncmp(ptr,"load",4)==0) {
+    eepromLoad((byte *)&conf,sizeof(conf));
+    printConfig();
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   Serial1.begin(115200);
@@ -144,33 +173,7 @@ void loop() {
   while (Serial.available()) {
     char c = char(Serial.read());
     if (c=='\n') {
-      if (set_conf(input,"ssid:",conf.ssid,32)) {
-        Serial.print("Set:");
-        Serial.println(conf.ssid);
-      } else if (set_conf(input,"psk:",conf.pass,32)) {
-        Serial.print("Set:");
-        Serial.println(conf.pass); 
-      } else if (set_conf(input,"apikey:",conf.apikey,32)) {
-        Serial.print("Set:");
-        Serial.println(conf.apikey);   
-      } else if (strncmp(input,"save",4)==0) {
-        eepromSave((byte *)&conf,sizeof(conf));
-        
-        // Only start WiFi if configuration is valid
-        if (strlen(conf.ssid)>=4 && strlen(conf.pass)>=4 && strlen(conf.apikey)==32) {
-          last_wifi_connected = false;
-          Serial.println("Attempting to connect to WiFi");
-          // Start WiFi with supplied parameters
-          WiFi.begin(conf.ssid, conf.pass);
-          // Convert apikey to binary
-          hex2bin(conf.apikey, key, strlen(conf.apikey));
-        }      
-        
-      } else if (strncmp(input,"load",4)==0) {
-        eepromLoad((byte *)&conf,sizeof(conf));
-        printConfig();
-      }
-      
+      handle_conf(input);
       memset(input, 0, 64);
       idx = 0;
     } else {
@@ -187,6 +190,7 @@ void loop() {
         Serial.println(packet);
         data_ready = 1;
       } else {
+        handle_conf(packet+strlen(nodestr));
         memset(packet, 0, 128);
         strcpy(packet,nodestr);
         packet_index = strlen(nodestr);

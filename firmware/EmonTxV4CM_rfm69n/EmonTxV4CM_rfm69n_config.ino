@@ -49,6 +49,10 @@ const PROGMEM char helpText1[] =
 "\t\t  N.B. Sensors CANNOT be added.\n"
 ;
 
+// Used for serial configuration
+char input[64];
+byte idx = 0;
+
 extern DeviceAddress *temperatureSensors;
 
 static void load_config(bool verbose)
@@ -149,6 +153,272 @@ int getPass(void)
   return 0;
 }
 
+void handle_conf(char *input, byte len) {
+  input[len] = '\0';
+  int k1;
+  double k2, k3;
+  byte ws1, ws2, num = 1;
+  char *ptr;
+  
+  switch (input[0]) {
+    case 'b':  // set band: 4 = 433, 8 = 868, 9 = 915
+      if (len==2) {
+        EEProm.RF_freq = bandToFreq(atoi(input+1));
+        Serial.print(EEProm.RF_freq == RFM_433MHZ ? 433 : 
+                     EEProm.RF_freq == RFM_868MHZ ? 868 :
+                     EEProm.RF_freq == RFM_915MHZ ? 915 : 0);
+        Serial.println(F(" MHz"));
+      }
+      break;
+    case 'c':
+      /*
+      * Format expected: c0 | c1
+      */
+      if (len==2) {
+        k1 = atoi(input+1);
+        switch (k1) {
+          case 1 : EEProm.showCurrents = true;
+            break;
+          default: EEProm.showCurrents = false;
+        }
+      }
+      break;
+    case 'd':
+      /*  Format expected: d[x]
+       * 
+       * where:
+       *  [x] = a floating point number for the datalogging period in s
+       */
+      k2 = atof(input+1);
+      //EmonLibCM_datalog_period(k2); 
+      //EEProm.period = k2;
+      Serial.print(F("datalog period: ")); Serial.print(k2);Serial.println(F(" s"));
+      break;
+    case 'e':
+      input[len] = '\n';
+      Serial.print(input+1);
+      break;
+    case 'f':
+      /*
+      *  Format expected: f50 | f60
+      */
+      if (len==3) {
+        k1 = atof(input+1);
+        EmonLibCM_cycles_per_second(k1);
+        Serial.print(F("Freq: "));Serial.println(k1);
+      }
+      break;
+    
+    case 'g':  // set network group
+      EEProm.networkGroup = atoi(input+1);
+      Serial.print(F("Group ")); Serial.println(EEProm.networkGroup);
+      break;
+      
+    /* case 'i' below */
+      
+    case 'k':
+      /*  Format expected: k[x] [y] [z]
+      * 
+      * where:
+      *  [x] = a single numeral: 0 = voltage calibration, 1 = ct1 calibration, 2 = ct2 calibration, etc
+      *  [y] = a floating point number for the voltage/current calibration constant
+      *  [z] = a floating point number for the phase calibration for this c.t. (z is not needed, or ignored if supplied, when x = 0)
+      * 
+      * e.g. k0 256.8
+      *      k1 90.9 1.7 
+      * 
+      * If power factor is not displayed, it is impossible to calibrate for phase errors,
+      *  and the standard value of phase calibration MUST BE SENT when a current calibration is changed.
+      */
+      ws1 = 0;
+      ws2 = 0;
+      num = 1;
+
+      // Find white space positions
+      ptr = strchr(input,' ');
+      if (ptr!=NULL) {
+        ws1 = ptr-input;
+        num = 2;
+        ptr = strchr(input+ws1+1,' ');
+        if (ptr!=NULL) {
+          ws2 = ptr-input;
+          num = 3;
+        }
+      }
+
+      // split string and convert to integer and float values
+      if (num==1) {
+        k1 = atoin(input,1,len);
+      } else if (num==2) {
+        k1 = atoin(input,1,ws1);
+        k2 = atofn(input,ws1+1,len);
+      } else if (num==3) {
+        k1 = atoin(input,1,ws1);
+        k2 = atofn(input,ws1+1,ws2);
+        k3 = atofn(input,ws2+1,len);
+      }
+      
+      // Re-calculate intermediate values, write the values back.
+      switch (k1) {
+        case 0 : EmonLibCM_ReCalibrate_VChannel(k2);
+          if (USA)
+            EEProm.vCal_USA = k2;
+          else
+            EEProm.vCal = k2;
+          break;
+            
+        case 1 : EmonLibCM_ReCalibrate_IChannel(3, k2, k3);
+          EEProm.i1Cal = k2;
+          EEProm.i1Lead = k3;
+          break;
+
+        case 2 : EmonLibCM_ReCalibrate_IChannel(4, k2, k3);
+          EEProm.i2Cal = k2;
+          EEProm.i2Lead = k3;
+          break;
+
+        case 3 : EmonLibCM_ReCalibrate_IChannel(5, k2, k3);
+          EEProm.i3Cal = k2;
+          EEProm.i3Lead = k3;
+          break;
+
+        case 4 : EmonLibCM_ReCalibrate_IChannel(6, k2, k3);
+          EEProm.i4Cal = k2;
+          EEProm.i4Lead = k3;
+          break;
+
+        case 5 : EmonLibCM_ReCalibrate_IChannel(8, k2, k3);
+          EEProm.i5Cal = k2;
+          EEProm.i5Lead = k3;
+          break;
+
+        case 6 : EmonLibCM_ReCalibrate_IChannel(9, k2, k3);
+          EEProm.i6Cal = k2;
+          EEProm.i6Lead = k3;
+          break;
+
+        default : ;
+      }
+      Serial.print(F("Cal: k"));Serial.print(k1);Serial.print(F(" "));Serial.print(k2);Serial.print(F(" "));Serial.println(k3);        
+      break;
+        
+    case 'l':
+      if (len==1) {
+        list_calibration(); // print the settings & calibration values
+        printTemperatureSensorAddresses(); // then the temperature sensors
+      }
+      break;
+        
+    case 'm' :
+      /*  Format expected: m[x] [y]
+       * 
+       * where:
+       *  [x] = a single numeral: 0 = pulses OFF, 1 = pulses ON,
+       *  [y] = an integer for the pulse min period in ms - ignored when x=0
+       */
+      ptr = strchr(input,' ');
+      if (ptr==NULL) {
+        k1 = atoin(input,1,len);
+      } else {
+        ws1 = ptr-input;
+        k1 = atoin(input,1,ws1);
+        k2 = atoin(input,ws1+1,len); 
+      }
+
+      switch (k1) {
+        case 0 : EmonLibCM_setPulseEnable(false);
+          EEProm.pulse_enable = false;
+          break;
+        
+        case 1 : EmonLibCM_setPulseMinPeriod(k2);
+          EmonLibCM_setPulseEnable(true);
+          EEProm.pulse_enable = true;
+          EEProm.pulse_period = k2;
+          break;
+      }
+      Serial.print(F("Pulses: "));
+      if (k1)
+        {Serial.print(k2);Serial.println(F(" ms"));}
+      else
+        Serial.println(F("off"));        
+      break;
+      
+    case 'i':  
+    case 'n':  //  Set NodeID - range expected: 1 - 60
+      EEProm.nodeID = atoi(input+1);
+      EEProm.nodeID = constrain(EEProm.nodeID, 1, 63);
+      Serial.print(F("Node ")); Serial.println(EEProm.nodeID);
+      break;
+
+    case 'p': // set RF power level
+      EEProm.rfPower = (atoi(input+1) & 0x1F);
+      Serial.print(F("p = "));Serial.print(EEProm.rfPower - 18);Serial.println(F(" dBm"));
+      break;
+      
+    case 'r': // restore sketch defaults
+      if (len==1) {
+        wipe_eeprom();
+        softReset();
+      }
+      break;
+
+    case 's': // Save to EEPROM. ATMega328p has 1kB  EEPROM
+      if (len==1) {
+        save_config();
+      }
+      break;
+
+    case 't' : // Temperatures
+      /*  Format expected: t[x] [y] [y] ...
+       */
+      set_temperatures();
+      break;
+
+    case 'v': // print firmware version
+      if (len==1) {
+        Serial.print(F("EmonTxV34CM RFM69n Continuous Monitoring V")); Serial.write(firmware_version);
+      }
+      break;
+    
+    case 'w' :  // Wireless - RF Off / On
+      /* Format expected: w[x]
+       */
+      if (len==2) {
+        EEProm.rf_on = 0;
+        if (input[1]=='1') EEProm.rf_on = 1;
+        Serial.println(EEProm.rf_on ? F("RF on"):F("RF off"));
+      }
+      break;
+      
+    case 'x':  // exit and continue
+      if (len==1) {
+        Serial.println(F("Continuing..."));
+        calibration_enable = false;
+      }
+      return;
+
+    case 'z':  // zero energy variables in EEPROM
+      if (len==1) {
+        Serial.println(F("Energy values set to zero"));
+        zeroEValues(); 
+        for (byte n=0; n<4; n++)
+          EmonLibCM_setWattHour(n, 0);
+        EmonLibCM_setPulseCount(0);
+      }
+      break;
+
+    case '?':  // show Help text        
+      if (len==1) {
+        showString(helpText1);
+        Serial.println(F(" "));
+      }
+      break;
+    
+    default:
+      ;
+    
+  }
+}
 
 void getSettings(void)
 {
@@ -168,7 +438,7 @@ void getSettings(void)
  
   if (Serial.available())
   {
-    if (!calibration_enable) 
+    /*if (!calibration_enable) 
     {
       char pass_result;
       if (pass_result = getPass())
@@ -177,230 +447,18 @@ void getSettings(void)
         if (pass_result == 2) 
           showString(helpText1);
       }
-    }
-    else
-    {
-      char c = Serial.read();
-      int k1;
-      double k2, k3; 
-      switch (c) {
-        case 'a':
-          EEProm.assumedVrms = Serial.parseFloat();
-          Serial.print(F("Assumed V: "));Serial.println(EEProm.assumedVrms);
-          EmonLibCM_setAssumedVrms(EEProm.assumedVrms);
-          break;
-          
-        case 'b':  // set band: 4 = 433, 8 = 868, 9 = 915
-          EEProm.RF_freq = bandToFreq(Serial.parseInt());
-          Serial.print(EEProm.RF_freq == RFM_433MHZ ? 433 : 
-                       EEProm.RF_freq == RFM_868MHZ ? 868 :
-                       EEProm.RF_freq == RFM_915MHZ ? 915 : 0);
-          Serial.println(F(" MHz"));
-          break;
-
-        case 'c':
-          /*
-          * Format expected: c0 | c1
-          */
-          k1 = Serial.parseInt();
-          switch (k1) {
-            case 1 : EEProm.showCurrents = true;
-              break;
-            default: EEProm.showCurrents = false;
-          }
-          break;
-        
-        case 'd':
-          /*  Format expected: d[x]
-           * 
-           * where:
-           *  [x] = a floating point number for the datalogging period in s
-           */
-          k2 = Serial.parseFloat(); 
-          EmonLibCM_datalog_period(k2); 
-          EEProm.period = k2;
-          Serial.print(F("datalog period: ")); Serial.print(k2);Serial.println(F(" s"));
-          break;
-
-        case 'f':
-          /*
-          *  Format expected: f50 | f60
-          */
-          k1 = Serial.parseFloat();
-          EmonLibCM_cycles_per_second(k1);
-          Serial.print(F("Freq: "));Serial.println(k1);
-          break;
-        
-        case 'g':  // set network group
-          EEProm.networkGroup = Serial.parseInt();
-          Serial.print(F("Group ")); Serial.println(EEProm.networkGroup);
-          break;
-          
-        /* case 'i' below */
-          
-        case 'k':
-          /*  Format expected: k[x] [y] [z]
-          * 
-          * where:
-          *  [x] = a single numeral: 0 = voltage calibration, 1 = ct1 calibration, 2 = ct2 calibration, etc
-          *  [y] = a floating point number for the voltage/current calibration constant
-          *  [z] = a floating point number for the phase calibration for this c.t. (z is not needed, or ignored if supplied, when x = 0)
-          * 
-          * e.g. k0 256.8
-          *      k1 90.9 1.7 
-          * 
-          * If power factor is not displayed, it is impossible to calibrate for phase errors,
-          *  and the standard value of phase calibration MUST BE SENT when a current calibration is changed.
-          */
-          k1 = Serial.parseInt(); 
-          k2 = Serial.parseFloat(); 
-          k3 = Serial.parseFloat(); 
-                
-          // Re-calculate intermediate values, write the values back.
-          switch (k1) {
-            case 0 : EmonLibCM_ReCalibrate_VChannel(k2);
-              if (USA)
-                EEProm.vCal_USA = k2;
-              else
-                EEProm.vCal = k2;
-              break;
-                
-            case 1 : EmonLibCM_ReCalibrate_IChannel(3, k2, k3);
-              EEProm.i1Cal = k2;
-              EEProm.i1Lead = k3;
-              break;
-
-            case 2 : EmonLibCM_ReCalibrate_IChannel(4, k2, k3);
-              EEProm.i2Cal = k2;
-              EEProm.i2Lead = k3;
-              break;
-
-            case 3 : EmonLibCM_ReCalibrate_IChannel(5, k2, k3);
-              EEProm.i3Cal = k2;
-              EEProm.i3Lead = k3;
-              break;
-
-            case 4 : EmonLibCM_ReCalibrate_IChannel(6, k2, k3);
-              EEProm.i4Cal = k2;
-              EEProm.i4Lead = k3;
-              break;
-
-            case 5 : EmonLibCM_ReCalibrate_IChannel(8, k2, k3);
-              EEProm.i5Cal = k2;
-              EEProm.i5Lead = k3;
-              break;
-
-            case 6 : EmonLibCM_ReCalibrate_IChannel(9, k2, k3);
-              EEProm.i6Cal = k2;
-              EEProm.i6Lead = k3;
-              break;
-
-            default : ;
-          }
-          Serial.print(F("Cal: k"));Serial.print(k1);Serial.print(F(" "));Serial.print(k2);Serial.print(F(" "));Serial.println(k3);        
-          break;
-            
-        case 'l':
-          list_calibration(); // print the settings & calibration values
-          printTemperatureSensorAddresses(); // then the temperature sensors
-
-          break;
-            
-        case 'm' :
-          /*  Format expected: m[x] [y]
-           * 
-           * where:
-           *  [x] = a single numeral: 0 = pulses OFF, 1 = pulses ON,
-           *  [y] = an integer for the pulse min period in ms - ignored when x=0
-           */
-          k1 = Serial.parseInt(); 
-          k2 = Serial.parseInt(); 
-          while (Serial.available())
-            Serial.read(); 
-
-          switch (k1) {
-            case 0 : EmonLibCM_setPulseEnable(false);
-              EEProm.pulse_enable = false;
-              break;
-            
-            case 1 : EmonLibCM_setPulseMinPeriod(k2);
-              EmonLibCM_setPulseEnable(true);
-              EEProm.pulse_enable = true;
-              EEProm.pulse_period = k2;
-              break;
-          }
-          Serial.print(F("Pulses: "));
-          if (k1)
-            {Serial.print(k2);Serial.println(F(" ms"));}
-          else
-            Serial.println(F("off"));        
-          break;        
+    }*/
     
-        case 'i':  
-        case 'n':  //  Set NodeID - range expected: 1 - 60
-          EEProm.nodeID = Serial.parseInt();
-          EEProm.nodeID = constrain(EEProm.nodeID, 1, 63);
-          Serial.print(F("Node ")); Serial.println(EEProm.nodeID);
-          break;
-          
-        case 'p': // set RF power level
-          EEProm.rfPower = (Serial.parseInt() & 0x1F);
-          Serial.print(F("p = "));Serial.print(EEProm.rfPower - 18);Serial.println(F(" dBm"));
-          break;
-          
-        case 'r': // restore sketch defaults
-          while (Serial.available())
-            Serial.read(); 
-          wipe_eeprom();
-          softReset();
-          break;
-
-        case 's': // Save to EEPROM. ATMega328p has 1kB  EEPROM
-          save_config();
-          break;
-
-        case 't' : // Temperatures
-          /*  Format expected: t[x] [y] [y] ...
-           */
-          set_temperatures();
-          break;
-
-        case 'v': // print firmware version
-          Serial.print(F("EmonTxV34CM RFM69n Continuous Monitoring V")); Serial.write(firmware_version);
-          break;
-        
-        case 'w' :  // Wireless - RF Off / On
-          /* Format expected: w[x]
-           */
-          EEProm.rf_on = Serial.parseInt(); 
-          Serial.println(EEProm.rf_on ? F("RF on"):F("RF off"));
-          break;
-          
-        case 'x':  // exit and continue
-          Serial.println(F("Continuing..."));
-          while (Serial.available())
-            Serial.read(); 
-          calibration_enable = false;
-          return;
-
-        case 'z':  // zero energy variables in EEPROM
-          Serial.println(F("Energy values set to zero"));
-          zeroEValues(); 
-          for (byte n=0; n<4; n++)
-            EmonLibCM_setWattHour(n, 0);
-          EmonLibCM_setPulseCount(0);
-          break;
-
-        case '?':  // show Help text        
-          showString(helpText1);
-          Serial.println(F(" "));
-          break;
-        
-        default:
-          ;
-      } //end switch
-      while (Serial.available())
-        Serial.read(); 
+    char c = Serial.read();
+    if (c=='\n') {
+      handle_conf(input,idx);
+      memset(input, 0, 64);
+      idx = 0;
+    } else {
+      if (idx<64) {
+        input[idx] = c;
+        idx++;
+      }
     }
   }
 }
@@ -477,4 +535,26 @@ byte c2h(byte b)
   else if (b > 96 && b < 103) 
     return b - 87;
   return 0;
+}
+
+int atoin(char *ptr, byte start, byte end) {
+  char segment[12];
+  byte len = end-start;
+  if (len>0) {
+    strncpy(segment,ptr+start,len);
+    segment[len] = '\0';
+    return atoi(segment);
+  }
+  return 0; 
+}
+
+double atofn(char *ptr, byte start, byte end) {
+  char segment[12];
+  byte len = end-start;
+  if (len>0) {
+    strncpy(segment,ptr+start,len);
+    segment[len] = '\0';
+    return atof(segment);
+  }
+  return 0; 
 }
