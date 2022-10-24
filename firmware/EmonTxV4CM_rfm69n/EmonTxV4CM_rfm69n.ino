@@ -318,8 +318,12 @@ void loop()
 
     emontx.P6 = EmonLibCM_getRealPower(5); 
     emontx.E6 = EmonLibCM_getWattHour(5); 
-      
-    emontx.Vrms = EmonLibCM_getVrms() * 100;
+
+    if (EmonLibCM_acPresent()) {
+      emontx.Vrms = EmonLibCM_getVrms() * 100;
+    } else {
+      emontx.Vrms = EmonLibCM_getAssumedVrms() * 100;
+    }
     
     emontx.T1 = allTemps[0];
     emontx.T2 = allTemps[1];
