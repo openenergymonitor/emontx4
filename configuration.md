@@ -1,5 +1,21 @@
 # Configuration
 
+The emonTx4 comes configured as standard with the following configuration:
+
+- OpenEnergyMonitor precision voltage sensor (Vcal: 807.86)
+- CT 1: 100A 0.333V (Ical: 300.3, Ilead: 3.2)
+- CT 2: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
+- CT 3: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 4: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 5: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 6: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- Transmit via RFM69CW: ON
+- Radio nodeid: 15
+- Radio group: 210
+- Radio frequency: 433 MHz
+
+To use the emonTx4 with different CT arrangements the default calibration can be adjusted as follows.
+
 ## 1) Using the web tool
 
 With the emonTx connected via USB to a computer, it's possible to configure the emonTx directly from a WebSerial compatible internet browser. 
