@@ -8,6 +8,8 @@ Compatible browsers: [Chrome, Edge, Opera](https://developer.mozilla.org/en-US/d
 
 Launch the tool: [openenergymonitor.org/serial](openenergymonitor.org/serial)
 
+![emontx_webserial.png](img/emontx_webserial.png)
+
 ## 2) Directly via serial
 
 Alternatively it's possible to configure the emonTx4 directly via serial using the arduino serial monitor or other similar tool. 
