@@ -2,6 +2,7 @@
 
 The emonTx4 comes configured as standard with the following default configuration:
 
+```
 - OpenEnergyMonitor precision voltage sensor (Vcal: 807.86)
 - CT 1: 100A 0.333V (Ical: 300.3, Ilead: 3.2)
 - CT 2: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
@@ -15,6 +16,7 @@ The emonTx4 comes configured as standard with the following default configuratio
 - Radio frequency: 433 MHz
 - Datalogging period: 9.8s 
 - Minimum pulse period: 100ms
+```
 
 To use the emonTx4 with different CT arrangements, or radio node and group the default calibration can be adjusted over serial, using either an online web tool or directly via a serial console.
 
