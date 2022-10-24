@@ -261,10 +261,7 @@ void handle_conf(char *input, byte len) {
       // Re-calculate intermediate values, write the values back.
       switch (k1) {
         case 0 : EmonLibCM_ReCalibrate_VChannel(k2);
-          if (USA)
-            EEProm.vCal_USA = k2;
-          else
-            EEProm.vCal = k2;
+          EEProm.vCal = k2;
           break;
             
         case 1 : EmonLibCM_ReCalibrate_IChannel(3, k2, k3);
