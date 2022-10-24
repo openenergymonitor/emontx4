@@ -18,7 +18,7 @@ The emonTx4 comes configured as standard with the following default configuratio
 - Minimum pulse period: 100ms
 ```
 
-To use the emonTx4 with different CT arrangements, or radio node and group the default calibration can be adjusted over serial, using either an online web tool or directly via a serial console.
+To use the emonTx4 with a different CT arrangement, or radio node and group these settings can be adjusted over serial, using either an online web tool or directly via a serial console.
 
 ## 1) Using the web tool
 
