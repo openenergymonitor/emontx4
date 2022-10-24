@@ -30,6 +30,8 @@ The on-board USB to serial chip will make it easier and neater to have a hard-wi
 
 ## [Hardware](hardware)
 
+## [Configuration](configuration.md)
+
 ## Extensions
 
 - [6CT Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/CTExt)
