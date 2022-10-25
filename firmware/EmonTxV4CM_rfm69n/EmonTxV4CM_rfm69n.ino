@@ -46,11 +46,6 @@ copy the following into emonhub.conf:
 
 // #define EEWL_DEBUG
 
-#define EMONHUBOEMEINTERFACER                              // Wired serial connection format: Use EMONHUBOEMEINTERFACER format if an ESP32 is used with emonhub. Default is space-separated values.
-
-#define FACTORYTESTGROUP 1                                 // Transmit the Factory Test on Grp 1 
-                                                           //   to avoid interference with recorded data at power-up.
-
 #define OFF HIGH
 #define ON LOW
 
@@ -90,7 +85,6 @@ struct {
   byte rf_on = 1;                                          // RF - 0 = no RF, 1 = RF on.
   byte rfPower = 25;                                       // 7 = -10.5 dBm, 25 = +7 dBm for RFM12B; 0 = -18 dBm, 31 = +13 dBm for RFM69CW. Default = 25 (+7 dBm)
   float vCal  = 807.86;                                    // (6 x 10000) / 75 = 800.0
-  float vCal_USA = 810.34;                                 // same as above
   float assumedVrms = 240.0;                               // Assumed Vrms when no a.c. is detected
   float lineFreq = 50;                                     // Line Frequency = 50 Hz
 
@@ -107,7 +101,7 @@ struct {
   float i6Cal =  DEFAULT_ICAL;
   float i6Lead = DEFAULT_LEAD;
   
-  float period = 9.8;                                     // datalogging period - should be fractionally less than the PHPFINA database period in emonCMS
+  float period = 9.8;                                      // datalogging period - should be fractionally less than the PHPFINA database period in emonCMS
   bool  pulse_enable = true;                               // pulse counting
   int   pulse_period = 100;                                // pulse min period - 0 = no de-bounce
   bool  temp_enable = true;                                // enable temperature measurement
@@ -191,32 +185,30 @@ void setup()
       Serial.println(F(" "));
     #endif
   }
-  
-  // Read status of USA calibration DIP switch----------------------------------------------
+
+  // Sets expected frequency 50Hz/60Hz
   if (digitalRead(DIP_switch2)==ON) {
-      USA=true;                            // IF DIP switch 2 is switched on then activate USA mode
-      Serial.print(F("USA Vcal active: ")); Serial.println(EEProm.vCal_USA);
+      USA=true; // 60 Hz
   }
   // ---------------------------------------------------------------------------------------
 
   if (EEProm.rf_on)
   {
-    Serial.println(F("Factory Test"));
     rfm_init();                                                        // initialize RFM
-    for (int i=10; i>=0; i--)                                          // Send RF test sequence using test Group (for factory testing)
-    {
+    /* Serial.println(F("Factory Test"));
+    for (int i=10; i>=0; i--) {
       emontx.P1=i;
-      rfm_send((byte *)&emontx, sizeof(emontx), FACTORYTESTGROUP, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);
+      rfm_send((byte *)&emontx, sizeof(emontx), 1, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);
       delay(100);
     }
-    emontx.P1=0;
-    delay(EEProm.nodeID * 20);                                         // try to avoid r.f. collisions at start-up
+    emontx.P1=0;*/
+    delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
   }
   
   // ---------------------------------------------------------------------------------------
   
   digitalWrite(LEDpin,LOW);
-
+    
 #ifdef EEWL_DEBUG
   Serial.print("End of mem=");Serial.print(E2END);
   Serial.print("  Avail mem=");Serial.print((E2END>>2) * 3);
@@ -236,7 +228,6 @@ void setup()
   EmonLibCM_ADCCal(1.024);
   
   EmonLibCM_SetADC_VChannel(0, EEProm.vCal);                           // ADC Input channel, voltage calibration
-  if (USA) EmonLibCM_SetADC_VChannel(0, EEProm.vCal_USA);              // ADC Input channel, voltage calibration
   EmonLibCM_SetADC_IChannel(3, EEProm.i1Cal, EEProm.i1Lead);           // ADC Input channel, current calibration, phase calibration
   EmonLibCM_SetADC_IChannel(4, EEProm.i2Cal, EEProm.i2Lead);           // The current channels will be read in this order
   EmonLibCM_SetADC_IChannel(5, EEProm.i3Cal, EEProm.i3Lead);           
@@ -261,19 +252,17 @@ void setup()
   EmonLibCM_setTemperatureArray(allTemps);                             // Name of array to receive temperature measurements
   EmonLibCM_setTemperatureMaxCount(MAX_TEMPS);                         // Max number of sensors, limited by wiring and array size.
   
-  {
-    long e0=0, e1=0, e2=0, e3=0, e4=0, e5=0;
-    unsigned long p=0;
-    
-    recoverEValues(&e0,&e1,&e2,&e3,&e4,&e5,&p);
-    EmonLibCM_setWattHour(0, e0);
-    EmonLibCM_setWattHour(1, e1);
-    EmonLibCM_setWattHour(2, e2);
-    EmonLibCM_setWattHour(3, e3);
-    EmonLibCM_setWattHour(4, e4);
-    EmonLibCM_setWattHour(5, e5);
-    EmonLibCM_setPulseCount(p);
-  }
+  long e0=0, e1=0, e2=0, e3=0, e4=0, e5=0;
+  unsigned long p=0;
+  
+  recoverEValues(&e0,&e1,&e2,&e3,&e4,&e5,&p);
+  EmonLibCM_setWattHour(0, e0);
+  EmonLibCM_setWattHour(1, e1);
+  EmonLibCM_setWattHour(2, e2);
+  EmonLibCM_setWattHour(3, e3);
+  EmonLibCM_setWattHour(4, e4);
+  EmonLibCM_setWattHour(5, e5);
+  EmonLibCM_setPulseCount(p);
 
 #ifdef EEWL_DEBUG
   EVmem.dump_control();
@@ -329,8 +318,12 @@ void loop()
 
     emontx.P6 = EmonLibCM_getRealPower(5); 
     emontx.E6 = EmonLibCM_getWattHour(5); 
-      
-    emontx.Vrms = EmonLibCM_getVrms() * 100;
+
+    if (EmonLibCM_acPresent()) {
+      emontx.Vrms = EmonLibCM_getVrms() * 100;
+    } else {
+      emontx.Vrms = EmonLibCM_getAssumedVrms() * 100;
+    }
     
     emontx.T1 = allTemps[0];
     emontx.T2 = allTemps[1];
@@ -338,74 +331,43 @@ void loop()
 
     emontx.pulse = EmonLibCM_getPulseCount();
         
-    if (EEProm.rf_on)
-    {
-
+    if (EEProm.rf_on) {
       PayloadTX tmp = emontx;
-      //byte WHITENING = 0x55;
-      //for (byte i = 0, *p = (byte *)&tmp; i < sizeof tmp; i++, p++)
-      //    *p ^= (byte)WHITENING;
-      
       rfm_send((byte *)&tmp, sizeof(tmp), EEProm.networkGroup, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);     //send data
       delay(50);
     }
 
-#ifdef EMONHUBOEMEINTERFACER
-      // ---------------------------------------------------------------------
-      // Key:Value format, used by EmonESP & emonhub EmonHubOEMInterfacer
-      // ---------------------------------------------------------------------
-      Serial.print(F("MSG:")); Serial.print(emontx.Msg);
-      Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
-      
-      Serial.print(F(",P1:")); Serial.print(emontx.P1);
-      Serial.print(F(",P2:")); Serial.print(emontx.P2);
-      Serial.print(F(",P3:")); Serial.print(emontx.P3);
-      Serial.print(F(",P4:")); Serial.print(emontx.P4);
-      Serial.print(F(",P5:")); Serial.print(emontx.P5);
-      Serial.print(F(",P6:")); Serial.print(emontx.P6);
-         
-      Serial.print(F(",E1:")); Serial.print(emontx.E1);
-      Serial.print(F(",E2:")); Serial.print(emontx.E2);
-      Serial.print(F(",E3:")); Serial.print(emontx.E3);
-      Serial.print(F(",E4:")); Serial.print(emontx.E4);
-      Serial.print(F(",E5:")); Serial.print(emontx.E5);
-      Serial.print(F(",E6:")); Serial.print(emontx.E6);
-       
-      if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
-      if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
-      if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
-
-      Serial.print(F(",pulse:")); Serial.print(emontx.pulse);
-#else
-      Serial.print(EEProm.nodeID); Serial.print(F(" "));
-      Serial.print(emontx.Msg); Serial.print(F(" "));
-      Serial.print(emontx.Vrms*0.01); Serial.print(F(" "));
-        
-      Serial.print(emontx.P1); Serial.print(F(" "));
-      Serial.print(emontx.P2); Serial.print(F(" "));
-      Serial.print(emontx.P3); Serial.print(F(" "));
-      Serial.print(emontx.P4); Serial.print(F(" "));
-      Serial.print(emontx.P5); Serial.print(F(" "));
-      Serial.print(emontx.P6); Serial.print(F(" "));
+    // ---------------------------------------------------------------------
+    // Key:Value format, used by EmonESP & emonhub EmonHubOEMInterfacer
+    // ---------------------------------------------------------------------
+    Serial.print(F("MSG:")); Serial.print(emontx.Msg);
+    Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
     
-      Serial.print(emontx.E1); Serial.print(F(" "));
-      Serial.print(emontx.E2); Serial.print(F(" "));
-      Serial.print(emontx.E3); Serial.print(F(" "));
-      Serial.print(emontx.E4); Serial.print(F(" "));
-      Serial.print(emontx.E5); Serial.print(F(" "));
-      Serial.print(emontx.E6); Serial.print(F(" "));
-      
-      Serial.print(emontx.T1*0.01); Serial.print(F(" "));
-      Serial.print(emontx.T2*0.01); Serial.print(F(" "));
-      Serial.print(emontx.T3*0.01); Serial.print(F(" "));
+    Serial.print(F(",P1:")); Serial.print(emontx.P1);
+    Serial.print(F(",P2:")); Serial.print(emontx.P2);
+    Serial.print(F(",P3:")); Serial.print(emontx.P3);
+    Serial.print(F(",P4:")); Serial.print(emontx.P4);
+    Serial.print(F(",P5:")); Serial.print(emontx.P5);
+    Serial.print(F(",P6:")); Serial.print(emontx.P6);
+       
+    Serial.print(F(",E1:")); Serial.print(emontx.E1);
+    Serial.print(F(",E2:")); Serial.print(emontx.E2);
+    Serial.print(F(",E3:")); Serial.print(emontx.E3);
+    Serial.print(F(",E4:")); Serial.print(emontx.E4);
+    Serial.print(F(",E5:")); Serial.print(emontx.E5);
+    Serial.print(F(",E6:")); Serial.print(emontx.E6);
+     
+    if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
+    if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
+    if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
 
-      Serial.print(emontx.pulse);  
-#endif
-
-    if (EEProm.showCurrents)
-    {
+    Serial.print(F(",pulse:")); Serial.print(emontx.pulse);
+    
+    if (!EEProm.showCurrents) {
+      Serial.println();
+      delay(40);
+    } else {
       // to show voltage, current & power factor for calibration:
-      Serial.print(F("Vrms:")); Serial.print(emontx.Vrms*0.01); 
       Serial.print(F(",I1:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(1)),3);
       Serial.print(F(",I2:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(2)),3);
       Serial.print(F(",I3:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(3)),3);
@@ -418,11 +380,9 @@ void loop()
       Serial.print(F(",pf3:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(3)),4);
       Serial.print(F(",pf4:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(4)),4);
       Serial.print(F(",pf5:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(5)),4);
-      Serial.print(F(",pf6:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(6)),4);
+      Serial.print(F(",pf6:")); Serial.println(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(6)),4);
+      delay(80);
     }
-    Serial.println();
-    delay(40);
-
     digitalWrite(LEDpin,HIGH); delay(50);digitalWrite(LEDpin,LOW);
     // End of print out ----------------------------------------------------
     storeEValues(emontx.E1,emontx.E2,emontx.E3,emontx.E4,emontx.E5,emontx.E6,emontx.pulse);

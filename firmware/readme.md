@@ -13,7 +13,9 @@ DxCore is an Arduino core for the AVR-DB microcontroller range, developed by Spe
 
 Command line upload:
 
-    avrdude -Cavrdude.conf -v -pavr128db32 -carduino -D -P/dev/ttyUSB0 -b115200 -Uflash:w:EmonTxV4CM_rfm69n.ino.hex:i 
+    avrdude -Cavrdude.conf -v -pavr128db48 -carduino -D -P/dev/ttyUSB0 -b115200 -Uflash:w:EmonTxV4CM_rfm69n.ino.hex:i 
+
+**Important:** use the avrdude.conf supplied in this repository (emontx4/firmware/avrdude.conf). This is the avrdude.conf supplied with DxCore.
 
 ### How to compile and upload firmware:
 
