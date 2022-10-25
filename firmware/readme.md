@@ -37,13 +37,16 @@ For more information on DxCore installation see: [https://github.com/SpenceKonde
 Next install the libraries used by the main firmware, download and place these in your Arduino libraries folder.
 
 1\. Download EmonLibCM library (avrdb branch)<br>
-https://github.com/openenergymonitor/EmonLibCM/tree/avrdb
+[https://github.com/openenergymonitor/EmonLibCM/tree/avrdb](https://github.com/openenergymonitor/EmonLibCM/tree/avrdb)
 
 2\. Download emonEProm library (avrdb branch)<br>
-https://github.com/openenergymonitor/emonEProm/tree/avrdb
+[https://github.com/openenergymonitor/emonEProm/tree/avrdb](https://github.com/openenergymonitor/emonEProm/tree/avrdb)
 
 3\. Download rfm69nTxLib library (avrdb branch)<br>
-https://github.com/openenergymonitor/rfm69nTxLib/tree/avrdb
+[https://github.com/openenergymonitor/rfm69nTxLib/tree/avrdb](https://github.com/openenergymonitor/rfm69nTxLib/tree/avrdb)
+
+4\. Download DxCore SpenceKonde OneWire library:<br>
+[https://github.com/SpenceKonde/OneWire](https://github.com/SpenceKonde/OneWire)
 
 **Compilation settings:**
 
