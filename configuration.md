@@ -1,8 +1,28 @@
 # Configuration
 
+The emonTx4 comes configured as standard with the following default configuration:
+
+```
+- OpenEnergyMonitor precision voltage sensor (Vcal: 807.86)
+- CT 1: 100A 0.333V (Ical: 300.3, Ilead: 3.2)
+- CT 2: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
+- CT 3: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 4: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 5: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 6: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- Transmit via RFM69CW: ON
+- Radio nodeid: 15
+- Radio group: 210
+- Radio frequency: 433 MHz
+- Datalogging period: 9.8s 
+- Minimum pulse period: 100ms
+```
+
+To use the emonTx4 with a different CT arrangement, or radio node and group these settings can be adjusted over serial, using either an online web tool or directly via a serial console.
+
 ## 1) Using the web tool
 
-With the emonTx connected via USB to a computer, it's possible to configure the emonTx directly from a WebSerial compatible internet browser. 
+With the emonTx connected via a USB-C cable to a computer, it's possible to configure the emonTx directly from a WebSerial compatible internet browser. 
 
 Compatible browsers: [Chrome, Edge, Opera](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API#browser_compatibility)
 
