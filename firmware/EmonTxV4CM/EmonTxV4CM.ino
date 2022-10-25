@@ -351,7 +351,7 @@ void loop()
       // JSON Format
       // ---------------------------------------------------------------------
       Serial.print(F("{\"MSG\":")); Serial.print(emontx.Msg);
-      Serial.print(F("\",Vrms\":")); Serial.print(emontx.Vrms*0.01);
+      Serial.print(F(",\"Vrms\":")); Serial.print(emontx.Vrms*0.01);
       
       Serial.print(F(",\"P1\":")); Serial.print(emontx.P1);
       Serial.print(F(",\"P2\":")); Serial.print(emontx.P2);
