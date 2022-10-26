@@ -150,7 +150,7 @@ void setup()
   if (digitalRead(DIP_switch1)==ON) EEProm.nodeID++;                         // IF DIP switch 1 is switched on (LOW) then add 1 from nodeID
 
   #ifdef DEBUG
-    Serial.print(F("emonTx V4CM Continuous Monitoring V")); Serial.write(firmware_version);
+    Serial.print(F("emonTx V4 CM Continuous Monitoring V")); Serial.write(firmware_version);
     Serial.println(F("OpenEnergyMonitor.org"));
   #else
     Serial.println(F("describe:EmonTX4CM"));
@@ -186,13 +186,6 @@ void setup()
   if (EEProm.rf_on)
   {
     rfm_init();                                                        // initialize RFM
-    /* Serial.println(F("Factory Test"));
-    for (int i=10; i>=0; i--) {
-      emontx.P1=i;
-      rfm_send((byte *)&emontx, sizeof(emontx), 1, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);
-      delay(100);
-    }
-    emontx.P1=0;*/
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
   }
   
