@@ -92,7 +92,7 @@ struct {
   float i1Lead = DEFAULT_LEAD;
   float i2Cal =  150.15;
   float i2Lead = DEFAULT_LEAD;
-  float i3Cal =  DEFAULT_ICAL;
+  float i3Cal =  150.15;
   float i3Lead = DEFAULT_LEAD;
   float i4Cal =  DEFAULT_ICAL;                                     
   float i4Lead = DEFAULT_LEAD;                                      
@@ -206,9 +206,7 @@ void setup()
   }
   
   // ---------------------------------------------------------------------------------------
-  
-  digitalWrite(LEDpin,LOW);
-    
+      
 #ifdef EEWL_DEBUG
   Serial.print("End of mem=");Serial.print(E2END);
   Serial.print("  Avail mem=");Serial.print((E2END>>2) * 3);
@@ -273,6 +271,8 @@ void setup()
   EmonLibCM_Init();                                                    // Start continuous monitoring.
   emontx.Msg = 0;
   printTemperatureSensorAddresses();
+  // Speed up startup by making first reading 2s
+  EmonLibCM_datalog_period(2.0);
 }
 
 void loop()             
@@ -284,6 +284,8 @@ void loop()
     #ifdef DEBUG
     if (emontx.Msg==0) 
     {
+      digitalWrite(LEDpin,LOW);
+      EmonLibCM_datalog_period(EEProm.period); 
       if (EmonLibCM_acPresent())
         Serial.println(F("AC present - Real Power calc enabled"));
       else
