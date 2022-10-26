@@ -10,22 +10,13 @@
 
 
 Change Log:
-v1.0: First release of EmonTxV3 Continuous Monitoring Firmware.
-v1.1: First stable release, Set default node to 15
-v1.2: Enable RF startup test sequence (factory testing), Enable DEBUG by default to support EmonESP
-v1.3: Inclusion of watchdog
-v1.4: Error checking to EEPROM config
-v1.5: Faster RFM factory test
-v1.6: Removed reliance on full jeelib for RFM, minimal rfm_send function implemented instead, thanks to Robert Wall
-v1.7: Check radio channel is clear before transmit
-v1.8: PayloadTx.E1 etc were unsigned long. 
-v1.9: Unused variables removed.
+v1.0.0: First release of EmonTxV4 Continuous Monitoring Firmware (based on EmonTx v3 CM Firmware)
+v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementation
 
-v1.0.0: First release for Jeelib "RFM69 Native" format.
 */
 #define Serial Serial3
 
-const char *firmware_version = {"1.0.0\n\r"};
+const char *firmware_version = {"1.1.0\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 15 when switch is off, 16 when switch is on)
