@@ -38,6 +38,7 @@ uint8_t data_ready = 0;
 
 bool last_wifi_connected = false;
 
+int LEDpin = LED_BUILTIN;
 
 void bin2hex(char*out, uint8_t* block, int length) {
   for (int i=0; i<length; i++) {
@@ -133,6 +134,9 @@ void handle_conf(char* ptr) {
 }
 
 void setup() {
+  pinMode(LEDpin,OUTPUT);
+  led_state(1);
+  
   Serial.begin(115200);
   Serial1.begin(115200);
   delay(2000);
@@ -165,6 +169,8 @@ void setup() {
   memset(packet, 0, 128);
   strcpy(packet,nodestr);
   packet_index = strlen(nodestr);
+
+  led_state(0);
 }
 
 void loop() {
@@ -176,6 +182,7 @@ void loop() {
       handle_conf(input);
       memset(input, 0, 64);
       idx = 0;
+      led_flash(500);
     } else {
       input[idx] = c;
       idx++;
@@ -189,11 +196,13 @@ void loop() {
       if (strncmp(packet+strlen(nodestr),"MSG:",3)==0) {
         Serial.println(packet);
         data_ready = 1;
+        led_flash(50);
       } else {
         handle_conf(packet+strlen(nodestr));
         memset(packet, 0, 128);
         strcpy(packet,nodestr);
         packet_index = strlen(nodestr);
+        led_flash(500);
       }
     } else {
       packet[packet_index] = c;
@@ -221,6 +230,10 @@ void loop() {
       packet_index = strlen(nodestr);
       strcpy(packet+packet_index,"start:123");
       data_ready = 1;
+      led_flash(50);
+    } else {
+      led_flash(20);
+      delay(100);
     }
   }
   
@@ -288,5 +301,17 @@ void loop() {
     memset(packet, 0, 128);
     strcpy(packet,nodestr);
     packet_index = strlen(nodestr);
+  }
+}
+
+void led_flash(int ton) {
+  led_state(1); delay(ton); led_state(0);
+}
+
+void led_state(int on) {
+  if (on) {
+    digitalWrite(LEDpin,HIGH);
+  } else {
+    digitalWrite(LEDpin,LOW); 
   }
 }

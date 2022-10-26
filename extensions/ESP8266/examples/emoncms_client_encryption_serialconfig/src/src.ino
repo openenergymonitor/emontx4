@@ -216,7 +216,7 @@ void loop() {
       packet_index = strlen(nodestr);
       strcpy(packet+packet_index,"start:123");
       data_ready = 1;
-      led_flash(1000);
+      led_flash(50);
     } else {
       led_flash(20);
       delay(100);
