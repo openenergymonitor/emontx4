@@ -26,7 +26,7 @@ With the emonTx connected via a USB-C cable to a computer, it's possible to conf
 
 Compatible browsers: [Chrome, Edge, Opera](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API#browser_compatibility)
 
-Launch the tool: [openenergymonitor.org/serial](openenergymonitor.org/serial)
+Launch the tool: [openenergymonitor.org/serial](https://openenergymonitor.org/serial/)
 
 ![emontx_webserial.png](img/emontx_webserial.png)
 
