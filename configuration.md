@@ -6,7 +6,7 @@ The emonTx4 comes configured as standard with the following default configuratio
 - OpenEnergyMonitor precision voltage sensor (Vcal: 807.86)
 - CT 1: 100A 0.333V (Ical: 300.3, Ilead: 3.2)
 - CT 2: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
-- CT 3: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- CT 3: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
 - CT 4: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
 - CT 5: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
 - CT 6: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
