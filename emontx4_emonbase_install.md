@@ -1,6 +1,6 @@
 # EmonTx4, emonVs & emonBase Install Guide
 
-The following guide covers installation of the EmonTx4 6x input energy monitor in combination with an emonBase (RaspberryPi base-station). Using an EmonTx with an emonBase provides full local emoncms data logging and visualisation capabilities.
+The following guide covers installation of the EmonTx4 6x input energy monitor in combination with an emonBase (RaspberryPi base-station). Using an EmonTx with an emonBase provides full local emoncms data logging and visualisation capabilities as well as the option to expand data input from other devices.
 
 The following EmonTx4, emonVs and emonBase bundle will soon be available in the OpenEnergyMonitor shop with all the parts needed to build this configuration:
 
@@ -17,7 +17,7 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 
 **Steps to install**
 
-1. Plug CT sensors into emonTx via 3.5mm jack plug
+1. Plug CT sensors into emonTx via 3.5mm jack plugs
 
 2. Clip CT sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
 
