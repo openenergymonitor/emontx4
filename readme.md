@@ -30,6 +30,8 @@ The on-board USB to serial chip will make it easier and neater to have a hard-wi
 
 ## [Hardware](hardware)
 
+## [Install with EmonBase](emontx4_emonbase_install.md)
+
 ## [Configuration](configuration.md)
 
 ## Extensions
