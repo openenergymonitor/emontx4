@@ -16,6 +16,11 @@ v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementa
 */
 #define Serial Serial3
 
+#define RFM69_JEELIB = 1
+#define RFM69_NATIVE = 2
+#define RFM69_LPL = 3
+#define Radio RFM69_LPL
+
 const char *firmware_version = {"1.1.0\n\r"};
 /*
 
@@ -34,6 +39,7 @@ copy the following into emonhub.conf:
 */
 // Comment/Uncomment as applicable
 #define DEBUG                                              // Debug level print out
+#define EMONTX4
 
 // #define EEWL_DEBUG
 
@@ -42,16 +48,27 @@ copy the following into emonhub.conf:
 
 #define RFM69CW
 
+enum rfband {RFM_433MHZ = 1, RFM_868MHZ, RFM_915MHZ }; // frequency band.
+
 #include <Arduino.h>
 #include <avr/wdt.h>
-#include <rfm69nTxLib.h>                                   // OEM RFM69CW transmit-only library using "JeeLib RFM69 Native" message format
+
+#if Radio == RFM69_LPL
+  #include "RFM69.h"
+#else
+  #include "rf69.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
+#endif
+
 #include <emonEProm.h>                                     // OEM EEPROM library
 #include <emonLibCM.h>                                     // OEM Continuous Monitoring library
-// Include EmonTxV34CM_rfm69n_config.ino in the same directory for settings functions & data
 
-// Radio - checks for traffic
-const int busyThreshold = -97;                             // Signal level below which the radio channel is clear to transmit
-const byte busyTimeout = 5;                               // Time in ms to wait for the channel to become clear, before transmitting anyway
+// Include EmonTxV4_config.ino in the same directory for settings functions & data
+
+#if Radio == RFM69_LPL
+  RFM69 rf;
+#else
+  RF69 rf;
+#endif
 
 typedef struct {
     unsigned long Msg;
@@ -185,7 +202,14 @@ void setup()
 
   if (EEProm.rf_on)
   {
-    rfm_init();                                                        // initialize RFM
+    #if Radio == RFM69_LPL
+      rf.initialize(4, EEProm.nodeID, EEProm.networkGroup);
+      rf.encrypt("89txbe4p8aik5kt3");
+    #elif Radio == RFM69_NATIVE
+      rf.init(EEProm.nodeID, EEProm.networkGroup, 434, 2);
+    #elif Radio == RFM69_JEELIB
+      rf.init(EEProm.nodeID, EEProm.networkGroup, 434, 1);
+    #endif
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
   }
   
@@ -319,7 +343,23 @@ void loop()
         
     if (EEProm.rf_on) {
       PayloadTX tmp = emontx;
-      rfm_send((byte *)&tmp, sizeof(tmp), EEProm.networkGroup, EEProm.nodeID, EEProm.RF_freq, EEProm.rfPower, busyThreshold, busyTimeout);     //send data
+
+      #if Radio == RFM69_LPL
+        rf.sendWithRetry(5,(byte *)&tmp, sizeof(tmp));
+      #elif Radio == RFM69_NATIVE
+        rf.send(0, (byte *)&tmp, sizeof(tmp));
+      #elif Radio == RFM69_JEELIB
+        rf.send(0, (byte *)&tmp, sizeof(tmp));
+      #endif
+
+      /*
+      if (rf.sendWithRetry(5,(byte *)&tmp, sizeof(tmp))) {
+        Serial.println("ack");
+        emontx.T1 += rf.retry_count();
+      } else {
+        emontx.T1 += rf.retry_count()+1;
+      }
+      */
       delay(50);
     }
 

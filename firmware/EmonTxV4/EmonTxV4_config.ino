@@ -1,5 +1,5 @@
 /*
-Configuration functions for EmonTxV34CM_rfm69n.ino
+Configuration functions for EmonTxV4.ino
 */
 
 #define Serial Serial3
