@@ -16,10 +16,10 @@ v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementa
 */
 #define Serial Serial3
 
-#define RFM69_JEELIB = 1
-#define RFM69_NATIVE = 2
-#define RFM69_LPL = 3
-#define Radio RFM69_LPL
+#define RFM69_JEELIB 1
+#define RFM69_NATIVE 2
+#define RFM69_LPL 3
+#define Radio RFM69_JEELIB
 
 const char *firmware_version = {"1.1.0\n\r"};
 /*
