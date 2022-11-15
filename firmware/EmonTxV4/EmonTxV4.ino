@@ -56,7 +56,7 @@ enum rfband {RFM_433MHZ = 1, RFM_868MHZ, RFM_915MHZ }; // frequency band.
 #if Radio == RFM69_LPL
   #include "RFM69.h"
 #else
-  #include "rf69.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
+  #include "RFM69_JeeLib.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
 #endif
 
 #include <emonEProm.h>                                     // OEM EEPROM library
@@ -64,11 +64,7 @@ enum rfband {RFM_433MHZ = 1, RFM_868MHZ, RFM_915MHZ }; // frequency band.
 
 // Include EmonTxV4_config.ino in the same directory for settings functions & data
 
-#if Radio == RFM69_LPL
-  RFM69 rf;
-#else
-  RF69 rf;
-#endif
+RFM69 rf;
 
 typedef struct {
     unsigned long Msg;
@@ -206,9 +202,10 @@ void setup()
       rf.initialize(4, EEProm.nodeID, EEProm.networkGroup);
       rf.encrypt("89txbe4p8aik5kt3");
     #elif Radio == RFM69_NATIVE
-      rf.init(EEProm.nodeID, EEProm.networkGroup, 434, 2);
+      rf.initialize(434, EEProm.nodeID, EEProm.networkGroup);
     #elif Radio == RFM69_JEELIB
-      rf.init(EEProm.nodeID, EEProm.networkGroup, 434, 1);
+      rf.set_packet_format(1);
+      rf.initialize(434, EEProm.nodeID, EEProm.networkGroup);
     #endif
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
   }
@@ -346,9 +343,7 @@ void loop()
 
       #if Radio == RFM69_LPL
         rf.sendWithRetry(5,(byte *)&tmp, sizeof(tmp));
-      #elif Radio == RFM69_NATIVE
-        rf.send(0, (byte *)&tmp, sizeof(tmp));
-      #elif Radio == RFM69_JEELIB
+      #else
         rf.send(0, (byte *)&tmp, sizeof(tmp));
       #endif
 
