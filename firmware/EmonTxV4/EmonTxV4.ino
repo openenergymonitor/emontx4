@@ -48,8 +48,6 @@ copy the following into emonhub.conf:
 
 #define RFM69CW
 
-enum rfband {RFM_433MHZ = 1, RFM_868MHZ, RFM_915MHZ }; // frequency band.
-
 #include <Arduino.h>
 #include <avr/wdt.h>
 
@@ -83,7 +81,7 @@ static void showString (PGM_P s);
 #define DEFAULT_LEAD 3.2
 
 struct {
-  byte RF_freq = RFM_433MHZ;                               // Frequency of radio module can be RFM_433MHZ, RFM_868MHZ or RFM_915MHZ. 
+  byte RF_freq = RF69_433MHZ;                              // Frequency of radio module can be RFM_433MHZ, RFM_868MHZ or RFM_915MHZ. 
   byte networkGroup = 210;                                 // wireless network group, must be the same as emonBase / emonPi and emonGLCD. OEM default is 210
   byte nodeID = 15;                                        // node ID for this emonTx.
   byte rf_on = 1;                                          // RF - 0 = no RF, 1 = RF on.
@@ -181,9 +179,9 @@ void setup()
       Serial.print(F("RFM69CW "));
       #endif
       Serial.print(F(" Freq: "));
-      if (EEProm.RF_freq == RFM_433MHZ) Serial.print(F("433MHz"));
-      if (EEProm.RF_freq == RFM_868MHZ) Serial.print(F("868MHz"));
-      if (EEProm.RF_freq == RFM_915MHZ) Serial.print(F("915MHz"));
+      if (EEProm.RF_freq == RF69_433MHZ) Serial.print(F("433MHz"));
+      if (EEProm.RF_freq == RF69_868MHZ) Serial.print(F("868MHz"));
+      if (EEProm.RF_freq == RF69_915MHZ) Serial.print(F("915MHz"));
       Serial.print(F(" Group: ")); Serial.print(EEProm.networkGroup);
       Serial.print(F(" Node: ")); Serial.print(EEProm.nodeID);
       Serial.println(F(" "));
@@ -198,15 +196,15 @@ void setup()
 
   if (EEProm.rf_on)
   {
+    // Frequency is currently hardcoded to 433Mhz in library
+    rf.initialize(RF69_433MHZ, EEProm.nodeID, EEProm.networkGroup); 
+
     #if Radio == RFM69_LPL
-      rf.initialize(4, EEProm.nodeID, EEProm.networkGroup);
       rf.encrypt("89txbe4p8aik5kt3");
-    #elif Radio == RFM69_NATIVE
-      rf.initialize(434, EEProm.nodeID, EEProm.networkGroup);
     #elif Radio == RFM69_JEELIB
       rf.set_packet_format(1);
-      rf.initialize(434, EEProm.nodeID, EEProm.networkGroup);
     #endif
+    
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
   }
   

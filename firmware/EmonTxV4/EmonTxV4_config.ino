@@ -72,9 +72,9 @@ static void list_calibration(void)
 {
   Serial.println(F("Settings:"));
   Serial.print(F("Band ")); 
-  Serial.print(EEProm.RF_freq == RFM_433MHZ ? 433 : 
-               EEProm.RF_freq == RFM_868MHZ ? 868 :
-               EEProm.RF_freq == RFM_915MHZ ? 915 : 0);
+  Serial.print(EEProm.RF_freq == RF69_433MHZ ? 433 : 
+               EEProm.RF_freq == RF69_868MHZ ? 868 :
+               EEProm.RF_freq == RF69_915MHZ ? 915 : 0);
   Serial.print(F(" MHz, Group ")); Serial.print(EEProm.networkGroup);
   Serial.print(F(", Node ")); Serial.print(EEProm.nodeID & 0x3F);
   Serial.print(F(", "));Serial.print(EEProm.rfPower - 18);Serial.println(F(" dBm"));
@@ -164,9 +164,9 @@ void handle_conf(char *input, byte len) {
     case 'b':  // set band: 4 = 433, 8 = 868, 9 = 915
       if (len==2) {
         EEProm.RF_freq = bandToFreq(atoi(input+1));
-        Serial.print(EEProm.RF_freq == RFM_433MHZ ? 433 : 
-                     EEProm.RF_freq == RFM_868MHZ ? 868 :
-                     EEProm.RF_freq == RFM_915MHZ ? 915 : 0);
+        Serial.print(EEProm.RF_freq == RF69_433MHZ ? 433 : 
+                     EEProm.RF_freq == RF69_868MHZ ? 868 :
+                     EEProm.RF_freq == RF69_915MHZ ? 915 : 0);
         Serial.println(F(" MHz"));
       }
       break;
@@ -462,7 +462,7 @@ void getSettings(void)
 
 
 static byte bandToFreq (byte band) {
-  return band == 4 ? RFM_433MHZ : band == 8 ? RFM_868MHZ : band == 9 ? RFM_915MHZ : 0;
+  return band == 4 ? RF69_433MHZ : band == 8 ? RF69_868MHZ : band == 9 ? RF69_915MHZ : 0;
 }
 
 
