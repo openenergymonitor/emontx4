@@ -16,12 +16,13 @@ v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementa
 */
 #define Serial Serial3
 
-#define RFM69_JEELIB 1
-#define RFM69_NATIVE 2
-#define RFM69_LPL 3
-#define Radio RFM69_LPL
+#define RFM69_JEELIB_CLASSIC 1
+#define RFM69_JEELIB_NATIVE 2
+#define RFM69_LOW_POWER_LABS 3
 
-const char *firmware_version = {"1.1.0\n\r"};
+#define RadioFormat RFM69_LOW_POWER_LABS
+
+const char *firmware_version = {"1.2.0\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 15 when switch is off, 16 when switch is on)
@@ -51,7 +52,7 @@ copy the following into emonhub.conf:
 #include <Arduino.h>
 #include <avr/wdt.h>
 
-#if Radio == RFM69_LPL
+#if RadioFormat == RFM69_LOW_POWER_LABS
   #include "RFM69.h"
 #else
   #include "RFM69_JeeLib.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
@@ -156,6 +157,7 @@ void setup()
   
   // Serial---------------------------------------------------------------------------------
   Serial.begin(115200);
+  Serial.println(RadioFormat);
 
   // ---------------------------------------------------------------------------------------
   if (digitalRead(DIP_switch1)==ON) EEProm.nodeID++;                         // IF DIP switch 1 is switched on (LOW) then add 1 from nodeID
@@ -186,6 +188,14 @@ void setup()
       Serial.print(F(" Node: ")); Serial.print(EEProm.nodeID);
       Serial.println(F(" "));
     #endif
+
+    #if RadioFormat == RFM69_LOW_POWER_LABS
+      Serial.println("RadioFormat: LowPowerLabs");
+    #elif RadioFormat == RFM69_JEELIB_CLASSIC
+      Serial.println("RadioFormat: JeeLib Classic");
+    #elif RadioFormat == RFM69_JEELIB_NATIVE
+      Serial.println("RadioFormat: JeeLib Native");
+    #endif
   }
 
   // Sets expected frequency 50Hz/60Hz
@@ -196,15 +206,13 @@ void setup()
 
   if (EEProm.rf_on)
   {
-    // Frequency is currently hardcoded to 433Mhz in library
-    rf.initialize(RF69_433MHZ, EEProm.nodeID, EEProm.networkGroup); 
-
-    #if Radio == RFM69_LPL
-      rf.encrypt("89txbe4p8aik5kt3");
-    #elif Radio == RFM69_JEELIB
-      rf.set_packet_format(1);
+    #if RadioFormat == RFM69_JEELIB_CLASSIC
+      rf.format(RFM69_JEELIB_CLASSIC);
     #endif
     
+    // Frequency is currently hardcoded to 433Mhz in library
+    rf.initialize(RF69_433MHZ, EEProm.nodeID, EEProm.networkGroup); 
+    rf.encrypt("89txbe4p8aik5kt3"); // ignored if jeelib classic
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
   }
   
@@ -339,7 +347,7 @@ void loop()
     if (EEProm.rf_on) {
       PayloadTX tmp = emontx;
 
-      #if Radio == RFM69_LPL
+      #if RadioFormat == RFM69_LOW_POWER_LABS
         rf.sendWithRetry(5,(byte *)&tmp, sizeof(tmp));
       #else
         rf.send(0, (byte *)&tmp, sizeof(tmp));
