@@ -22,6 +22,8 @@ To use the emonTx4 with a different CT arrangement, or radio node and group thes
 
 ## 1) Using the web tool
 
+**Note: Uploading via USB-C will only work if connected in the right orientation. Try turning the USB-C connector around if upload fails.** 
+
 With the emonTx connected via a USB-C cable to a computer, it's possible to configure the emonTx directly from a WebSerial compatible internet browser. 
 
 Compatible browsers: [Chrome, Edge, Opera](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API#browser_compatibility)
