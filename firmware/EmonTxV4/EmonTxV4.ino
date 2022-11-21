@@ -14,6 +14,7 @@ v1.0.0: First release of EmonTxV4 Continuous Monitoring Firmware (based on EmonT
 v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementation
 v1.2.0: LowPowerLabs radio format, with option to switch to JeeLib classic or native.
 v1.3.0: Read and calibrate reference voltage at startup
+v1.4.0: Option to output serial data as JSON (Brian Orpin)
 
 */
 #define Serial Serial3
@@ -111,10 +112,11 @@ struct {
   int   pulse_period = 100;                                // pulse min period - 0 = no de-bounce
   bool  temp_enable = true;                                // enable temperature measurement
   DeviceAddress allAddresses[MAX_TEMPS];                   // sensor address data
-  bool  showCurrents = false;                              // Print to serial voltage, current & p.f. values  
+  bool  showCurrents = false;                              // Print to serial voltage, current & p.f. values
+  bool  json_enabled = false;                              // JSON Enabled - false = key,Value pair, true = JSON, default = false: Key,Value pair.  
 } EEProm;
 
-uint16_t eepromSig = 0x0015;                               // oemEProm signature - see oemEProm Library documentation for details.
+uint16_t eepromSig = 0x0016;                               // oemEProm signature - see oemEProm Library documentation for details.
  
 #ifdef EEWL_DEBUG
   extern EEWL EVmem;
@@ -136,8 +138,8 @@ bool  USA=false;
 bool calibration_enable = true;                           // Enable on-line calibration when running. 
                                                            // For safety, thus MUST default to false. (Required due to faulty ESP8266 software.)
 
-//----------------------------emonTx V3 hard-wired connections-----------------------------------
-const byte LEDpin      = PIN_PB2;  // emonTx V3 LED
+//----------------------------emonTx V4 hard-wired connections-----------------------------------
+const byte LEDpin      = PIN_PB2;  // emonTx V4 LED
 const byte DIP_switch1 = PIN_PA4;  // RF node ID (default no change in node ID, switch on for nodeID + 1) switch off D8 is HIGH from internal pullup
 const byte DIP_switch2 = PIN_PA5;  // Voltage selection 240 / 120 V AC (default switch off 240V)  - switch off D9 is HIGH from internal pullup
 
@@ -159,7 +161,6 @@ void setup()
   
   // Serial---------------------------------------------------------------------------------
   Serial.begin(115200);
-  Serial.println(RadioFormat);
 
   // ---------------------------------------------------------------------------------------
   if (digitalRead(DIP_switch1)==ON) EEProm.nodeID++;                         // IF DIP switch 1 is switched on (LOW) then add 1 from nodeID
@@ -260,8 +261,8 @@ void setup()
   EmonLibCM_setPulsePin(PIN_PA6);
   EmonLibCM_setPulseMinPeriod(EEProm.pulse_period);
 
-  EmonLibCM_setTemperatureDataPin(PIN_PB4);                            // OneWire data pin (emonTx V3.4)
-  EmonLibCM_setTemperaturePowerPin(PIN_PB3);                           // Temperature sensor Power Pin - 19 for emonTx V3.4  (-1 = Not used. No sensors, or sensor are permanently powered.)
+  EmonLibCM_setTemperatureDataPin(PIN_PB4);                            // OneWire data pin (emonTx V4)
+  EmonLibCM_setTemperaturePowerPin(PIN_PB3);                           // Temperature sensor Power Pin - 19 for emonTx V4  (-1 = Not used. No sensors, or sensor are permanently powered.)
   EmonLibCM_setTemperatureResolution(11);                              // Resolution in bits, allowed values 9 - 12. 11-bit resolution, reads to 0.125 degC
   EmonLibCM_setTemperatureAddresses(EEProm.allAddresses);              // Name of array of temperature sensors
   EmonLibCM_setTemperatureArray(allTemps);                             // Name of array to receive temperature measurements
@@ -371,51 +372,83 @@ void loop()
       delay(50);
     }
 
-    // ---------------------------------------------------------------------
-    // Key:Value format, used by EmonESP & emonhub EmonHubOEMInterfacer
-    // ---------------------------------------------------------------------
-    Serial.print(F("MSG:")); Serial.print(emontx.Msg);
-    Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
-    
-    Serial.print(F(",P1:")); Serial.print(emontx.P1);
-    Serial.print(F(",P2:")); Serial.print(emontx.P2);
-    Serial.print(F(",P3:")); Serial.print(emontx.P3);
-    Serial.print(F(",P4:")); Serial.print(emontx.P4);
-    Serial.print(F(",P5:")); Serial.print(emontx.P5);
-    Serial.print(F(",P6:")); Serial.print(emontx.P6);
-       
-    Serial.print(F(",E1:")); Serial.print(emontx.E1);
-    Serial.print(F(",E2:")); Serial.print(emontx.E2);
-    Serial.print(F(",E3:")); Serial.print(emontx.E3);
-    Serial.print(F(",E4:")); Serial.print(emontx.E4);
-    Serial.print(F(",E5:")); Serial.print(emontx.E5);
-    Serial.print(F(",E6:")); Serial.print(emontx.E6);
-     
-    if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
-    if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
-    if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
+    if (EEProm.json_enabled) {
+      // ---------------------------------------------------------------------
+      // JSON Format
+      // ---------------------------------------------------------------------
+      Serial.print(F("{\"MSG\":")); Serial.print(emontx.Msg);
+      Serial.print(F(",\"Vrms\":")); Serial.print(emontx.Vrms*0.01);
 
-    Serial.print(F(",pulse:")); Serial.print(emontx.pulse);
-    
-    if (!EEProm.showCurrents) {
-      Serial.println();
-      delay(40);
-    } else {
-      // to show voltage, current & power factor for calibration:
-      Serial.print(F(",I1:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(1)),3);
-      Serial.print(F(",I2:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(2)),3);
-      Serial.print(F(",I3:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(3)),3);
-      Serial.print(F(",I4:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(4)),3);
-      Serial.print(F(",I5:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(5)),3);
-      Serial.print(F(",I6:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(6)),3);
+      Serial.print(F(",\"P1\":")); Serial.print(emontx.P1);
+      Serial.print(F(",\"P2\":")); Serial.print(emontx.P2);
+      Serial.print(F(",\"P3\":")); Serial.print(emontx.P3);
+      Serial.print(F(",\"P4\":")); Serial.print(emontx.P4);
+      Serial.print(F(",\"P5\":")); Serial.print(emontx.P5);
+      Serial.print(F(",\"P6\":")); Serial.print(emontx.P6);
+
+      Serial.print(F(",\"E1\":")); Serial.print(emontx.E1);
+      Serial.print(F(",\"E2\":")); Serial.print(emontx.E2);
+      Serial.print(F(",\"E3\":")); Serial.print(emontx.E3);
+      Serial.print(F(",\"E4\":")); Serial.print(emontx.E4);
+      Serial.print(F(",\"E5\":")); Serial.print(emontx.E5);
+      Serial.print(F(",\"E6\":")); Serial.print(emontx.E6);
+
+      if (emontx.T1!=30000) { Serial.print(F(",\"T1\":")); Serial.print(emontx.T1*0.01); }
+      if (emontx.T2!=30000) { Serial.print(F(",\"T2\":")); Serial.print(emontx.T2*0.01); }
+      if (emontx.T3!=30000) { Serial.print(F(",\"T3\":")); Serial.print(emontx.T3*0.01); }
+
+      Serial.print(F(",\"pulse\":")); Serial.print(emontx.pulse);
+      Serial.println(F("}"));
+      delay(60);
       
-      Serial.print(F(",pf1:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(1)),4);
-      Serial.print(F(",pf2:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(2)),4);
-      Serial.print(F(",pf3:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(3)),4);
-      Serial.print(F(",pf4:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(4)),4);
-      Serial.print(F(",pf5:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(5)),4);
-      Serial.print(F(",pf6:")); Serial.println(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(6)),4);
-      delay(80);
+    } else {
+  
+      // ---------------------------------------------------------------------
+      // Key:Value format, used by EmonESP & emonhub EmonHubOEMInterfacer
+      // ---------------------------------------------------------------------
+      Serial.print(F("MSG:")); Serial.print(emontx.Msg);
+      Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
+      
+      Serial.print(F(",P1:")); Serial.print(emontx.P1);
+      Serial.print(F(",P2:")); Serial.print(emontx.P2);
+      Serial.print(F(",P3:")); Serial.print(emontx.P3);
+      Serial.print(F(",P4:")); Serial.print(emontx.P4);
+      Serial.print(F(",P5:")); Serial.print(emontx.P5);
+      Serial.print(F(",P6:")); Serial.print(emontx.P6);
+         
+      Serial.print(F(",E1:")); Serial.print(emontx.E1);
+      Serial.print(F(",E2:")); Serial.print(emontx.E2);
+      Serial.print(F(",E3:")); Serial.print(emontx.E3);
+      Serial.print(F(",E4:")); Serial.print(emontx.E4);
+      Serial.print(F(",E5:")); Serial.print(emontx.E5);
+      Serial.print(F(",E6:")); Serial.print(emontx.E6);
+       
+      if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
+      if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
+      if (emontx.T3!=30000) { Serial.print(F(",T3:")); Serial.print(emontx.T3*0.01); }
+  
+      Serial.print(F(",pulse:")); Serial.print(emontx.pulse);
+      
+      if (!EEProm.showCurrents) {
+        Serial.println();
+        delay(40);
+      } else {
+        // to show voltage, current & power factor for calibration:
+        Serial.print(F(",I1:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(1)),3);
+        Serial.print(F(",I2:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(2)),3);
+        Serial.print(F(",I3:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(3)),3);
+        Serial.print(F(",I4:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(4)),3);
+        Serial.print(F(",I5:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(5)),3);
+        Serial.print(F(",I6:")); Serial.print(EmonLibCM_getIrms(EmonLibCM_getLogicalChannel(6)),3);
+        
+        Serial.print(F(",pf1:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(1)),4);
+        Serial.print(F(",pf2:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(2)),4);
+        Serial.print(F(",pf3:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(3)),4);
+        Serial.print(F(",pf4:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(4)),4);
+        Serial.print(F(",pf5:")); Serial.print(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(5)),4);
+        Serial.print(F(",pf6:")); Serial.println(EmonLibCM_getPF(EmonLibCM_getLogicalChannel(6)),4);
+        delay(80);
+      }
     }
     digitalWrite(LEDpin,HIGH); delay(50);digitalWrite(LEDpin,LOW);
     // End of print out ----------------------------------------------------

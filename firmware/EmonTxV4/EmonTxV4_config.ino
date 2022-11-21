@@ -29,6 +29,7 @@ const PROGMEM char helpText1[] =
 "\n"
 "d<xx.x>\t- xx.x = a floating point number for the datalogging period\n" 
 "c<n>\t\t- n = 0 for OFF, n = 1 for ON, enable voltage, current & power factor values to serial output for calibration. \n"
+"j<n>\t\t- turn JSON Serial format on (1) or off (0).\n"
 "f<xx>\t\t- xx = the line frequency in Hz: normally either 50 or 60\n"
 "k<x> <yy.y> <zz.z>\n"
 "\t\t- Calibrate an analogue input channel:\n"
@@ -98,6 +99,7 @@ static void list_calibration(void)
   Serial.print(F("pulse period = ")); Serial.println(EEProm.pulse_period);
   Serial.println(EEProm.rf_on ? F("RF on"):F("RF off"));
   Serial.print(F("temp_enable = ")); Serial.println(EEProm.temp_enable);
+  Serial.println(EEProm.json_enabled ? F("JSON Format on"):F("JSON Format Off"));
 }
 
 static void save_config()
@@ -180,6 +182,19 @@ void handle_conf(char *input, byte len) {
           case 1 : EEProm.showCurrents = true;
             break;
           default: EEProm.showCurrents = false;
+        }
+      }
+      break;
+    case 'j':
+      /*
+      * Format expected: c0 | c1
+      */
+      if (len==2) {
+        k1 = atoi(input+1);
+        switch (k1) {
+          case 1 : EEProm.json_enabled = true;
+            break;
+          default: EEProm.json_enabled = false;
         }
       }
       break;
@@ -373,7 +388,7 @@ void handle_conf(char *input, byte len) {
 
     case 'v': // print firmware version
       if (len==1) {
-        Serial.print(F("EmonTxV34CM RFM69n Continuous Monitoring V")); Serial.write(firmware_version);
+        Serial.print(F("EmonTxV4 V")); Serial.write(firmware_version);
       }
       break;
     
