@@ -12,6 +12,8 @@
 Change Log:
 v1.0.0: First release of EmonTxV4 Continuous Monitoring Firmware (based on EmonTx v3 CM Firmware)
 v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementation
+v1.2.0: LowPowerLabs radio format, with option to switch to JeeLib classic or native.
+v1.3.0: Read and calibrate reference voltage at startup
 
 */
 #define Serial Serial3
@@ -226,6 +228,10 @@ void setup()
   EVmem.dump_buffer();
 #endif
 
+  double reference = read_reference();
+  Serial.print(F("Reference voltage calibration: "));
+  Serial.println(reference,4);
+
   // ----------------------------------------------------------------------------
   // EmonLibCM config
   // ----------------------------------------------------------------------------
@@ -234,7 +240,7 @@ void setup()
   EmonLibCM_setADC(12,29.5);
 
   // Using AVR-DB 1.024V internal voltage reference
-  EmonLibCM_ADCCal(1.024);
+  EmonLibCM_ADCCal(reference);
   
   EmonLibCM_SetADC_VChannel(0, EEProm.vCal);                           // ADC Input channel, voltage calibration
   EmonLibCM_SetADC_IChannel(3, EEProm.i1Cal, EEProm.i1Lead);           // ADC Input channel, current calibration, phase calibration
@@ -361,6 +367,7 @@ void loop()
         emontx.T1 += rf.retry_count()+1;
       }
       */
+      
       delay(50);
     }
 
@@ -416,4 +423,27 @@ void loop()
   }
   wdt_reset();
   delay(20);
+}
+
+
+double read_reference() {
+  ADC0.SAMPCTRL = 14;
+  ADC0.CTRLD |= 0x0;
+  VREF.ADC0REF = VREF_REFSEL_1V024_gc;
+  ADC0.CTRLC = ADC_PRESC_DIV24_gc;
+  ADC0.CTRLA = ADC_ENABLE_bm;
+  ADC0.CTRLA |= ADC_RESSEL_12BIT_gc;
+
+  ADC0.MUXPOS = 7;
+  unsigned long sum = 0;
+  for (int i=0; i<10010; i++) {
+    ADC0.COMMAND = ADC_STCONV_bm;
+    while (!(ADC0.INTFLAGS & ADC_RESRDY_bm));
+    if (i>9) {
+      sum += ADC0.RES;
+    }
+  }
+  double mean = sum / 10000.0;
+  double reference = 0.9 / (mean/4095.0);
+  return reference;
 }
