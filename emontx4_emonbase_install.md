@@ -110,4 +110,6 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 - **With feeds created, explore the data using the graph view.** Navigate to Setup > Feeds and click on a feed of interest to open the graph view. Click on the drop down time selector near the title and select the last hour. Click and drag to zoom further to see the new data coming in.
 
-- Depending on your application you may want to use one of the pre-configured Apps from the Apps tab or create a custom Dashboard using Dashboards.
+- **Try creating an Emoncms App.** Click on the Apps tab. From the Available Apps list select 'My Electric' and click 'Create', Select a power feed for 'use' and cumulative kWh energy feed for 'use_kwh' and then click 'Launch App'. After a few days this will start to show a daily bar graph of consumption alongside the real-time power graph and totals. There are a wide variety of different app's to choose from depending on the application.
+
+Congratulations on getting to the end of this guide, hopefully that got you started, there's a lot more to explore in emoncms.. add links here.
