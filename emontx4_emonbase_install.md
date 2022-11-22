@@ -112,4 +112,4 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 - **Try creating an Emoncms App.** Click on the Apps tab. From the Available Apps list select 'My Electric' and click 'Create', Select a power feed for 'use' and cumulative kWh energy feed for 'use_kwh' and then click 'Launch App'. After a few days this will start to show a daily bar graph of consumption alongside the real-time power graph and totals. There are a wide variety of different app's to choose from depending on the application.
 
-Congratulations on getting to the end of this guide, hopefully that got you started, there's a lot more to explore in emoncms.. add links here.
+Congratulations on getting to the end of this guide, hopefully thats got you started, there's a lot more to explore in emoncms.. add links here.
