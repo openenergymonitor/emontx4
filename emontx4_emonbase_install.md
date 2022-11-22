@@ -84,5 +84,8 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 - Click on 'Connect' and select the EmonTx serial port in the pop up menu. It should be listed as 'CP2102N USB to UART Bridge Controller..'
 - After a couple of seconds the EmonTx will print out it's current configuration which will populate the configuration in the interface. 
 - Adjust the  CT type to match the CT sensor that you have installed on each channel.
+- Click on 'Save Changes' to ensure that the new configuration is recorded such that it persists when you power cycle the board.
+
+
 
 
