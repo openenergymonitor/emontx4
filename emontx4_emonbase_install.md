@@ -102,3 +102,14 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 **Disabling the EmonTx4 radio:** Navigate to Admin > Serial Config to bring up the EmonTx4 serial configuration interface. This version runs locally on the emonBase and is compatible with all browsers. Click on 'Stop EmonHub' and then click on 'Start' for the serial connection above it. In the console entry box type 'w0' and click 'Send'. You should see 'RF off' printed in the console log window below. Next enter the character 's' for save in the console entry box and click 'Send' again. This will save and persist this setting. You can at this point use the serial configuration interface to adjust CT calibration if needed. Once complete click on 'Stop Serial' and then 'Start EmonHub' again. Navigate back to Setup > Inputs, after about 20s the USB inputs should resume.
 
+- The next step is to log the input data to feeds. Inputs are just placeholders showing the latest values sent from the EmonTx, we need to create feeds if we want to record a time-series of these values. It's possible to either manually configure each input as required or if you just want to record everything for now and delete what you dont need later. it's possible to use the preconfigured Device template.
+
+**Input configuration using the EmonTx4 device template**<br>
+On the Setup > Inputs page, Click on the cog icon (top right corner) of the EmonTx node. The 'Configure Device' window will appear, click on 'EmonTx4 Standard', you may need to scroll down a little in the Devices pane to find. Click 'Save' and 'Initialize'. This will create feeds that record real power and cumulative energy for each channel, Vrms, total message count, temperatures and total pulse count. Navigate to Setup > Feeds to see these feeds.
+
+**Manual input configuration**<br>
+You may only want to record specific channels or apply more complex input processing. See input processing guide.
+
+- With feeds created you can explore the data as it's being recorded using the graph view, click on the feed to open the graph view.
+
+- Depending on your application you may want to use one of the pre-configured Apps from the Apps tab or create a custom Dashboard using Dashboards.
