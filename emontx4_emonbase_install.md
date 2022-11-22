@@ -62,7 +62,16 @@ There are two different ways of installing the emonVs voltage sensor:
 The emonVs unit can be wall mounted using the wall mounting brackets on the enclosure, mark the position holes and screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
 
 ### 2) **CT sensor installation:** 
-The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options. The physical size of these CT sensors is also roughly proportional to their current rating. CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement. The new range of CT sensors used with the EmonTx4 are all voltage output CT sensors with integrated burden resistors and so are safe to clip on to the circuits that you wish to measure before plugging into the EmonTx4 if that makes installation easier.
+
+- The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options. The physical size of these CT sensors is also roughly proportional to their current rating.
+- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). 
+- Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement.
+- The new range of CT sensors used with the EmonTx4 are all voltage output CT sensors with integrated burden resistors and so are safe to clip on to the circuits that you wish to measure before plugging into the EmonTx4 if that makes installation easier.
 
 **Tip:** CT sensor cable routing. With 6 CT sensor cables and often more cable than you need it's easy for an installation to look like a hive of wires! A little electrical trunking can go a long way to tidying it all up, allowing for excess cable to be looped back on itself.
 
+### 3) **Install the EmonTx**
+
+- The EmonTx4 can be wall mounted using the wall mounting kit supplied. A vertical orientation can help reduce risk of things falling onto the sockets and can make for an easier installation in terms of CT sensor routing. See example images above.
+- Connect the RJ11 cable from the emonVs voltage sensor to the RJ11 socket which is on the same side as the CT sensor sockets. (The larger RJ45 socket on the other side is for temperature and pulse counting, take care not to plug the RJ11 plug into the RJ45 socket).
+- Plug in the CT sensors, note which CT sensor is plugged into each input on the EmonTx4 as each input needs to have the correct calibration applied. 
