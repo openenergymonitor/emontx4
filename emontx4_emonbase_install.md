@@ -76,5 +76,13 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 - The EmonTx4 can be wall mounted using the wall mounting kit supplied. A vertical orientation can help reduce risk of things falling onto the sockets and can make for an easier installation in terms of CT sensor routing. See example images above.
 - Connect the RJ11 cable from the emonVs voltage sensor to the RJ11 socket which is on the same side as the CT sensor sockets. (The larger RJ45 socket on the other side is for temperature and pulse counting, take care not to plug the RJ11 plug into the RJ45 socket).
 - Plug in the CT sensors, note which CT sensor is plugged into each input on the EmonTx4 as each input needs to have the correct calibration applied. e.g channel 1 = 100A CT, channel 2 = 50A CT, channel 3 = 20A CT and so on.
+- This is a good point to calibrate the EmonTx with the correct configuration to match the CT sensors connected. There are a couple of different ways of doing this, the easiest is to use our browser based web-serial configuration tool supported by Chrome, Edge and Opera browsers:
+
+**Browser based configuration tool**
+- Connect the emonTx to your laptop computer using a usb-C cable,
+- Open the web-serial configuration tool https://openenergymonitor.org/serial (Browser must be Chrome, Edge or Opera). Firefox and Safari do not currently support the web-serial technology used by this tool.
+- Click on 'Connect' and select the EmonTx serial port in the pop up menu. It should be listed as 'CP2102N USB to UART Bridge Controller..'
+- After a couple of seconds the EmonTx will print out it's current configuration which will populate the configuration in the interface. 
+- Adjust the  CT type to match the CT sensor that you have installed on each channel.
 
 
