@@ -86,6 +86,11 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 - Adjust the  CT type to match the CT sensor that you have installed on each channel.
 - Click on 'Save Changes' to ensure that the new configuration is recorded such that it persists when you power cycle the board.
 
+### 4. **EmonBase Installation**
 
+- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away perhaps near the internet router for ethernet connectivity. 
+- The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection. 
+- If near by, the emonBase can be powered by the emonVs USB-C cable.
+- Altenatively a seperate USB-C power supply will be required.
 
 
