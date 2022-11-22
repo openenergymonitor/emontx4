@@ -33,11 +33,11 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 
 8. Switch on mains socket and verify that the green LED on the emonTx and the red LED on the Raspberry Pi illuminates
 
-9. After a few moments the Raspberry Pi will create a WiFi Access Point called ‘emonpi’, connect to this using password ‘emonpi2016’
+9. After a few moments the Raspberry Pi will create a Wi-Fi Access Point called ‘emonpi’, connect to this using password ‘emonpi2016’
 
-10. Browse the IP address http://192.168.42.1 and follow the setup wizard to connect the device to your local WiFi network
+10. Browse the IP address http://192.168.42.1 and follow the setup wizard to connect the device to your local Wi-Fi network
 
-9. Once connected to your local WiFi network the base-station can be accessed via http://emonpi or http://emonpi.local
+9. Once connected to your local Wi-Fi network the base-station can be accessed via http://emonpi or http://emonpi.local
 
 **Instructions for safe use:**
 
@@ -79,7 +79,7 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 - This is a good point to calibrate the EmonTx with the correct configuration to match the CT sensors connected. There are a couple of different ways of doing this, the easiest is to use our browser based web-serial configuration tool supported by Chrome, Edge and Opera browsers:
 
 **Browser based configuration tool**
-- Connect the emonTx to your laptop computer using a usb-C cable,
+- Connect the emonTx to your laptop computer using a USB-C cable,
 - Open the web-serial configuration tool https://openenergymonitor.org/serial (Browser must be Chrome, Edge or Opera). Firefox and Safari do not currently support the web-serial technology used by this tool.
 - Click on 'Connect' and select the EmonTx serial port in the pop up menu. It should be listed as 'CP2102N USB to UART Bridge Controller..'
 - After a couple of seconds the EmonTx will print out it's current configuration which will populate the configuration in the interface. 
@@ -88,11 +88,12 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 ### 4. **EmonBase Installation**
 
-- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for ethernet connectivity. 
+- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for Ethernet connectivity. 
 - The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection. 
 - If near by, the emonBase can be powered by the emonVs USB-C cable.
-- Altenatively a seperate USB-C power supply will be required if located elsewhere. 
+- Alternatively a separate USB-C power supply will be required if located elsewhere. 
 
+### 5. EmonBase setup
 
-
-
+- If the EmonBase is powered up without Ethernet connected it will create a Wi-Fi Access Point called ‘emonpi’. Connect to this using password ‘emonpi2016’. Browse the IP address http://192.168.42.1 and follow the setup wizard to connect the device to your local Wi-Fi network.
+- Once connected via Wi-Fi or Ethernet the base-station can be accessed via http://emonpi or http://emonpi.local. If you are unable to locate the emonBase via this hostname, try using a network scanner app such as 'Fing' or 'Network Analyzer' to list the IP addresses of devices on your network.
