@@ -88,9 +88,11 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 ### 4. **EmonBase Installation**
 
-- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away perhaps near the internet router for ethernet connectivity. 
+- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for ethernet connectivity. 
 - The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection. 
 - If near by, the emonBase can be powered by the emonVs USB-C cable.
-- Altenatively a seperate USB-C power supply will be required.
+- Altenatively a seperate USB-C power supply will be required if located elsewhere. 
+
+
 
 
