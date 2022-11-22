@@ -57,7 +57,7 @@ There are two different ways of installing the emonVs voltage sensor:
 
 **Using the mains plug supplied:** If you have a convenient socket near-by this might be the easiest and quickest option.<br>
 
-**Direct installation:** The emonVs can be hardwired by a suitably competent persion into a 6A or lower circuit protection device in your fuse board (consumer unit) or a 3A fused spur (FCU). The supplied emonVs mains power cable is 1.5mm2. This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
+**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in your fuse board (consumer unit) or a 3A fused spur (FCU). The supplied emonVs mains power cable is 1.5mm2. This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
 
 The emonVs unit can be wall mounted using the wall mounting brackets on the enclosure, mark the position holes and screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
 
