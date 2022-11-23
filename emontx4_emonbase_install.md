@@ -52,35 +52,37 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 
 A good place to start is to assess the location where you wish to install the EmonTx4, identify the circuits that you wish to monitor using the clip-on CT sensors and decide how you would like to install the emonVs voltage sensor. 
 
-### 1. **emonVs installation** 
+### 1. **emonVs installation**
+
 There are two different ways of installing the emonVs voltage sensor:
 
 **Using the mains plug supplied:** If you have a convenient socket near-by this might be the easiest and quickest option.<br>
 
-**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in your fuse board (consumer unit) or a 3A fused spur (FCU). The supplied emonVs mains power cable is 1.5mm2. This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
+**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in the fuse board (consumer unit) or a 3A fused spur (Note: The supplied emonVs mains power cable has a surface area of 1.5mm2). This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
 
-The emonVs unit can be wall mounted using the wall mounting brackets on the enclosure, mark the position holes and screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
+The emonVs unit can be wall mounted using the wall mounting brackets on the enclosure. Start by marking the position of the holes and then with the emonVs removed, screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
 
 ### 2. **CT sensor installation** 
 
-- The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply).
+- Current transformers (CTs) are sensors that measure alternating current (AC).
+- The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options in the OpenEnergyMonitor shop. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply).
 - CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). 
 - Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement.
 - The new range of CT sensors used with the EmonTx4 are all voltage output CT sensors with integrated burden resistors and so are safe to clip on to the circuits that you wish to measure before plugging into the EmonTx4 if that makes installation easier.
-- Note the CT sensor used on each circuit as this will be required to calibrate the EmonTx4.
+- Note the CT sensor used on each circuit as well as the channel number on the EmonTx that the CT is connected too as this will be required to calibrate the EmonTx4. It's worth making a physical note of this on a label next to the EmonTx4 for future reference.
 
 **Tip:** CT sensor cable routing. With 6 CT sensor cables and often more cable than you need it's easy for an installation to look like a hive of wires! A little electrical trunking can go a long way to tidying it all up, allowing for excess cable to be looped back on itself.
 
 ### 3. **EmonTx4 Installation**
 
-- The EmonTx4 can be wall mounted using the wall mounting kit supplied. A vertical orientation can help reduce risk of things falling onto the sockets and can make for an easier installation in terms of CT sensor routing. See example images above.
-- Connect the RJ11 cable from the emonVs voltage sensor to the RJ11 socket which is on the same side as the CT sensor sockets. (The larger RJ45 socket on the other side is for temperature and pulse counting, take care not to plug the RJ11 plug into the RJ45 socket).
+- The EmonTx4 can be wall mounted using the wall mounting kit supplied. A vertical orientation can help reduce risk of things falling onto the sockets and can make for an easier installation in terms of CT sensor routing. See installation example images below.
+- Connect the RJ11 cable (telephone sized connector with 6 pins) from the emonVs voltage sensor to the RJ11 socket which is on the same side as the CT sensor sockets. (The larger RJ45 socket on the other side is for temperature and pulse counting, take care not to plug the RJ11 plug into the RJ45 socket).
 - Plug in the CT sensors, note which CT sensor is plugged into each input on the EmonTx4 as each input needs to have the correct calibration applied. e.g channel 1 = 100A CT, channel 2 = 50A CT, channel 3 = 20A CT and so on.
 - This is a good point to calibrate the EmonTx with the correct configuration to match the CT sensors connected. There are a couple of different ways of doing this, the easiest is to use our browser based web-serial configuration tool supported by Chrome, Edge and Opera browsers.
 
 **Browser based configuration tool**
 - Connect the emonTx to your laptop computer using a USB-C cable,
-- Open the web-serial configuration tool https://openenergymonitor.org/serial (Browser must be Chrome, Edge or Opera). Firefox and Safari do not currently support the web-serial technology used by this tool.
+- Open the web-serial configuration tool [https://openenergymonitor.org/serial](https://openenergymonitor.org/serial) (Browser must be Chrome, Edge or Opera). Firefox and Safari do not currently support the web-serial technology used by this tool.
 - Click on 'Connect' and select the EmonTx serial port in the pop up menu. It should be listed as 'CP2102N USB to UART Bridge Controller..'
 - After a couple of seconds the EmonTx will print out it's current configuration which will populate the configuration in the interface. 
 - Adjust the  CT type to match the CT sensor that you have installed on each channel.
@@ -113,3 +115,17 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 - **Try creating an Emoncms App.** Click on the Apps tab. From the Available Apps list select 'My Electric' and click 'Create', Select a power feed for 'use' and cumulative kWh energy feed for 'use_kwh' and then click 'Launch App'. After a few days this will start to show a daily bar graph of consumption alongside the real-time power graph and totals. There are a wide variety of different app's to choose from depending on the application.
 
 Congratulations on getting to the end of this guide, hopefully thats got you started, there's a lot more to explore in emoncms.. add links here.
+
+## Installation Examples
+
+**Installation example 1**<br>
+In this installation example the emonVs has been hardwired into a suitable circuit breaker in the consumer unit. 5 CT sensors are clipped around individual circuits in the consumer unit and 1 CT sensor is clipped around the main supply to the house. The emonBase is located separately in the livingroom and receives data from the emonTx via 433 Mhz radio. A short strip of trunking here made all the difference for a neater finish!
+
+![install_example_01.jpeg](img/install_example_01.jpeg)
+
+**Installation example 2**<br>
+In this installation the emonBase is located next to the emonVs and emonTx. Both the emonTx and the emonBase are powered by the emonVs. The CT cables are routed through the trunking to the consumer unit where they are clipped around the individual circuits that are being monitored.
+
+![install_example_02.jpeg](img/install_example_02.jpeg)
+
+![install_example_03.jpeg](img/install_example_03.jpeg)
