@@ -61,6 +61,13 @@ copy the following into emonhub.conf:
   #include "RFM69_JeeLib.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
 #endif
 
+// EEWL_START = 102, Start EEPROM wear leveling section after config section which takes up first 99 bytes, a few bytes of padding here
+// EEWL_BLOCKS = 14, 14 x 29 byte blocks = 406 bytes. EEWL_END = 102+406 = 508 a few bytes short of 512 byte limit
+// EEWL is only updated if values change by more than 200Wh, this means for a typical house consuming ~4000kWh/year
+// 20,000 writes per channel to EEPROM, there's a 100,000 write lifetime for any individual EEPROM byte.
+// With a circular buffer of 14 blocks, this extends the lifetime from 5 years to 70 years.
+// IMPORTANT! If adding to config section change EEWL_START and check EEWL_END Implications.
+
 #include <emonEProm.h>                                     // OEM EEPROM library
 #include <emonLibCM.h>                                     // OEM Continuous Monitoring library
 
@@ -222,10 +229,6 @@ void setup()
   // ---------------------------------------------------------------------------------------
       
 #ifdef EEWL_DEBUG
-  Serial.print("End of mem=");Serial.print(E2END);
-  Serial.print("  Avail mem=");Serial.print((E2END>>2) * 3);
-  Serial.print("  Start addr=");Serial.print(E2END - (((E2END>>2) * 3) / (sizeof(mem)+1))*(sizeof(mem)+1));
-  Serial.print("  Num blocks=");Serial.println(((E2END>>2) * 3) / 21);
   EVmem.dump_buffer();
 #endif
 
