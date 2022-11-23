@@ -13,31 +13,24 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 - EmonBase: RaspberryPi base-station
 - Up to 6 CT sensors
 - RJ11 voltage sensor cable
-- USB-C data cable for wired connection between the EmonTx4 and emonBase
 
-**Steps to install**
+## Quick install guide 
 
-1. Plug CT sensors into emonTx via 3.5mm jack plugs
+1. Clip CT sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
 
-2. Clip CT sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
+2. Plug CT sensors into emonTx via 3.5mm jack plugs
 
-3. Plug emonTx into Raspberry Pi base-station USB-A port using USB-C to USB-A cable
+3. Plug emonVS RJ11 cable into emonTx 
 
-4. Plug emonVS RJ11 cable into emonTx 
+4. Plug emonVS USB-C cable into Raspberry Pi base-station power input connector
 
-5. Plug emonVS USB-C cable into  Raspberry Pi base-station power input connector
+5. Plug emonVS into mains power via a domestic wall socket
 
-6. Plug emonVS into mains power via a domestic wall socket
+6. (optionally) connect Raspberry Pi base-station to Ethernet 
 
-7. (optionally) connect Raspberry Pi base-station to Ethernet 
+7. Switch on mains socket and verify that the green LED on the emonTx and the red LED on the Raspberry Pi illuminates.
 
-8. Switch on mains socket and verify that the green LED on the emonTx and the red LED on the Raspberry Pi illuminates
-
-9. After a few moments the Raspberry Pi will create a Wi-Fi Access Point called ‘emonpi’, connect to this using password ‘emonpi2016’
-
-10. Browse the IP address http://192.168.42.1 and follow the setup wizard to connect the device to your local Wi-Fi network
-
-9. Once connected to your local Wi-Fi network the base-station can be accessed via http://emonpi or http://emonpi.local
+8. Continue with step 5. EmonBase Setup below.
 
 **Instructions for safe use:**
 
@@ -50,7 +43,7 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 
 ## Extended version
 
-A good place to start is to assess the location where you wish to install the EmonTx4, identify the circuits that you wish to monitor using the clip-on CT sensors and decide how you would like to install the emonVs voltage sensor. 
+A good place to start is to assess the location where you wish to install the EmonTx4, identify the circuits that you wish to monitor using the clip-on CT sensors and decide how you would like to install the emonVs voltage sensor. There are a couple of example installations given below which may provide inspiration.
 
 ### 1. **emonVs installation**
 
@@ -114,7 +107,7 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 - **Try creating an Emoncms App.** Click on the Apps tab. From the Available Apps list select 'My Electric' and click 'Create', Select a power feed for 'use' and cumulative kWh energy feed for 'use_kwh' and then click 'Launch App'. After a few days this will start to show a daily bar graph of consumption alongside the real-time power graph and totals. There are a wide variety of different app's to choose from depending on the application.
 
-Congratulations on getting to the end of this guide, hopefully thats got you started, there's a lot more to explore in emoncms.. add links here.
+Hopefully that has got you started, there's a lot more to explore in emoncms.. add links here.
 
 ## Installation Examples
 
