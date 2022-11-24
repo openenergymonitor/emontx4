@@ -14,7 +14,7 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 - Up to 6 CT sensors
 - RJ11 voltage sensor cable
 
-## Quick install guide 
+## Quick install 
 
 1. Clip CT sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
 
@@ -45,7 +45,7 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 
 A good place to start is to assess the location where you wish to install the EmonTx4, identify the circuits that you wish to monitor using the clip-on CT sensors and decide how you would like to install the emonVs voltage sensor. There are a couple of example installations given below which may provide inspiration.
 
-### 1. **emonVs installation**
+## 1. emonVs installation
 
 There are two different ways of installing the emonVs voltage sensor:
 
@@ -55,7 +55,7 @@ There are two different ways of installing the emonVs voltage sensor:
 
 The emonVs unit can be wall mounted using the wall mounting brackets on the enclosure. Start by marking the position of the holes and then with the emonVs removed, screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
 
-### 2. **CT sensor installation** 
+## 2. CT sensor installation
 
 - Current transformers (CTs) are sensors that measure alternating current (AC).
 - The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options in the OpenEnergyMonitor shop. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply).
@@ -66,7 +66,7 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 **Tip:** CT sensor cable routing. With 6 CT sensor cables and often more cable than you need it's easy for an installation to look like a hive of wires! A little electrical trunking can go a long way to tidying it all up, allowing for excess cable to be looped back on itself.
 
-### 3. **EmonTx4 Installation**
+## 3. EmonTx4 Installation
 
 - The EmonTx4 can be wall mounted using the wall mounting kit supplied. A vertical orientation can help reduce risk of things falling onto the sockets and can make for an easier installation in terms of CT sensor routing. See installation example images below.
 - Connect the RJ11 cable (telephone sized connector with 6 pins) from the emonVs voltage sensor to the RJ11 socket which is on the same side as the CT sensor sockets. (The larger RJ45 socket on the other side is for temperature and pulse counting, take care not to plug the RJ11 plug into the RJ45 socket).
@@ -81,14 +81,14 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 - Adjust the  CT type to match the CT sensor that you have installed on each channel.
 - Click on 'Save Changes' to ensure that the new configuration is recorded such that it persists when you power cycle the board.
 
-### 4. **EmonBase Installation**
+## 4. EmonBase Installation
 
 - Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for Ethernet connectivity. 
 - The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection. 
 - If near by, the emonBase can be powered by the emonVs USB-C cable.
 - Alternatively a separate USB-C power supply will be required if located elsewhere. 
 
-### 5. EmonBase setup
+## 5. EmonBase setup
 
 - **If the EmonBase is powered up without Ethernet connected it will create a Wi-Fi Access Point** called ‘emonpi’. Connect to this using password ‘emonpi2016’. Browse the IP address http://192.168.42.1 and follow the setup wizard to connect the device to your local Wi-Fi network.
 - **Once connected via Wi-Fi or Ethernet** the base-station can be accessed via http://emonpi or http://emonpi.local. If you are unable to locate the emonBase via this hostname, try using a network scanner app such as 'Fing' or 'Network Analyzer' to list the IP addresses of devices on your network.

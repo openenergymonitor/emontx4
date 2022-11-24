@@ -1,26 +1,26 @@
 # Configuration
 
+## Default configuration
+
 The emonTx4 comes configured as standard with the following default configuration:
 
-```
-- OpenEnergyMonitor precision voltage sensor (Vcal: 807.86)
-- CT 1: 100A 0.333V (Ical: 300.3, Ilead: 3.2)
-- CT 2: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
-- CT 3: 50A 0.333V (Ical: 150.15, Ilead: 3.2)
-- CT 4: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
-- CT 5: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
-- CT 6: 20A 0.333V (Ical: 60.06, Ilead: 3.2)
-- Transmit via RFM69CW: ON
-- Radio nodeid: 15
-- Radio group: 210
-- Radio frequency: 433 MHz
-- Datalogging period: 9.8s 
-- Minimum pulse period: 100ms
-```
+- **emonVs:** (Vcal: 807.86)
+- **CT 1:** 100A 0.333V (Ical: 300.3, Ilead: 3.2)
+- **CT 2:** 50A 0.333V (Ical: 150.15, Ilead: 3.2)
+- **CT 3:** 50A 0.333V (Ical: 150.15, Ilead: 3.2)
+- **CT 4:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- **CT 5:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- **CT 6:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- **Transmit via RFM69CW:** ON
+- **Radio nodeid:** 15
+- **Radio group:** 210
+- **Radio frequency:** 433 MHz
+- **Datalogging period:** 9.8s 
+- **Minimum pulse period:** 100ms
 
 To use the emonTx4 with a different CT arrangement, or radio node and group these settings can be adjusted over serial, using either an online web tool or directly via a serial console.
 
-## 1) Using the web tool
+## Using the web tool
 
 **Note: Uploading via USB-C will only work if connected in the right orientation. Try turning the USB-C connector around if upload fails.** 
 
@@ -32,7 +32,7 @@ Launch the tool: [openenergymonitor.org/serial](https://openenergymonitor.org/se
 
 ![emontx_webserial.png](img/emontx_webserial.png)
 
-## 2) Directly via serial
+## Directly via serial
 
 Alternatively it's possible to configure the emonTx4 directly via serial using the arduino serial monitor or other similar tool. 
 The following details the available commands and their function.
