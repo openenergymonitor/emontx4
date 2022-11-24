@@ -26,13 +26,15 @@ The board is designed to support both single and full 3-phase electricity monito
 
 The on-board USB to serial chip will make it easier and neater to have a hard-wired installation linking the emonTx to a RaspberryPi based base station.
 
-## [Firmware](firmware)
+## Documentation
 
-## [Hardware](hardware)
+[View on read the docs](https://openenergymonitor.org/guide/emontx4/docs/overview.html)
 
-## [Install with EmonVs & EmonBase](emontx4_emonbase_install.md)
+Or here on github:
 
-## [Configuration](configuration.md)
+- [Install Guide](docs/emontx4_emonbase_install.md)
+- [Configuration](docs/configuration.md)
+- [Firmware](docs/firmware.md)
 
 ## Extensions
 
