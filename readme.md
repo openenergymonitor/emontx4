@@ -4,7 +4,7 @@ The emonTx v4 is an energy monitoring transmitter unit that can monitor up to 6 
 
 Data from the emonTx can be transmitted over the 433 Mhz RFM69cw radio link or read directly using a USB cable from an emonBase or emonPi. A number of adapter boards are also available to provide internal connectivity options via ESP32, ESP8266, Pi Pico W and Pi Zero W.
 
-![emontx4.jpg](img/emontx4.jpg)
+![emontx4.jpg](docs/img/emontx4.jpg)
 
 **Key features**
 
