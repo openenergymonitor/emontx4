@@ -35,13 +35,15 @@ Or here on github:
 - [Install Guide](docs/emontx4_emonbase_install.md)
 - [Configuration](docs/configuration.md)
 - [Firmware](docs/firmware.md)
+- [Expansion boards](docs/expansion_boards.md)
 
-## Extensions
+## Expansion Boards
 
-- [6CT Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/CTExt)
-- [ESP32 Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/ESP32)
-- [Pi Pico Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/PiPico)
-- [Pi Zero Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/PiZero)
+- [6CT Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/CTExt)
+- [ESP8266 Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266)
+- [ESP32 Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32)
+- [Pi Pico Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/PiPico)
+- [Pi Zero ExtExpansionension Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/PiZero)
 
 ## Community & Support
 

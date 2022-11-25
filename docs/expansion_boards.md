@@ -1,0 +1,80 @@
+# Expansion boards
+
+The emonTx4 has been designed to make it possible to expand it's capability through expansion boards. These mostly focus around adding Wi-Fi communications but there's also a CT channel expansion board for more channels.
+
+The following boards will be available soon as development boards that require some component sourcing, soldering and firmware uploading. These are all currently relatively early stage developments and so are not as finely finished as the standard system.
+
+---
+
+## Pi Pico WiFi Expansion Board
+
+The new Raspberry Pi Pico W is a wireless-enabled version of the original Pi Pico based on the RP2040 chip. This simple expansion board just maps the Pi Pico W pins to the UART and SPI headers on the emonTx4.
+
+![pipico_ext.jpeg](img/pipico_ext.jpeg)
+
+### Software Examples
+
+**Arduino**
+
+- [Basic emoncms client](https://github.com/openenergymonitor/emontx4/blob/main/expansion_boards/PiPico/examples/arduino/basic_emoncms_client/basic_emoncms_client.ino)
+- [Emoncms client with encryption](https://github.com/openenergymonitor/emontx4/blob/main/expansion_boards/PiPico/examples/arduino/emoncms_client_with_encryption/emoncms_client_with_encryption.ino)
+- [Serial config example](https://github.com/openenergymonitor/emontx4/blob/main/expansion_boards/PiPico/examples/arduino/serial_config_struct/serial_config_struct.ino)
+- **[Emoncms client with encryption & serial config](https://github.com/openenergymonitor/emontx4/blob/main/expansion_boards/PiPico/examples/arduino/emoncms_client_encryption_serialconfig/emoncms_client_encryption_serialconfig.ino)**
+
+**MicroPython**
+
+- [Basic emoncms client](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/PiPico/examples/micropython)
+
+### Uploading Arduino code
+
+This guide provides a good overview of getting started with the Pi Pico W and Arduino IDE: [https://dronebotworkshop.com/picow-arduino](https://dronebotworkshop.com/picow-arduino)
+
+### Uploading MicroPython
+
+1. Download the latest MicroPython Pi Pico W build from here: [https://micropython.org/download/rp2-pico-w](https://micropython.org/download/rp2-pico-w) and drop it onto the drive created by the Pi Pico when plugged in via USB to your computer.
+2. Install Adafruit Ampy, see: [https://pypi.org/project/adafruit-ampy](https://pypi.org/project/adafruit-ampy)
+3. Upload the micropython example using ampy, e.g:
+
+```
+ampy --port /dev/ttyACM0 put basic_emoncms_client.py main.py
+```
+
+---
+
+## Adafruit ESP8266 Huzzah Wi-Fi Expansion Board
+
+More details to follow...
+
+## ESP32 Wi-Fi Expansion Board
+
+More details to follow...
+
+![esp32_ext.jpeg](img/esp32_ext.jpeg)
+
+## Pi Zero Expansion Board
+
+More details to follow...
+
+![pizero_ext.jpeg](img/pizero_ext.jpeg)
+
+Starting with an SD card running emonSD:<br>
+[https://github.com/openenergymonitor/emonpi/wiki/emonSD-pre-built-SD-card-Download-&-Change-Log](https://github.com/openenergymonitor/emonpi/wiki/emonSD-pre-built-SD-card-Download-&-Change-Log)
+
+Configure EmonHub to use the EmonHubOEMInterfacer:<br>
+[https://github.com/openenergymonitor/emonhub/tree/master/conf/interfacer_examples/OEM](https://github.com/openenergymonitor/emonhub/tree/master/conf/interfacer_examples/OEM)
+
+    [[OEM]]
+        Type = EmonHubOEMInterfacer
+        [[[init_settings]]]
+            com_port = /dev/ttyAMA0
+            com_baud = 115200
+        [[[runtimesettings]]]
+            pubchannels = ToEmonCMS,
+
+## 6 CT Expansion Board
+
+More details to follow...
+
+![ctext.png](img/ctext.png)
+
+
