@@ -45,11 +45,33 @@ ampy --port /dev/ttyACM0 put basic_emoncms_client.py main.py
 
 More details to follow...
 
+### Software Examples
+
+**Arduino / Platform IO**
+
+- [Basic emoncms client](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/examples/basic_emoncms_client)
+- [Emoncms client with encryption](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/examples/emoncms_client_with_encryption)
+- [Emoncms client with encryption & serial config](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/examples/emoncms_client_encryption_serialconfig)
+
+---
+
 ## ESP32 Wi-Fi Expansion Board
 
 More details to follow...
 
 ![esp32_ext.jpeg](img/esp32_ext.jpeg)
+
+### Software Examples
+
+**Arduino / Platform IO**
+
+- [Basic emoncms client](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32/examples/basic_emoncms_client)
+- [Emoncms client with encryption](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32/examples/emoncms_client_with_encryption)
+- [Emoncms client with encryption & serial config](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32/examples/emoncms_client_encryption_serialconfig)
+- [Emoncms client with encryption & serial config & display](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32/examples/emoncms_client_encryption_serialconfig_display)
+- [RFM69 SPI test](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32/examples/rfm69cw_test)
+
+---
 
 ## Pi Zero Expansion Board
 
@@ -70,6 +92,8 @@ Configure EmonHub to use the EmonHubOEMInterfacer:<br>
             com_baud = 115200
         [[[runtimesettings]]]
             pubchannels = ToEmonCMS,
+            
+---
 
 ## 6 CT Expansion Board
 
