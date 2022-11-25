@@ -14,19 +14,19 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 - Up to 6 CT sensors
 - RJ11 voltage sensor cable
 
-## Quick install 
+## Quick Start
 
 1. Clip CT sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
 
 2. Plug CT sensors into emonTx via 3.5mm jack plugs
 
-3. Plug emonVS RJ11 cable into emonTx 
+3. Plug emonVS RJ11 cable into emonTx
 
-4. Plug emonVS USB-C cable into Raspberry Pi base-station power input connector
+4. Plug emonVS USB-C cable into emonBase Raspberry Pi base-station power input connector
 
 5. Plug emonVS into mains power via a domestic wall socket
 
-6. (optionally) connect Raspberry Pi base-station to Ethernet 
+6. (optionally) connect emonBase Raspberry Pi base-station to Ethernet
 
 7. Switch on mains socket and verify that the green LED on the emonTx and the red LED on the Raspberry Pi illuminates.
 
@@ -35,11 +35,11 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 **Instructions for safe use:**
 
     • Clip-on CT sensors are non-invasive and should not have direct contact with the AC mains. As a precaution, we recommend ensuring all cables are fully isolated prior to installing. If in doubt seek professional assistance.
-    • Do not expose to water or moisture 
-    • Do not expose to temperate above rated operating limits 
+    • Do not expose to water or moisture
+    • Do not expose to temperate above rated operating limits
     • Indoor use only
-    • Do not connect unapproved accessories 
-    • Please contact us if you have any questions 
+    • Do not connect unapproved accessories
+    • Please contact us if you have any questions
 
 ## Extended version
 
@@ -49,20 +49,23 @@ A good place to start is to assess the location where you wish to install the Em
 
 There are two different ways of installing the emonVs voltage sensor:
 
-**Using the mains plug supplied:** If you have a convenient socket near-by this might be the easiest and quickest option.<br>
+**Using the mains plug supplied:** If you have a convenient socket near-by this is be the easiest and quickest option.<br>
 
-**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in the fuse board (consumer unit) or a 3A fused spur (Note: The supplied emonVs mains power cable has a surface area of 1.5mm2). This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
+**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in the fuse board (consumer unit) or a 3A fused spur (Note: The supplied emonVs mains power cable has a cross sectional area of 1.5mm^2). This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
 
 The emonVs unit can be wall mounted using the wall mounting brackets on the enclosure. Start by marking the position of the holes and then with the emonVs removed, screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
 
 ## 2. CT sensor installation
 
-- Current transformers (CTs) are sensors that measure alternating current (AC).
-- The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options in the OpenEnergyMonitor shop. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply).
-- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). 
-- Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement.
-- The new range of CT sensors used with the EmonTx4 are all voltage output CT sensors with integrated burden resistors and so are safe to clip on to the circuits that you wish to measure before plugging into the EmonTx4 if that makes installation easier.
-- Note the CT sensor used on each circuit as well as the channel number on the EmonTx that the CT is connected too as this will be required to calibrate the EmonTx4. It's worth making a physical note of this on a label next to the EmonTx4 for future reference.
+- Current transformers (CTs) are sensors that measure alternating current (AC)
+- The EmonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options in the OpenEnergyMonitor shop. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply)
+- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both)
+- Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement
+- The new range of CT sensors used with the EmonTx4 are all voltage output CT sensors with integrated burden resistors and so are safe to clip on to the circuits that you wish to measure before plugging into the EmonTx4 if that makes installation easier
+- Note the CT sensor used on each circuit as well as the channel number on the EmonTx that the CT is connected to as may be required to calibrate the EmonTx4 if your using non standard CT ratings. It's worth making a physical note of this on a label next to the EmonTx4 for future reference
+-
+
+**Note: The emonTx V4 requires voltage output CT sensors, it is NOT compatible with the old current output YHDC (blue) 100A CT sensors.**
 
 **Tip:** CT sensor cable routing. With 6 CT sensor cables and often more cable than you need it's easy for an installation to look like a hive of wires! A little electrical trunking can go a long way to tidying it all up, allowing for excess cable to be looped back on itself.
 
@@ -70,32 +73,38 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 
 - The EmonTx4 can be wall mounted using the wall mounting kit supplied. A vertical orientation can help reduce risk of things falling onto the sockets and can make for an easier installation in terms of CT sensor routing. See installation example images below.
 - Connect the RJ11 cable (telephone sized connector with 6 pins) from the emonVs voltage sensor to the RJ11 socket which is on the same side as the CT sensor sockets. (The larger RJ45 socket on the other side is for temperature and pulse counting, take care not to plug the RJ11 plug into the RJ45 socket).
-- Plug in the CT sensors, note which CT sensor is plugged into each input on the EmonTx4 as each input needs to have the correct calibration applied. e.g channel 1 = 100A CT, channel 2 = 50A CT, channel 3 = 20A CT and so on.
+- Plug in the CT sensors, note which CT sensor is plugged into each input on the EmonTx4 as each input needs to have the correct calibration applied.
 - This is a good point to calibrate the EmonTx with the correct configuration to match the CT sensors connected. There are a couple of different ways of doing this, the easiest is to use our browser based web-serial configuration tool supported by Chrome, Edge and Opera browsers.
 
+**Note: By default with standard firmware the emonTx is pre-calibrated with the followwing CT ratings: CH1 = 100A, CH2-3 = 50A, CH4-6 = 20A. If using these default ratings then additional calibration is not needed.**
+
 **Browser based configuration tool**
-- Connect the emonTx to your laptop computer using a USB-C cable,
+- Connect the emonTx to your computer using a USB-C cable,
 - Open the web-serial configuration tool [https://openenergymonitor.org/serial](https://openenergymonitor.org/serial) (Browser must be Chrome, Edge or Opera). Firefox and Safari do not currently support the web-serial technology used by this tool.
 - Click on 'Connect' and select the EmonTx serial port in the pop up menu. It should be listed as 'CP2102N USB to UART Bridge Controller..'
-- After a couple of seconds the EmonTx will print out it's current configuration which will populate the configuration in the interface. 
+- After a couple of seconds the EmonTx will print out it's current configuration which will populate the configuration in the interface.
 - Adjust the  CT type to match the CT sensor that you have installed on each channel.
 - Click on 'Save Changes' to ensure that the new configuration is recorded such that it persists when you power cycle the board.
 
+**Note: The USB-C connection on the emonTx only works in one orientation for data transfer, if the config tool doesn't connect then invert the orientation of the plug**
+
 ## 4. EmonBase Installation
 
-- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for Ethernet connectivity. 
-- The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection. 
+- Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for Ethernet connectivity.
+- The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection.
 - If near by, the emonBase can be powered by the emonVs USB-C cable.
-- Alternatively a separate USB-C power supply will be required if located elsewhere. 
+- Alternatively a separate USB-C power supply will be required if located elsewhere.
 
 ## 5. EmonBase setup
 
-- **If the EmonBase is powered up without Ethernet connected it will create a Wi-Fi Access Point** called ‘emonpi’. Connect to this using password ‘emonpi2016’. Browse the IP address http://192.168.42.1 and follow the setup wizard to connect the device to your local Wi-Fi network.
-- **Once connected via Wi-Fi or Ethernet** the base-station can be accessed via http://emonpi or http://emonpi.local. If you are unable to locate the emonBase via this hostname, try using a network scanner app such as 'Fing' or 'Network Analyzer' to list the IP addresses of devices on your network.
+- **If the EmonBase is powered up without Ethernet connected it will create a Wi-Fi Access Point** called ‘emonpi’. Connect to this using password `emonpi2016`. Browse the IP address [http://192.168.42.1](http://192.168.42.1) and follow the setup wizard to connect the device to your local Wi-Fi network.
+- **Once connected via Wi-Fi or Ethernet** the base-station can be accessed via [http://emonpi](http://emonpi) or [http://emonpi.local](http://emonpi.local). If you are unable to locate the emonBase via this hostname, try using a network scanner app such as 'Fing' or 'Network Analyzer' to list the IP addresses of devices on your network.
 - **The emonBase should now present the emoncms login screen.** Create a local account and login.
 - **Configure inputs by navigating to Setup > Inputs.** The EmonTx4 will pop up here automatically under the emonTx4_xx node name. If you have connected the EmonTx to the emonBase directly via USB it will appear twice, first under the emonTx4_xx node name corresponding to data received over radio and second under the 'EmonTx4' node name corresponding to data received directly over USB. You may wish to disable the radio link at this point.
 
-    **Tip: The EmonTx4 radio can be disabled if using USB:** Navigate to Admin > Serial Config to bring up the EmonTx4 serial configuration interface. This version runs locally on the emonBase and is compatible with all browsers. Click on 'Stop EmonHub' and then click on 'Start' for the serial connection above it. In the console entry box type 'w0' and click 'Send'. You should see 'RF off' printed in the console log window below. Next enter the character 's' for save in the console entry box and click 'Send' again. This will save and persist this setting. You can at this point use the serial configuration interface to adjust CT calibration if needed. Once complete click on 'Stop Serial' and then 'Start EmonHub' again. Navigate back to Setup > Inputs, after about 20s the USB inputs should resume.
+**Note: The USB-C connection on the emonTx only works in one orientation for data transfer, if your not receiving data then invert the orientation of the plug**
+
+    **Tip: The EmonTx4 radio can be disabled if using USB:** on the emonPi local Emoncms webpage navigate to Admin > Serial Config to bring up the EmonTx4 serial configuration interface. This version runs locally on the emonBase and is compatible with all browsers. Click on 'Stop EmonHub' and then click on 'Start' for the serial connection above it. In the console entry box type 'w0' and click 'Send'. You should see 'RF off' printed in the console log window below. Next enter the character 's' for save in the console entry box and click 'Send' again. This will save and persist this setting. You can at this point use the serial configuration interface to adjust CT calibration if needed. Once complete click on 'Stop Serial' and then 'Start EmonHub' again. Navigate back to Setup > Inputs, after about 20s the USB inputs should resume.
 
 - **The next step is to log the input data to feeds.** Inputs are just placeholders showing the latest values sent from the EmonTx, we need to create feeds if we want to record a time-series of these values. It's possible to either manually configure each input as required or if you just want to record everything for now and delete what you dont need later. it's possible to use the preconfigured Device template.
 
