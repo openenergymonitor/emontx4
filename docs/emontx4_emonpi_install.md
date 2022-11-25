@@ -59,7 +59,7 @@ Data can be transferred between the emonTx4 and emonPi via 433Mhz radio.
 
 It is however easy to **change a new emonTx4 to transmit using the original JeeLib classic format** so that compatibility is maintained.
 
-We will soon also offer a new firmware release for existing emonPi and emonBase systems for those keen to upgrade to the new LowPowerLabs RFM69 format which offers hardware enryption and a packet acknowlegment/retry mechanism to minimize packet loss.
+We will soon also offer a new firmware release for existing emonPi and emonBase systems for those keen to upgrade to the new LowPowerLabs RFM69 format which offers hardware encryption and a packet acknowledgment/retry mechanism to minimize packet loss.
 
 ### 1. Shop option at time of purchase
 
@@ -74,7 +74,7 @@ It's possible to select the firmware version in the shop when buying an emonTx4:
 
 The easiest way of updating or changing the emonTx4 firmware is to connect it to an emonPi or emonBase with a USB cable and then use the firmware upload tool available at Setup > Admin > Update > Firmware.
 
-**Select** the emonTx4 USB port, usually **ttyUSB0**. Select **emonTx4** hardware and then for existing hardware compatability, select **RFM69 JeeLib Classic** in the Radio format drop down. Click Update Firmware to upload.
+**Select** the emonTx4 USB port, usually **ttyUSB0**. Select **emonTx4** hardware and then for existing hardware compatibility, select **RFM69 JeeLib Classic** in the Radio format drop down. Click Update Firmware to upload.
 
 ![emonpi_firmware_change_classic.png](img/emonpi_firmware_change_classic.png)
 
