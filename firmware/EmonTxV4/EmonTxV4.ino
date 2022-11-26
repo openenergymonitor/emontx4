@@ -15,6 +15,8 @@ v1.1.0: Fixed emonEProm implementation for AVR-DB & new serial config implementa
 v1.2.0: LowPowerLabs radio format, with option to switch to JeeLib classic or native.
 v1.3.0: Read and calibrate reference voltage at startup
 v1.4.0: Option to output serial data as JSON (Brian Orpin)
+v1.5.0: emonEProm fixed pulse count data type issue
+
 
 */
 #define Serial Serial3
@@ -25,7 +27,7 @@ v1.4.0: Option to output serial data as JSON (Brian Orpin)
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.2.0\n\r"};
+const char *firmware_version = {"1.5.0\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 15 when switch is off, 16 when switch is on)
