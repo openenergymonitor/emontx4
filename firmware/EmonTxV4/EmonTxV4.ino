@@ -27,10 +27,10 @@ v1.5.0: emonEProm fixed pulse count data type issue
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.0\n\r"};
+const char *firmware_version = {"1.5.1\n\r"};
 /*
 
-emonhub.conf node decoder (nodeid is 15 when switch is off, 16 when switch is on)
+emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
 See: https://github.com/openenergymonitor/emonhub/blob/emon-pi/configuration.md
 copy the following into emonhub.conf:
 
@@ -96,7 +96,7 @@ static void showString (PGM_P s);
 struct {
   byte RF_freq = RF69_433MHZ;                              // Frequency of radio module can be RFM_433MHZ, RFM_868MHZ or RFM_915MHZ. 
   byte networkGroup = 210;                                 // wireless network group, must be the same as emonBase / emonPi and emonGLCD. OEM default is 210
-  byte nodeID = 15;                                        // node ID for this emonTx.
+  byte nodeID = 17;                                        // node ID for this emonTx.
   byte rf_on = 1;                                          // RF - 0 = no RF, 1 = RF on.
   byte rfPower = 25;                                       // 7 = -10.5 dBm, 25 = +7 dBm for RFM12B; 0 = -18 dBm, 31 = +13 dBm for RFM69CW. Default = 25 (+7 dBm)
   float vCal  = 807.86;                                    // (6 x 10000) / 75 = 800.0
@@ -172,7 +172,7 @@ void setup()
   Serial.begin(115200);
 
   // ---------------------------------------------------------------------------------------
-  if (digitalRead(DIP_switch1)==ON) EEProm.nodeID++;                         // IF DIP switch 1 is switched on (LOW) then add 1 from nodeID
+  if (digitalRead(DIP_switch2)==ON) EEProm.nodeID++;                         // IF DIP switch 1 is switched on (LOW) then add 1 from nodeID
 
   #ifdef DEBUG
     Serial.print(F("emonTx V4 CM Continuous Monitoring V")); Serial.write(firmware_version);
@@ -211,7 +211,7 @@ void setup()
   }
 
   // Sets expected frequency 50Hz/60Hz
-  if (digitalRead(DIP_switch2)==ON) {
+  if (digitalRead(DIP_switch1)==ON) {
       USA=true; // 60 Hz
   }
   // ---------------------------------------------------------------------------------------
