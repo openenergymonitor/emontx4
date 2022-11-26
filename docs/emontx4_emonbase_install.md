@@ -14,6 +14,8 @@ The following EmonTx4, emonVs and emonBase bundle will soon be available in the 
 - Up to 6 CT sensors
 - RJ11 voltage sensor cable
 
+**If you already have an emonPi or emonBase** you can use this in place of the emonBase option that can be chosen in the bundle. The terms emonPi/emonBase can be used interchangeably in this guide. In addition please see the [Adding to an existing install guide](emontx4_emonpi_install.md).
+
 ## Quick Start
 
 1. Clip CT sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
