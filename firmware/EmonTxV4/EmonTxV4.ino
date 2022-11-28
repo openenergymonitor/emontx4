@@ -27,7 +27,7 @@ v1.5.0: emonEProm fixed pulse count data type issue
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.1\n\r"};
+const char *firmware_version = {"1.5.2\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
