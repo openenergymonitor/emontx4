@@ -245,8 +245,8 @@ void setup()
   // EmonLibCM config
   // ----------------------------------------------------------------------------
   // 12 bit ADC = 4096 divisions
-  // Time in microseconds for one ADC conversion: 39.3 us 
-  EmonLibCM_setADC(12,39.3);
+  // Time in microseconds for one ADC conversion: 39.333 us 
+  EmonLibCM_setADC(12,39.333);
 
   // Using AVR-DB 1.024V internal voltage reference
   EmonLibCM_ADCCal(reference);
