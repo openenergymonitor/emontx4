@@ -16,7 +16,10 @@ v1.2.0: LowPowerLabs radio format, with option to switch to JeeLib classic or na
 v1.3.0: Read and calibrate reference voltage at startup
 v1.4.0: Option to output serial data as JSON (Brian Orpin)
 v1.5.0: emonEProm fixed pulse count data type issue
-
+v1.5.1: default node id set to 17, swap nodeid DIP, zero all 6 energy values
+v1.5.2: emonEProm fixed EEWL overlap
+v1.5.3: Slightly slower sample rate to improve zero power performance
+        temperature sensing disabled if no temperature sensors detected at startup
 
 */
 #define Serial Serial3
@@ -27,7 +30,7 @@ v1.5.0: emonEProm fixed pulse count data type issue
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.2\n\r"};
+const char *firmware_version = {"1.5.3\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
@@ -119,7 +122,7 @@ struct {
   float period = 9.8;                                      // datalogging period - should be fractionally less than the PHPFINA database period in emonCMS
   bool  pulse_enable = true;                               // pulse counting
   int   pulse_period = 100;                                // pulse min period - 0 = no de-bounce
-  bool  temp_enable = true;                                // enable temperature measurement
+  bool  temp_enable = true;                                // if no temperature sensors are detected at startup this is over ridden and temperature sensing is disabled
   DeviceAddress allAddresses[MAX_TEMPS];                   // sensor address data
   bool  showCurrents = false;                              // Print to serial voltage, current & p.f. values
   bool  json_enabled = false;                              // JSON Enabled - false = key,Value pair, true = JSON, default = false: Key,Value pair.  
@@ -242,8 +245,8 @@ void setup()
   // EmonLibCM config
   // ----------------------------------------------------------------------------
   // 12 bit ADC = 4096 divisions
-  // Time in microseconds for one ADC conversion: 40 us 
-  EmonLibCM_setADC(12,29.5);
+  // Time in microseconds for one ADC conversion: 39.3 us 
+  EmonLibCM_setADC(12,39.3);
 
   // Using AVR-DB 1.024V internal voltage reference
   EmonLibCM_ADCCal(reference);
@@ -294,6 +297,14 @@ void setup()
   EmonLibCM_Init();                                                    // Start continuous monitoring.
   emontx.Msg = 0;
   printTemperatureSensorAddresses();
+
+  byte numSensors = EmonLibCM_getTemperatureSensorCount();
+  if (numSensors==0) {
+    Serial.println(F("No temperature sensors detected, disabling temperature"));
+    EEProm.temp_enable = 0;
+    EmonLibCM_TemperatureEnable(EEProm.temp_enable); 
+  }
+  
   // Speed up startup by making first reading 2s
   EmonLibCM_datalog_period(2.0);
 }

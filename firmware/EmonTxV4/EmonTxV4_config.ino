@@ -41,13 +41,14 @@ const PROGMEM char helpText1[] =
 "a<xx.x>\t- xx.x = a floating point number for the assumed voltage if no a.c. is detected\n"
 "m<x> <yy>\t- meter pulse counting:\n"
 "\t\t   x = 0 for OFF, x = 1 for ON, <yy> = an integer for the pulse minimum period in ms. (y is not needed, or ignored when x = 0)\n"
-"t0 <y>\t- turn temperature measurement on or off: y = 0 for OFF, y = 1 for ON\n"
-"t<x> <yy> <yy> <yy> <yy> <yy> <yy> <yy> <yy>\n"
-"\t\t- change a temperature sensor's address or position:\n"
-"\t\t  x = a single numeral: the position of the sensor in the list (1-based)\n"
-"\t\t  yy = 8 hexadecimal bytes representing the sensor's address\n"
-"\t\t    e.g.  28 81 43 31 07 00 00 D9\n"
-"\t\t  N.B. Sensors CANNOT be added.\n"
+"t<x>\t\t- turn temperature measurement on or of: x = 0 or on: x = 1\n"
+//"t0 <y>\t- turn temperature measurement on or off: y = 0 for OFF, y = 1 for ON\n"
+//"t<x> <yy> <yy> <yy> <yy> <yy> <yy> <yy> <yy>\n"
+//"\t\t- change a temperature sensor's address or position:\n"
+//"\t\t  x = a single numeral: the position of the sensor in the list (1-based)\n"
+//"\t\t  yy = 8 hexadecimal bytes representing the sensor's address\n"
+//"\t\t    e.g.  28 81 43 31 07 00 00 D9\n"
+//"\t\t  N.B. Sensors CANNOT be added.\n"
 ;
 
 // Used for serial configuration
@@ -383,7 +384,13 @@ void handle_conf(char *input, byte len) {
     case 't' : // Temperatures
       /*  Format expected: t[x] [y] [y] ...
        */
-      set_temperatures();
+      if (len==2) {
+        EEProm.temp_enable = 0;
+        if (input[1]=='1') EEProm.temp_enable = 1;
+        EmonLibCM_TemperatureEnable(EEProm.temp_enable);
+        Serial.println(EEProm.temp_enable ? F("Temperature on"):F("Temperature off"));
+      }
+      // set_temperatures();
       break;
 
     case 'v': // print firmware version
@@ -512,6 +519,7 @@ void set_temperatures(void)
     // write to EEPROM
     EEProm.temp_enable = Serial.parseInt();
     EmonLibCM_TemperatureEnable(EEProm.temp_enable);
+    Serial.println(EEProm.temp_enable ? F("Temperature on"):F("Temperature off"));
   }
   else if (k1 > sizeof(EEProm.allAddresses) / sizeof(DeviceAddress))
     return;
