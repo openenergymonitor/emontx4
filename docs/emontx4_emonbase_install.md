@@ -93,7 +93,7 @@ The emonVs unit can be wall mounted using the wall mounting brackets on the encl
 ## 4. EmonBase Installation
 
 - Depending on the installation it may make sense to install the EmonBase next to the EmonTx4 or further away, perhaps near the internet router for Ethernet connectivity.
-- The EmonBase can receive data from the EmonTx either via 433Mhz radio or if near by via wired USB connection.
+- The EmonBase can receive data from the EmonTx either via 433 MHz radio or if near by via wired USB connection.
 - If near by, the emonBase can be powered by the emonVs USB-C cable.
 - Alternatively a separate USB-C power supply will be required if located elsewhere.
 
@@ -123,7 +123,7 @@ Hopefully that has got you started, there's a lot more to explore in emoncms.. a
 ## Installation Examples
 
 **Installation example 1**<br>
-In this installation example the emonVs has been hardwired into a suitable circuit breaker in the consumer unit. 5 CT sensors are clipped around individual circuits in the consumer unit and 1 CT sensor is clipped around the main supply to the house. The emonBase is located separately in the livingroom and receives data from the emonTx via 433 Mhz radio. A short strip of trunking here made all the difference for a neater finish!
+In this installation example the emonVs has been hardwired into a suitable circuit breaker in the consumer unit. 5 CT sensors are clipped around individual circuits in the consumer unit and 1 CT sensor is clipped around the main supply to the house. The emonBase is located separately in the livingroom and receives data from the emonTx via 433 MHz radio. A short strip of trunking here made all the difference for a neater finish!
 
 ![install_example_01.jpeg](img/install_example_01.jpeg)
 
