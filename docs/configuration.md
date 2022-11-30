@@ -12,7 +12,7 @@ The emonTx4 comes configured as standard with the following default configuratio
 - **CT 5:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
 - **CT 6:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
 - **Transmit via RFM69CW:** ON
-- **Radio nodeid:** 15
+- **Radio nodeid:** 17
 - **Radio group:** 210
 - **Radio frequency:** 433 MHz
 - **Datalogging period:** 9.8s 

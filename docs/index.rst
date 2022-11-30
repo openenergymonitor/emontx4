@@ -10,5 +10,6 @@ emonTx4 User Guide
    configuration.md
    firmware.md
    hardware.md
+   technical.md
    voltage_sensors.md
    expansion_boards.md
