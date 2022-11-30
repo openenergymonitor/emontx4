@@ -59,7 +59,7 @@ Data can be transferred between the emonTx4 and emonPi via 433Mhz radio.
 
 It is however easy to **change a new emonTx4 to transmit using the original JeeLib classic format** so that compatibility is maintained.
 
-We will soon also offer a new firmware release for existing emonPi and emonBase systems for those keen to upgrade to the new LowPowerLabs RFM69 format which offers hardware encryption and a packet acknowledgment/retry mechanism to minimize packet loss.
+We will soon also offer a new firmware release for existing emonPi systems for those keen to upgrade to the new LowPowerLabs RFM69 format which offers hardware encryption and a packet acknowledgment/retry mechanism to minimize packet loss. LowPowerLabs firmware is available for existing emonBase systems, see [https://docs.openenergymonitor.org/emonbase/rfm69-pi.html](https://docs.openenergymonitor.org/emonbase/rfm69-pi.html).
 
 ### 1. Shop option at time of purchase
 
@@ -69,6 +69,7 @@ It's possible to select the firmware version in the shop when buying an emonTx4:
 
 **Standard:** LowPowerLabs radio format. **Existing hardware compatibility:** JeeLib classic format.
 
+**Continue to EmonHub Configuration below.**
 
 ### 2. Using an emonPi to update/change the emonTx4 firmware
 
@@ -78,9 +79,7 @@ The easiest way of updating or changing the emonTx4 firmware is to connect it to
 
 ![emonpi_firmware_change_classic.png](img/emonpi_firmware_change_classic.png)
 
-
-The new emonTx4 should now appear in your emonPi/emonBase emoncms input list!
-
+**Continue to EmonHub Configuration below.**
 
 ### 3. Manual firmware compile and upload
 
@@ -101,5 +100,31 @@ At the top of the EmonTx4 firmware you will see the option to define the RadioFo
 For existing system compatibility set RadioFormat to JeeLib Classic:
 
     #define RadioFormat RFM69_JEELIB_CLASSIC
-    
-Once uploaded the inputs should now appear on your existing emonPi/emonBase.
+
+**Continue to EmonHub Configuration:**
+
+## EmonHub Configuration
+
+To receive the emonTx4 data on your existing emonPi/emonBase there is one last step and that is to add a node decoder configuration to emonhub. 
+
+On your emonPi/emonBase navigate to Setup > EmonHub > Edit Config. Scroll down to the bottom of the config file and add the following emonTx4 configuration:
+
+```
+[[17]]
+    nodename = emonTx4_17
+    [[[rx]]]
+        names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
+        datacodes = L, h, h, h, h, h, h, h, l, l, l, l, l, l, h, h, h, L
+        scales = 1.0, 0.01, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.01, 0.01, 0.01, 1.0
+        units = n, V, W, W, W, W, W, W, Wh, Wh, Wh, Wh, Wh, Wh, C, C, C, p
+```
+
+Alternatively if you have an up-to-date emonhub installation you can try our new  `autoconf` feature. Add `autoconf = 1` just under the `[hub]` heading at the top. E.g:
+
+```
+[hub]
+    loglevel = DEBUG
+    autoconf = 1
+```
+
+The emonTx4 node should now automatically be detected and appear in the emoncms inputs list.
