@@ -12,7 +12,19 @@ The emonTx4 supports 3 different RFM69 radio formats:
 
 There is a shop option to select between Standard (LowPowerLabs) and Backwards compatibility (JeeLib Classic) when ordering an emonTx4.
 
-Pre-compiled hex files are available for all three of these. The format can also be chosen when compiling the firmware.
+![firmware_selection_shop_standard.png](img/firmware_selection_shop_standard.png)
+
+Pre-compiled hex files are available for all three of these, see: [https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4/compiled](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4/compiled).
+
+The format can also be chosen when compiling the firmware, see: [https://github.com/openenergymonitor/emontx4/blob/main/firmware/EmonTxV4/EmonTxV4.ino#L31](https://github.com/openenergymonitor/emontx4/blob/main/firmware/EmonTxV4/EmonTxV4.ino#L31)
+
+```
+#define RFM69_JEELIB_CLASSIC 1
+#define RFM69_JEELIB_NATIVE 2
+#define RFM69_LOW_POWER_LABS 3
+
+#define RadioFormat RFM69_LOW_POWER_LABS
+```
 
 The LowPowerLabs and JeeLib Native formats both support encryption. Please see encryption section below for details on how to secure this.
 
