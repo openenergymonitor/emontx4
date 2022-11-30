@@ -32,9 +32,9 @@ This significant change was made primarily in order to make use of the packet ac
 The second important benefit of this change is to have a radio format that is compatible with the wider actively developed LowPowerLabs RFM69 ecosystem. 
 
 **Uncoordinated vs coordinated transmit**<br>
-The present implementation can still be improved further, OpenEnergyMonitor nodes are still transmitting radio data in an uncoordinated way, which increases the likelihood of packet collisions and therefore packet loss. Nodes do listen briefly for a quiet radio window and the emonTx4 requests a packet acknowledgment, retrying if not heard, but there is a limitation to how many nodes can practically be accommodated using this scheme alone.
+The present implementation can still be improved further, OpenEnergyMonitor nodes are still transmitting radio data in an uncoordinated way, which increases the likelihood of packet collisions and therefore packet loss. Nodes do listen briefly for a quiet radio window and the emonTx4 requests a packet acknowledgment, retrying if not heard, but there is a limitation to how many nodes that can practically be accommodated using this scheme alone.
 
-The next step in development is to explore the option to either have the base station request data from each radio node in sequence or for the base station to broad cast some kind of timing coordination packet, say every 10s. Nodes would then offset the time at which they transmit by some delay relating to their unique node id's.
+The next step in development is to explore the option to either have the base station request data from each radio node in sequence or for the base station to broadcast some kind of timing coordination packet, say every 10s. Nodes would then offset the time at which they transmit by some delay relating to their unique node id's.
 
 ### Encryption
 
