@@ -1245,8 +1245,6 @@ Source: &lt;a href="https://www.adafruit.com/product/2471"&gt; Datasheet &lt;/a&
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
 <part name="JP3" library="microbuilder" deviceset="HEADER-1X6" device="70MIL" value="FTDI"/>
 <part name="IC1" library="2471" deviceset="2471" device=""/>
-<part name="SJ1" library="jumper" library_urn="urn:adsk.eagle:library:252" deviceset="SJ" device="" package3d_urn="urn:adsk.eagle:package:15471/1"/>
-<part name="SJ2" library="jumper" library_urn="urn:adsk.eagle:library:252" deviceset="SJ" device="" package3d_urn="urn:adsk.eagle:package:15471/1"/>
 <part name="SJ3" library="jumper" library_urn="urn:adsk.eagle:library:252" deviceset="SJ" device="" package3d_urn="urn:adsk.eagle:package:15471/1"/>
 <part name="R7" library="microbuilder" deviceset="RESISTOR" device="_0603" value="1k"/>
 <part name="R8" library="microbuilder" deviceset="RESISTOR" device="_0603" value="1k"/>
@@ -1281,14 +1279,6 @@ Source: &lt;a href="https://www.adafruit.com/product/2471"&gt; Datasheet &lt;/a&
 <instance part="IC1" gate="G$1" x="71.12" y="114.3" smashed="yes">
 <attribute name="NAME" x="105.41" y="121.92" size="1.778" layer="95" align="center-left"/>
 <attribute name="VALUE" x="105.41" y="119.38" size="1.778" layer="96" align="center-left"/>
-</instance>
-<instance part="SJ1" gate="1" x="132.08" y="93.98" smashed="yes">
-<attribute name="NAME" x="129.54" y="96.52" size="1.778" layer="95"/>
-<attribute name="VALUE" x="129.54" y="90.17" size="1.778" layer="96"/>
-</instance>
-<instance part="SJ2" gate="1" x="132.08" y="88.9" smashed="yes">
-<attribute name="NAME" x="129.54" y="91.44" size="1.778" layer="95"/>
-<attribute name="VALUE" x="129.54" y="85.09" size="1.778" layer="96"/>
 </instance>
 <instance part="SJ3" gate="1" x="60.96" y="83.82" smashed="yes">
 <attribute name="NAME" x="58.42" y="86.36" size="1.778" layer="95"/>
@@ -1361,14 +1351,14 @@ Source: &lt;a href="https://www.adafruit.com/product/2471"&gt; Datasheet &lt;/a&
 <label x="53.34" y="45.72" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SJ1" gate="1" pin="2"/>
-<wire x1="137.16" y1="93.98" x2="149.86" y2="93.98" width="0.1524" layer="91"/>
-<label x="149.86" y="93.98" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="SJ3" gate="1" pin="1"/>
 <wire x1="55.88" y1="83.82" x2="50.8" y2="83.82" width="0.1524" layer="91"/>
 <label x="50.8" y="83.82" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="NC_2"/>
+<wire x1="109.22" y1="91.44" x2="114.3" y2="91.44" width="0.1524" layer="91"/>
+<label x="111.76" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DS18B20" class="0">
@@ -1442,6 +1432,11 @@ Source: &lt;a href="https://www.adafruit.com/product/2471"&gt; Datasheet &lt;/a&
 <label x="83.82" y="53.34" size="1.778" layer="95"/>
 <pinref part="JP1" gate="A" pin="2"/>
 </segment>
+<segment>
+<pinref part="JP3" gate="A" pin="3"/>
+<wire x1="68.58" y1="50.8" x2="53.34" y2="50.8" width="0.1524" layer="91"/>
+<label x="53.34" y="50.8" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="ESP_TX" class="0">
 <segment>
@@ -1454,22 +1449,19 @@ Source: &lt;a href="https://www.adafruit.com/product/2471"&gt; Datasheet &lt;/a&
 <wire x1="78.74" y1="60.96" x2="78.74" y2="66.04" width="0.1524" layer="91"/>
 <label x="78.74" y="66.04" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="N$6" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="VIN_2"/>
-<wire x1="109.22" y1="93.98" x2="127" y2="93.98" width="0.1524" layer="91"/>
-<pinref part="SJ1" gate="1" pin="1"/>
-<junction x="127" y="93.98"/>
-<pinref part="SJ2" gate="1" pin="1"/>
-<wire x1="127" y1="93.98" x2="127" y2="88.9" width="0.1524" layer="91"/>
+<pinref part="JP3" gate="A" pin="2"/>
+<wire x1="68.58" y1="53.34" x2="53.34" y2="53.34" width="0.1524" layer="91"/>
+<label x="53.34" y="53.34" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="5V" class="0">
 <segment>
-<pinref part="SJ2" gate="1" pin="2"/>
-<wire x1="137.16" y1="88.9" x2="149.86" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="127" y1="88.9" x2="149.86" y2="88.9" width="0.1524" layer="91"/>
 <label x="149.86" y="88.9" size="1.778" layer="95"/>
+<pinref part="IC1" gate="G$1" pin="VIN_2"/>
+<wire x1="109.22" y1="93.98" x2="127" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="127" y1="93.98" x2="127" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP3" gate="A" pin="4"/>
@@ -1537,22 +1529,12 @@ Source: &lt;a href="https://www.adafruit.com/product/2471"&gt; Datasheet &lt;/a&
 <wire x1="109.22" y1="106.68" x2="119.38" y2="106.68" width="0.1524" layer="91"/>
 <label x="119.38" y="106.68" size="1.778" layer="95"/>
 </segment>
-<segment>
-<pinref part="JP3" gate="A" pin="3"/>
-<wire x1="68.58" y1="50.8" x2="53.34" y2="50.8" width="0.1524" layer="91"/>
-<label x="53.34" y="50.8" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="ESP_TX1" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="TXD_1"/>
 <wire x1="109.22" y1="104.14" x2="119.38" y2="104.14" width="0.1524" layer="91"/>
 <label x="119.38" y="104.14" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="JP3" gate="A" pin="2"/>
-<wire x1="68.58" y1="53.34" x2="53.34" y2="53.34" width="0.1524" layer="91"/>
-<label x="53.34" y="53.34" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
