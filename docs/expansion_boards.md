@@ -43,15 +43,31 @@ ampy --port /dev/ttyACM0 put basic_emoncms_client.py main.py
 
 ## Adafruit ESP8266 Huzzah Wi-Fi Expansion Board
 
-More details to follow...
+A simple adapter board that links the ESP8266 Huzzah Wi-Fi board to the EmonTx4. Can run the full EmonESP firmware which can be used to forward the emonTx4 data to Emoncms via HTTP or MQTT. Other firmware examples include an encrypted client with a serial configuration interface. See below.
+
+When mounted on the emonTx4, the ESP8266 Huzzah module sits inverted so as to fit in the emonTx4 enclosure:
+
+![](img/esp8266_bottom.jpg)
+
+![](img/esp8266_top.jpg)
+
+**Note:** The ESP8266 adapter PCB design includes the option to solder additional SMT resistors that enable the ESP8266 to take control of the RFM69 Radio module and temperature sensing on the main emonTx4 board. 
 
 ### Software Examples
 
 **Arduino / Platform IO**
 
+- [EmonESP](https://github.com/openenergymonitor/EmonESP) (see the [EmonESP user guide](https://github.com/openenergymonitor/emonesp))
 - [Basic emoncms client](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/examples/basic_emoncms_client)
 - [Emoncms client with encryption](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/examples/emoncms_client_with_encryption)
 - [Emoncms client with encryption & serial config](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/examples/emoncms_client_encryption_serialconfig)
+
+
+### Schematic and board file
+
+- [Eagle files](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266/hardware)
+- [Schematic image](https://github.com/openenergymonitor/emontx4/blob/main/expansion_boards/ESP8266/hardware/schematic.png)
+- [Board image](https://github.com/openenergymonitor/emontx4/blob/main/expansion_boards/ESP8266/hardware/board.png)
 
 ---
 
