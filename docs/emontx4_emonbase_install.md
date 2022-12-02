@@ -1,14 +1,14 @@
 # EmonTx4, emonVs & emonBase Install Guide
 
-The following guide covers installation of the EmonTx4 6x input energy monitor in combination with an emonBase (RaspberryPi base-station). Using an EmonTx with an emonBase provides full local emoncms data logging and visualisation capabilities as well as the option to expand data input from other devices.
+The following guide covers installation of the [emonTx4 6x input energy monitor](overview.md) in combination with an [emonBase (RaspberryPi base-station)](../emonbase/rfm69-spi.md). Using an emonTx4 with an emonBase provides full local emoncms data logging and visualisation capabilities as well as the option to expand data input from other devices.
 
 ![emontx4emonbase.jpg](img/emontx4emonbase.jpg)
 
 **Hardware covered in this guide:**
 
-- EmonTx v4: 6 input electricity monitor
-- EmonVs: Precision voltage sensor and power supply
-- EmonBase: RaspberryPi base-station
+- [emonTx4: 6 input energy monitor](overview.md)
+- [emonVs: Precision voltage sensor and power supply](voltage_sensors.md)
+- [EmonBase: RaspberryPi base-station](../emonbase/rfm69-spi.md)
 - Up to 6 CT sensors
 - RJ11 voltage sensor cable
 
