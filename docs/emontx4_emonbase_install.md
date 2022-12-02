@@ -2,8 +2,6 @@
 
 The following guide covers installation of the EmonTx4 6x input energy monitor in combination with an emonBase (RaspberryPi base-station). Using an EmonTx with an emonBase provides full local emoncms data logging and visualisation capabilities as well as the option to expand data input from other devices.
 
-The following EmonTx4, emonVs and emonBase bundle will soon be available in the OpenEnergyMonitor shop with all the parts needed to build this configuration:
-
 ![emontx4emonbase.jpg](img/emontx4emonbase.jpg)
 
 **Hardware covered in this guide:**
