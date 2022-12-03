@@ -12,4 +12,5 @@ emonTx4 User Guide
    hardware.md
    technical.md
    voltage_sensors.md
+   Temperature, Pulse & Analog <other_sensors.md>
    expansion_boards.md
