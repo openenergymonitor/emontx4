@@ -4,7 +4,7 @@
 
 The emonTx4 supports temperature sensing via [DS18B20 temperature sensors](../electricity-monitoring/temperature/DS18B20-temperature-sensing.md). These are small temperature sensors with a 12-bit ADC and a digital output all in the sensor itself. Communication is over a one-wire bus and requires little in the way of additional components. The sensors have a quoted accuracy of ±0.5°C in the range -10°C to +85°C.
 
-It is possible to connect DS18B20 temperature sensors to the emonTx4 either via the 3 pluggable terminal blocks or via the RJ45 connector (just to the left of the terminal blocks in the picture below).
+It is possible to connect DS18B20 temperature sensors to the emonTx4 either via the 3 pluggable terminal blocks or via the RJ45 connector (just to the left of the terminal blocks in the picture below, see pinout at the bottom of this page).
 
 Pluggable terminal block connections are: GND (black), DATA (white), 3.3V (red), left to right, repeated for each of the three blocks:
 
@@ -30,11 +30,21 @@ The emonTx4 firmware supports up to 3x temperature sensors by default. This can 
 
 ## Pulse counting
 
+- The pulse counting input on the emonTx4 is available as standard on the RJ45 socket (see pinout below). 
+
+- The same pulse input can be configured for use on the first pluggable terminal block (closest to the RJ45 socket) as seen in the picture below with a solder bridge on solder jumper marked 'PULSE'. Solder bridge marked 'TMP' must also be removed.
+
+- The pinout of the terminal block is: GND, PULSE INPUT, 3.3V.
+
+- The pulse input is connected to PIN_PA6 on the AVR128DB48 microcontroller.
+
+- With custom firmware modification and correctly configured solder bridges, further pulse inputs could be added to the other terminal block inputs as well. The middle pin of the second terminal block can be connected to PIN_PA7, the middle pin of the third terminal block is connected to PIN_PF3 (alternatively analog input 19).
+
 ![emontx4_pulseinput.jpg](img/emontx4_pulseinput.jpg)
 
 ## Analog input
 
-It's possible to link analog input AIN19 (CT12) to right-most terminal block as shown below. An example application is measuring flow rate using a Sika VFS which has an analog voltage output.
+It's possible to link analog input AIN19 (CT12) to right-most terminal block as shown below, the analog input is also available via the RJ45 socket (see pinout below). An example application is measuring flow rate using a Sika VFS which has an analog voltage output.
 
 ![emontx4_solderpad_analog.jpg](img/emontx4_solderpad_analog.jpg)
 
@@ -91,3 +101,7 @@ emontx.P6 = heat;                         // set P6 to heat here instead of the 
 `emontx.T2` here is the flow temperature and `emontx.T1` is the return temperature measured using DS18B20 temperature sensors.
 
 The analog_to_voltage calibration includes the voltage divider factor. In this example we have a voltage divider with R<sub>bottom</sub> = 68k and R<sub>top</sub> = 180k, which is scaling down the voltage output of the sika so that 3.5V on the sika is reduced to 0.96V on the analog input pin. These need to be placed externally to the emonTx4 - they are not included on the board.
+
+## RJ45 Pinout
+
+[![emonTx4_RJ45_pinout.png](img/emonTx4_RJ45_pinout.png)](img/emonTx4_RJ45_pinout.png)
