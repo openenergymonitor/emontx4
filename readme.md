@@ -2,9 +2,9 @@
 
 The emonTx v4 is an energy monitoring transmitter unit that can monitor up to 6 AC circuits using CT sensors and the OpenEnergyMonitor 1-3 phase voltage sensing unit. At it's core is a Microchip AVR128DB48 microcontroller - responsible for sampling the current and voltage waveforms and calculating the power and energy values. The emonTx v4 also supports temperature sensing and pulse counting.
 
-Data from the emonTx can be transmitted over the 433 Mhz RFM69cw radio link or read directly using a USB cable from an emonBase or emonPi. A number of adapter boards are also available to provide internal connectivity options via ESP32, ESP8266, Pi Pico W and Pi Zero W.
+Data from the emonTx can be transmitted over the 433 MHz RFM69cw radio link or read directly using a USB cable from an emonBase or emonPi. A number of adapter boards are also available to provide internal connectivity options via ESP32, ESP8266, Pi Pico W and Pi Zero W.
 
-![emontx4.jpg](img/emontx4.jpg)
+![emontx4.jpg](docs/img/emontx4.jpg)
 
 **Key features**
 
@@ -26,20 +26,24 @@ The board is designed to support both single and full 3-phase electricity monito
 
 The on-board USB to serial chip will make it easier and neater to have a hard-wired installation linking the emonTx to a RaspberryPi based base station.
 
-## [Firmware](firmware)
+## Documentation
 
-## [Hardware](hardware)
+[View on read the docs](https://openenergymonitor.org/guide/emontx4/docs/overview.html)
 
-## [Install with EmonVs & EmonBase](emontx4_emonbase_install.md)
+Or here on github:
 
-## [Configuration](configuration.md)
+- [Install Guide](docs/emontx4_emonbase_install.md)
+- [Configuration](docs/configuration.md)
+- [Firmware](docs/firmware.md)
+- [Expansion boards](docs/expansion_boards.md)
 
-## Extensions
+## Expansion Boards
 
-- [6CT Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/CTExt)
-- [ESP32 Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/ESP32)
-- [Pi Pico Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/PiPico)
-- [Pi Zero Extension Board](https://github.com/openenergymonitor/emontx4/tree/main/extensions/PiZero)
+- [6CT Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/CTExt)
+- [ESP8266 Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP8266)
+- [ESP32 Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/ESP32)
+- [Pi Pico Expansion Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/PiPico)
+- [Pi Zero ExtExpansionension Board](https://github.com/openenergymonitor/emontx4/tree/main/expansion_boards/PiZero)
 
 ## Community & Support
 
