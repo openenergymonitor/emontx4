@@ -220,24 +220,33 @@
 <text x="62.75" y="23" size="2.54" layer="20" ratio="0" align="bottom-center">333mV CT Inputs</text>
 <wire x1="48" y1="24" x2="27" y2="24" width="0.001" layer="20"/>
 <wire x1="98.5" y1="23.5" x2="77.5" y2="23.5" width="0.001" layer="20"/>
-<text x="17.25" y="24" size="2.54" layer="20" ratio="0" align="bottom-center">AC Vsens</text>
+<text x="17.25" y="24" size="2.54" layer="20" ratio="0" align="bottom-center">emonVS</text>
 <text x="16.55" y="5" size="2.54" layer="20" ratio="0" align="bottom-center">PSU</text>
-<wire x1="29.15" y1="70.5" x2="29.15" y2="78.4" width="0.001" layer="20"/>
-<wire x1="64.25" y1="70.5" x2="64.25" y2="63" width="0.001" layer="20"/>
-<wire x1="11.25" y1="63" x2="11.25" y2="78.4" width="0.001" layer="20"/>
-<wire x1="11.25" y1="78.4" x2="29.15" y2="78.4" width="0.001" layer="20"/>
-<wire x1="52.25" y1="70.5" x2="41.25" y2="70.5" width="0.001" layer="20"/>
-<wire x1="66.75" y1="68.5" x2="78.75" y2="68.5" width="0.001" layer="20"/>
-<wire x1="66.75" y1="61.5" x2="78.75" y2="61.5" width="0.001" layer="20"/>
-<wire x1="66.75" y1="61.5" x2="66.75" y2="68.5" width="0.001" layer="20"/>
-<wire x1="78.75" y1="68.5" x2="78.75" y2="61.5" width="0.001" layer="20"/>
-<wire x1="29.15" y1="70.5" x2="64.25" y2="70.5" width="0.001" layer="20"/>
-<circle x="91.25" y="70.4" radius="3.25" width="0.001" layer="20"/>
-<wire x1="11.25" y1="63" x2="64.25" y2="63" width="0.001" layer="20"/>
+<wire x1="29.15" y1="71" x2="29.15" y2="79.9" width="0.001" layer="20"/>
+<wire x1="64.85" y1="71" x2="64.85" y2="63" width="0.001" layer="20"/>
+<wire x1="11.25" y1="63" x2="11.25" y2="79.9" width="0.001" layer="20"/>
+<wire x1="11.25" y1="79.9" x2="29.15" y2="79.9" width="0.001" layer="20"/>
+<wire x1="67.15" y1="68" x2="77.45" y2="68" width="0.001" layer="20"/>
+<wire x1="67.15" y1="63.4" x2="77.45" y2="63.4" width="0.001" layer="20"/>
+<wire x1="67.15" y1="63.4" x2="67.15" y2="68" width="0.001" layer="20"/>
+<wire x1="77.45" y1="68" x2="77.45" y2="63.4" width="0.001" layer="20"/>
+<wire x1="29.15" y1="71" x2="64.85" y2="71" width="0.001" layer="20"/>
+<circle x="91.25" y="70.4" radius="3.55" width="0.001" layer="20"/>
+<wire x1="11.25" y1="63" x2="64.85" y2="63" width="0.001" layer="20"/>
 <text x="53.95" y="2.3" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org      emonTx V4</text>
-<text x="73" y="69.5" size="2.54" layer="20" ratio="0" align="bottom-center">USB</text>
-<text x="46.4" y="71.8" size="2.54" layer="20" ratio="0" align="bottom-center">1wire temp &amp; aux I/O</text>
+<text x="72.5" y="69.5" size="2.54" layer="20" ratio="0" align="bottom-center">USB</text>
+<text x="47.9" y="79.1" size="2.54" layer="20" ratio="0" align="bottom-center">1wire temp &amp; aux I/O</text>
 <text x="54.05" y="57" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org      emonTx V4</text>
+<text x="32.1" y="74.5" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
+<text x="36" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
+<text x="64" y="73.9" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
+<text x="60" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
+<text x="56.1" y="74.5" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
+<text x="52" y="73.9" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
+<text x="48" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
+<text x="40.1" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
+<text x="44.1" y="74.5" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
+<text x="91.5" y="79" size="2.54" layer="20" ratio="0" rot="R180" align="bottom-center">433Mhz</text>
 </plain>
 <libraries>
 </libraries>
