@@ -37,7 +37,7 @@ emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on
 See: https://github.com/openenergymonitor/emonhub/blob/emon-pi/configuration.md
 copy the following into emonhub.conf:
 
-[[15]]
+[[17]]
   nodename = emonTx4cm15
   [[[rx]]]
     names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
