@@ -14,7 +14,11 @@ The latest version of the emonTx4 firmware is: **v1.5.4**
 
 ## Updating firmware using an emonBase
 
-The easiest way of updating the emonTx4 firmware is to connect it to an emonBase with a USB cable and then use the firmware upload tool available at Setup > Admin > Update > Firmware.
+The easiest way of updating the emonTx4 firmware is to connect it to an emonBase with a USB cable and then use the firmware upload tool available at `Setup > Admin > Update > Firmware`.
+
+```{admonition} System update may be required
+If you don not see the latest firmware version as listed above in the firmware list a full system update is required first.
+```
 
 ![emonsd_firmware_upload.png](img/emonsd_firmware_upload2.png)
 
