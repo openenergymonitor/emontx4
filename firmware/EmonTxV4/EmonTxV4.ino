@@ -20,6 +20,7 @@ v1.5.1: default node id set to 17, swap nodeid DIP, zero all 6 energy values
 v1.5.2: emonEProm fixed EEWL overlap
 v1.5.3: Slightly slower sample rate to improve zero power performance
         temperature sensing disabled if no temperature sensors detected at startup
+v1.5.4: Fix emonEProm EEWL overlap properly
 
 */
 #define Serial Serial3
@@ -30,7 +31,7 @@ v1.5.3: Slightly slower sample rate to improve zero power performance
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.3\n\r"};
+const char *firmware_version = {"1.5.4\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
