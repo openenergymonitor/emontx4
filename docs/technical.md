@@ -78,9 +78,21 @@ The following LTSpice schematic & simulation describes the emonTx4 voltage sensi
 
 4. The actual output voltage is a little less due to the impedance of the bias circuit. We can treat R5 (180k) and R6 (33k) as being in parallel with the burden resistor R2. The effective resistance is then: 1/((1/75)+(1/33000)+(1/180000)) = 74.799 Ohms. This gives an output voltage of 298.6 mV.
 
-5. The output voltage as simulated by LTSpice is a little lower at 297.55 mV. **Why are we out by 1mV?**
+5. The output voltage as simulated by LTSpice taking into account the indicated inductance values of the voltage sensing transformer, small effect of the RJ11 cable resistance and capacitor C1 is a little lower at 297.55 mV.
 
 6. The above suggests a calibration value of 240 / 0.29755 = 806.58
+
+7. If we use this calibration value in the emonTx4 firmware and compare the resulting RMS voltage with parallel measurement from SDM120 electric meters we usually see the SDM120 voltage measurement reading about 0.3% higher.
+
+8. If we compare with a non-isolated version of the circuit below (omitting the ZMPT101B) consisting of a voltage divider with R1 (top) = 60k and R2 (bottom) = 75 Ohms. The RMS voltage difference is ~0.2%. This suggests that the voltage calibration for a single emonTx4 should be `806.58 × 1.002 = 808.2`.
+
+9. The difference between the LTSpice simulated voltage output derived calibration and calibration based on comparison to an SDM120 or the non-isolated voltage sensor test is likely due to three main factors:
+
+  - Transformer coupling factor
+  - Error in the inductance value used in the simulation
+  - Higher coil impedance due to higher coil temperature with 4ma of current running through it.
+  
+Work is ongoing to improve these parameters used in the LTSpice simulation.
 
 ![voltage_sensor_ltspice.png](img/voltage_sensor_ltspice.png)
 
@@ -92,9 +104,7 @@ An important factor with both voltage and current sensing is phase error. The fo
 
 We have chosen current limiting resistors on the primary to give an input current of ~4mA at 240V RMS and 2mA at 120V RMS in order to reduce both the extent of the phase error and the variation - the curve is flatter between 2mA and 4mA than it is between 1mA and 2mA.
 
-This does of course have a small penalty in terms of increased power consumption. Increasing from 0.5W at 2mA to 1W at mA. **What effect does this added power dissipation have on increased primary coil resistance due to temperature effects and associated errors?**
-
-**What is the added phase error from other components in the input circuit?** Can the LTSpice model be configured to replicate the phase error in the datasheet?
+This does of course have a small penalty in terms of increased power consumption. Increasing from 0.5W at 2mA to 1W at 4mA.
 
 ![zmpt101b_phase_error.png](img/zmpt101b_phase_error.png)
 
