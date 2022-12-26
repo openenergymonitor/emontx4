@@ -66,7 +66,37 @@ The emonBase available for purchase with the emonTx4 in the OpenEnergyMonitor sh
 
 This key needs to be modified here to match the secret key used on the emonTx4. The result will be a secure, encrypted radio network.
 
+## Voltage sensing
 
+The following LTSpice schematic & simulation describes the emonTx4 voltage sensing circuit.
+
+1. On the left, the mains supply is connected through a series of 10k, 0.1%, 250mW current limiting resistors. These add up to a total resistance of 60k. The primary winding of the ZMPT101B precision voltage transformer also has a series resistance of 120 Ohms. This means we would expect the current in the primary to be 3.992 mA at a mains voltage of 240V RMS.
+
+2. The ZMPT101B precision voltage transformer itself has a 1:1 relationship between primary and secondary current. While the suggested current is 2mA on the datasheet the transformer is rated up to 10ma and the phase error is significantly less at 4mA than 2ma. 
+
+3. Next we convert the secondary current to a voltage using the burden resistor (R2, 75R, 0.1%, xxxmW). The burden resistor alone would give a voltage output of 299.4mV RMS when the mains voltage is 240V.
+
+4. The actual output voltage is a little less due to the impedance of the bias circuit. We can treat R5 (180k) and R6 (33k) as being in parallel with the burden resistor R2. The effective resistance is then: 1/((1/75)+(1/33000)+(1/180000)) = 74.799 Ohms. This gives an output voltage of 298.6 mV.
+
+5. The output voltage as simulated by LTSpice is a little lower at 297.55 mV. **Why are we out by 1mV?**
+
+6. The above suggests a calibration value of 240 / 0.29755 = 806.58
+
+![voltage_sensor_ltspice.png](img/voltage_sensor_ltspice.png)
+
+*Download [voltage sensor LTSpice simulation](files/emonVs.zip)*
+
+**Phase angle error**
+
+An important factor with both voltage and current sensing is phase error. The following chart from the ZMPT101B datasheet shows the phase error at different input currents. 
+
+We have chosen current limiting resistors on the primary to give an input current of ~4mA at 240V RMS and 2mA at 120V RMS in order to reduce both the extent of the phase error and the variation - the curve is flatter between 2mA and 4mA than it is between 1mA and 2mA.
+
+This does of course have a small penalty in terms of increased power consumption. Increasing from 0.5W at 2mA to 1W at mA. **What effect does this added power dissipation have on increased primary coil resistance due to temperature effects and associated errors?**
+
+**What is the added phase error from other components in the input circuit?** Can the LTSpice model be configured to replicate the phase error in the datasheet?
+
+![zmpt101b_phase_error.png](img/zmpt101b_phase_error.png)
 
 
 
