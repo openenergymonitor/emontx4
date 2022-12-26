@@ -20,6 +20,7 @@ v1.5.1: default node id set to 17, swap nodeid DIP, zero all 6 energy values
 v1.5.2: emonEProm fixed EEWL overlap
 v1.5.3: Slightly slower sample rate to improve zero power performance
         temperature sensing disabled if no temperature sensors detected at startup
+v1.5.4: Fix emonEProm EEWL overlap properly
 
 */
 #define Serial Serial3
@@ -30,14 +31,14 @@ v1.5.3: Slightly slower sample rate to improve zero power performance
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.3\n\r"};
+const char *firmware_version = {"1.5.4\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
 See: https://github.com/openenergymonitor/emonhub/blob/emon-pi/configuration.md
 copy the following into emonhub.conf:
 
-[[15]]
+[[17]]
   nodename = emonTx4cm15
   [[[rx]]]
     names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
@@ -353,8 +354,8 @@ void loop()
     //emontx.P5 = EmonLibCM_getRealPower(4); 
     //emontx.E5 = EmonLibCM_getWattHour(4); 
 
-    //emontx.P6 = EmonLibCM_getMean(5);
-    //emontx.E6 = 0; // EmonLibCM_getWattHour(5); 
+    //emontx.P6 = EmonLibCM_getRealPower(5); 
+    //emontx.E6 = EmonLibCM_getWattHour(5); 
     
     emontx.analog = EmonLibCM_getMean(5);
 
@@ -372,7 +373,7 @@ void loop()
     // Sika VFS analog to flow rate conversion
     float sika_m = 31.666;                    // (100.0-5.0 L/min) / (3.5-0.5 V);
     float sika_c = -10.833;                   // 100.0 - (sika_m*3.5);
-    float analog_to_voltage = 0.0005;    // (1.024/4096)/(68k/(180k+68.0k)); voltage divider calibration
+    float analog_to_voltage = 0.0005;         // (1.024/4096)/(100k/(100k+100.0k)); voltage divider calibration
     float heat_cal = 4150.0/60.0;             // divide by 60 converts L/min to L/s
     
     float flow_rate = sika_m*(emontx.analog * analog_to_voltage) + sika_c;
