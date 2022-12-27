@@ -70,6 +70,10 @@ This key needs to be modified here to match the secret key used on the emonTx4. 
 
 The following LTSpice schematic & simulation describes the emonTx4 voltage sensing circuit.
 
+![voltage_sensor_ltspice.png](img/voltage_sensor_ltspice.png)
+
+*Download [voltage sensor LTSpice simulation](files/emonVs.zip)*
+
 1. On the left, the mains supply is connected through a series of 10k, 0.1%, 250mW current limiting resistors. These add up to a total resistance of 60k. The primary winding of the ZMPT101B precision voltage transformer also has a series resistance of 120 Ohms. This means we would expect the current in the primary to be 3.992 mA at a mains voltage of 240V RMS.
 
 2. The ZMPT101B precision voltage transformer itself has a 1:1 relationship between primary and secondary current. While the suggested current is 2mA on the datasheet the transformer is rated up to 10ma and the phase error is significantly less at 4mA than 2ma. 
@@ -82,21 +86,17 @@ The following LTSpice schematic & simulation describes the emonTx4 voltage sensi
 
 6. The above suggests a calibration value of 240 / 0.29755 = 806.58
 
-7. If we use this calibration value in the emonTx4 firmware and compare the resulting RMS voltage with parallel measurement from SDM120 electric meters we usually see the SDM120 voltage measurement reading about 0.3% higher.
+7. If we use this calibration value in the emonTx4 firmware and compare the resulting RMS voltage with parallel measurement from SDM120 electric meters we usually see the SDM120 voltage measurement reading about 0.3% higher. This suggests a calibration value of:<br>`806.58 × 1.003 = 809.0`.
 
-8. If we compare with a non-isolated version of the circuit below (omitting the ZMPT101B) consisting of a voltage divider with R1 (top) = 60k and R2 (bottom) = 75 Ohms. The RMS voltage difference is ~0.2%. This suggests that the voltage calibration for a single emonTx4 should be `806.58 × 1.002 = 808.2`.
+8. If we compare with a non-isolated version of the circuit above (omitting the ZMPT101B) consisting of a voltage divider with R1 (top) = 60k and R2 (bottom) = 75 Ohms. The RMS voltage difference is ~0.2%. This suggests that the voltage calibration for a single emonTx4 should be:<br>`806.58 × 1.002 = 808.2`.
 
 9. The difference between the LTSpice simulated voltage output derived calibration and calibration based on comparison to an SDM120 or the non-isolated voltage sensor test is likely due to three main factors:
 
-  - Transformer coupling factor
-  - Error in the inductance value used in the simulation
-  - Higher coil impedance due to higher coil temperature with 4ma of current running through it.
+    - Transformer coupling factor
+    - Error in the inductance value used in the simulation
+    - Higher coil impedance due to higher coil temperature @ 4ma.
   
 Work is ongoing to improve these parameters used in the LTSpice simulation.
-
-![voltage_sensor_ltspice.png](img/voltage_sensor_ltspice.png)
-
-*Download [voltage sensor LTSpice simulation](files/emonVs.zip)*
 
 **Phase angle error**
 
