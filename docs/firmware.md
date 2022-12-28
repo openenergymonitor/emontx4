@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/firmware.md"
+---
+
 # Firmware
 
 The emonTx v4 firmware can be edited and compiled using the [Arduino IDE](https://www.arduino.cc/) with [DxCore installed](https://github.com/SpenceKonde/DxCore).

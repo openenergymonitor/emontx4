@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/emontx4_emonbase_install.md"
+---
+
 # emonTx4, emonVs & emonBase Install Guide
 
 The following guide covers installation of the [emonTx4 6x input energy monitor](overview.md) in combination with an [emonBase (RaspberryPi base-station)](../emonbase/rfm69-spi.md). Using an emonTx4 with an emonBase provides full local emoncms data logging and visualisation capabilities as well as the option to expand data input from other devices.

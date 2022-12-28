@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/emontx4_emonpi_install.md"
+---
+
 # Adding an emonTx4 to an existing installation
 
 ![emontx4_emonpi.jpg](img/emontx4_emonpi.jpg)

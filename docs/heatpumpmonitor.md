@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/heatpumpmonitor.md"
+---
+
 # EmonTx4 Heatpump Monitor
 
 ```{admonition} Guide under construction

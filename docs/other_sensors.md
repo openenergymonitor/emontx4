@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/other_sensors.md"
+---
+
 # Other sensors
 
 ## Temperature sensing

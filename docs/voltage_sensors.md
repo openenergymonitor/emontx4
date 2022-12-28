@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/voltage_sensors.md"
+---
+
 # Voltage sensors
 
 ## Overview

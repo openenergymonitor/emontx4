@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/technical.md"
+---
+
 # Technical Guide
 
 ## RFM69 Radio
