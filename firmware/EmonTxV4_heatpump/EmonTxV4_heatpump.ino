@@ -420,7 +420,7 @@ void loop()
     Serial.print(F(",E3:")); Serial.print(emontx.E3);
     //Serial.print(F(",E4:")); Serial.print(emontx.E4);
      
-    Serial.print(F(",FR:")); Serial.print(emontx.FT*0.01);
+    Serial.print(F(",FT:")); Serial.print(emontx.FT*0.01);
     Serial.print(F(",RT:")); Serial.print(emontx.RT*0.01);
     Serial.print(F(",FT2:")); Serial.print(emontx.FT2*0.01);
     Serial.print(F(",RT2:")); Serial.print(emontx.RT2*0.01);
