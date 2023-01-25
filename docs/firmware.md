@@ -9,7 +9,7 @@ DxCore is an Arduino core for the AVR-DB microcontroller range, developed by Spe
 
 ## Available Firmware
 
-**[EmonTxV4:](EmonTxV4)** Single phase, 6 CT channel, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define), 3x DS18B20 temperature sensors supported by default, serial configuration and data output.
+**EmonTxV4:** Single phase, 6 CT channel, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define), 3x DS18B20 temperature sensors supported by default, serial configuration and data output.
 
 The latest version of the emonTx4 firmware is: **v1.5.4**
 
