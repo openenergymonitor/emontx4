@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/configuration.md"
+---
+
 # Configuration
 
 ## Default configuration
@@ -20,9 +24,16 @@ The emonTx4 comes configured as standard with the following default configuratio
 
 To use the emonTx4 with a different CT arrangement, or radio node and group these settings can be adjusted over serial, using either an online web tool or directly via a serial console.
 
+- **Ical\<x\>:** Amplitude calibration for CT channel x.
+- **Ilead\<x\>:** Phase calibration for CT channel x.
+
 ## Using the web tool
 
-**Note: Uploading via USB-C will only work if connected in the right orientation. Try turning the USB-C connector around if upload fails.** 
+**Note: Communication via USB-C will only work if connected in the right orientation. Try turning the USB-C connector around if upload fails.** Some USB-C connectors have a smooth side on one side and jagged connection of the metal fold on the other. On the cables we have here, the smooth side should be facing up towards the top/front face of the emonTx4:
+
+![usbc_orientation1.jpeg](img/usbc_orientation1.jpeg)
+
+![usbc_orientation2.jpeg](img/usbc_orientation2.jpeg)
 
 With the emonTx connected via a USB-C cable to a computer, it's possible to configure the emonTx directly from a WebSerial compatible internet browser. 
 
@@ -65,11 +76,5 @@ Available commands:
 - **m\<x\> \<yy\>** meter pulse counting: 
   - x = 0 for OFF, x = 1 for ON
   - yy = an integer for the pulse minimum period in ms. (y is not needed, or ignored when x = 0)
-- **t0 \<y\>** turn temperature measurement on or off: y = 0 for OFF, y = 1 for ON
-- **t\<x\> \<yy\> \<yy\> \<yy\> \<yy\> \<yy\> \<yy\> \<yy\> \<yy\>**
-  - change a temperature sensor's address or position:
-  - x = a single numeral: the position of the sensor in the list (1-based)
-  - yy = 8 hexadecimal bytes representing the sensor's address
-  - e.g. 28 81 43 31 07 00 00 D9
-  - N.B. Sensors CANNOT be added.
+- **t\<x\>** turn temperature measurement on or off: x = 0 for OFF, x = 1 for ON
 

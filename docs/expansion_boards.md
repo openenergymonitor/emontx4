@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/expansion_boards.md"
+---
+
 # Expansion boards
 
 The emonTx4 has been designed to make it possible to expand it's capability through expansion boards. These mostly focus around adding Wi-Fi communications but there's also a CT channel expansion board for more channels.

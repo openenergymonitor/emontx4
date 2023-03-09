@@ -39,12 +39,12 @@ See: https://github.com/openenergymonitor/emonhub/blob/emon-pi/configuration.md
 copy the following into emonhub.conf:
 
 [[17]]
-  nodename = emonTx4cm15
+  nodename = emonTx4_17
   [[[rx]]]
-    names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
-    datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,L
-    scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,1
-    units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,p
+    names = MSG, Vrms, P1, P2, P3, E1, E2, E3, analog, flowrate, heat, FT, RT, FT2, RT2, pulse
+    datacodes = L,h,h,h,h,l,l,l,h,h,h,h,h,h,h,L
+    scales = 1,0.01,1,1,1,1,1,1,1,0.01,1,0.01,0.01,0.01,0.01,1
+    units = n,V,W,W,W,Wh,Wh,Wh,a,Lmin,W,C,C,C,C,p
 
 */
 // Comment/Uncomment as applicable
@@ -83,15 +83,16 @@ RFM69 rf;
 
 typedef struct {
     unsigned long Msg;
-    int Vrms,P1,P2,P3,P4,P5,P6; 
-    long E1,E2,E3,E4,E5,E6; 
-    int T1,T2,T3;
+    int Vrms,P1,P2,P3;
+    long E1,E2,E3; 
+    int analog,flowrate,heat;
+    int FT,RT,FT2,RT2;
     unsigned long pulse;
 } PayloadTX;                                                  // create a data packet for the RFM
 PayloadTX emontx;
 static void showString (PGM_P s);
  
-#define MAX_TEMPS 3                                        // The maximum number of temperature sensors
+#define MAX_TEMPS 4                                        // The maximum number of temperature sensors
  
 //---------------------------- emonTx Settings - Stored in EEPROM and shared with config.ino ------------------------------------------------
 #define DEFAULT_ICAL 60.06                                // 25A / 333mV output = 75.075
@@ -258,7 +259,7 @@ void setup()
   EmonLibCM_SetADC_IChannel(5, EEProm.i3Cal, EEProm.i3Lead);           
   EmonLibCM_SetADC_IChannel(6, EEProm.i4Cal, EEProm.i4Lead);           
   EmonLibCM_SetADC_IChannel(8, EEProm.i5Cal, EEProm.i5Lead);
-  EmonLibCM_SetADC_IChannel(9, EEProm.i6Cal, EEProm.i6Lead);
+  EmonLibCM_SetADC_IChannel(19, EEProm.i6Cal, EEProm.i6Lead);
 
   // mains frequency 50Hz
   if (USA) EmonLibCM_cycles_per_second(60);                            // mains frequency 60Hz
@@ -272,7 +273,7 @@ void setup()
 
   EmonLibCM_setTemperatureDataPin(PIN_PB4);                            // OneWire data pin (emonTx V4)
   EmonLibCM_setTemperaturePowerPin(PIN_PB3);                           // Temperature sensor Power Pin - 19 for emonTx V4  (-1 = Not used. No sensors, or sensor are permanently powered.)
-  EmonLibCM_setTemperatureResolution(11);                              // Resolution in bits, allowed values 9 - 12. 11-bit resolution, reads to 0.125 degC
+  EmonLibCM_setTemperatureResolution(12);                              // Resolution in bits, allowed values 9 - 12. 11-bit resolution, reads to 0.125 degC
   EmonLibCM_setTemperatureAddresses(EEProm.allAddresses);              // Name of array of temperature sensors
   EmonLibCM_setTemperatureArray(allTemps);                             // Name of array to receive temperature measurements
   EmonLibCM_setTemperatureMaxCount(MAX_TEMPS);                         // Max number of sensors, limited by wiring and array size.
@@ -347,14 +348,16 @@ void loop()
     emontx.P3 = EmonLibCM_getRealPower(2); 
     emontx.E3 = EmonLibCM_getWattHour(2); 
   
-    emontx.P4 = EmonLibCM_getRealPower(3); 
-    emontx.E4 = EmonLibCM_getWattHour(3); 
+    //emontx.P4 = EmonLibCM_getRealPower(3); 
+    //emontx.E4 = EmonLibCM_getWattHour(3); 
 
-    emontx.P5 = EmonLibCM_getRealPower(4); 
-    emontx.E5 = EmonLibCM_getWattHour(4); 
+    //emontx.P5 = EmonLibCM_getRealPower(4); 
+    //emontx.E5 = EmonLibCM_getWattHour(4); 
 
-    emontx.P6 = EmonLibCM_getRealPower(5); 
-    emontx.E6 = EmonLibCM_getWattHour(5); 
+    //emontx.P6 = EmonLibCM_getRealPower(5); 
+    //emontx.E6 = EmonLibCM_getWattHour(5); 
+    
+    emontx.analog = EmonLibCM_getMean(5);
 
     if (EmonLibCM_acPresent()) {
       emontx.Vrms = EmonLibCM_getVrms() * 100;
@@ -362,10 +365,25 @@ void loop()
       emontx.Vrms = EmonLibCM_getAssumedVrms() * 100;
     }
     
-    emontx.T1 = allTemps[0];
-    emontx.T2 = allTemps[1];
-    emontx.T3 = allTemps[2];
+    emontx.FT = allTemps[0];
+    emontx.RT = allTemps[3];
+    emontx.RT2 = allTemps[1];
+    emontx.FT2 = allTemps[2];
 
+    // Sika VFS analog to flow rate conversion
+    float sika_m = 31.666;                    // (100.0-5.0 L/min) / (3.5-0.5 V);
+    float sika_c = -10.833;                   // 100.0 - (sika_m*3.5);
+    float analog_to_voltage = 0.0005;         // (1.024/4096)/(100k/(100k+100.0k)); voltage divider calibration
+    float heat_cal = 4150.0/60.0;             // divide by 60 converts L/min to L/s
+    
+    float flow_rate = sika_m*(emontx.analog * analog_to_voltage) + sika_c;
+    if (flow_rate<0.5) flow_rate = 0.0;       // if less than 0.5 L/min disable
+    float dT = (emontx.FT - emontx.RT)*0.01;  // Assumes T2 = flow temp and T1 = return temp
+    float heat = heat_cal*flow_rate*dT; 
+
+    emontx.flowrate = flow_rate*100;
+    emontx.heat = heat;
+    
     emontx.pulse = EmonLibCM_getPulseCount();
         
     if (EEProm.rf_on) {
@@ -389,6 +407,31 @@ void loop()
       delay(50);
     }
 
+    Serial.print(F("MSG:")); Serial.print(emontx.Msg);
+    Serial.print(F(",Vrms:")); Serial.print(emontx.Vrms*0.01);
+    
+    Serial.print(F(",P1:")); Serial.print(emontx.P1);
+    Serial.print(F(",P2:")); Serial.print(emontx.P2);
+    Serial.print(F(",P3:")); Serial.print(emontx.P3);
+    //Serial.print(F(",P4:")); Serial.print(emontx.P4);
+       
+    Serial.print(F(",E1:")); Serial.print(emontx.E1);
+    Serial.print(F(",E2:")); Serial.print(emontx.E2);
+    Serial.print(F(",E3:")); Serial.print(emontx.E3);
+    //Serial.print(F(",E4:")); Serial.print(emontx.E4);
+     
+    Serial.print(F(",FT:")); Serial.print(emontx.FT*0.01);
+    Serial.print(F(",RT:")); Serial.print(emontx.RT*0.01);
+    Serial.print(F(",FT2:")); Serial.print(emontx.FT2*0.01);
+    Serial.print(F(",RT2:")); Serial.print(emontx.RT2*0.01);
+    
+    Serial.print(F(",AV:")); Serial.print(emontx.analog * analog_to_voltage);
+    Serial.print(F(",FR:")); Serial.print(flow_rate);
+    Serial.print(F(",HT:")); Serial.println(heat);
+
+
+
+    /*
     if (EEProm.json_enabled) {
       // ---------------------------------------------------------------------
       // JSON Format
@@ -467,9 +510,12 @@ void loop()
         delay(80);
       }
     }
+    */
+
+    
     digitalWrite(LEDpin,HIGH); delay(50);digitalWrite(LEDpin,LOW);
     // End of print out ----------------------------------------------------
-    storeEValues(emontx.E1,emontx.E2,emontx.E3,emontx.E4,emontx.E5,emontx.E6,emontx.pulse);
+    storeEValues(emontx.E1,emontx.E2,emontx.E3,0,0,0,emontx.pulse);
   }
   wdt_reset();
   delay(20);

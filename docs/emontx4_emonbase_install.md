@@ -1,3 +1,7 @@
+---
+github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/emontx4_emonbase_install.md"
+---
+
 # emonTx4, emonVs & emonBase Install Guide
 
 The following guide covers installation of the [emonTx4 6x input energy monitor](overview.md) in combination with an [emonBase (RaspberryPi base-station)](../emonbase/rfm69-spi.md). Using an emonTx4 with an emonBase provides full local emoncms data logging and visualisation capabilities as well as the option to expand data input from other devices.
@@ -16,7 +20,7 @@ The following guide covers installation of the [emonTx4 6x input energy monitor]
 
 ## Quick Start
 
-1. Clip the CT current sensors around Live OR Neutral cable of the AC circuit to be measured (not both)
+1. Clip the CT current sensors around Live OR Neutral cable of the AC circuit to be measured (not both), note CT direction K -> L (L: Load).
 
 2. Plug the CT current sensors into emonTx4 via 3.5mm jack plugs
 
@@ -51,7 +55,7 @@ There are two different ways of installing the emonVs voltage sensor:
 
 **Using the mains plug supplied:** If you have a convenient socket near-by this is be the easiest and quickest option.<br>
 
-**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in the fuse board (consumer unit) or a 3A fused spur. The supplied emonVs mains power cable has a cross sectional area of 1.5mm<sup>2</sup>. This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
+**Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in the fuse board (consumer unit) or a 3A fused spur. The supplied emonVs mains power cable has a cross sectional area of 1.0mm<sup>2</sup>. This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
 
 The emonVs unit can be wall mounted using the brackets on the enclosure. Start by marking the position of the holes and then, with the emonVs removed, screw in the screw for the bracket below the larger gland first. Slide the emonVs into place before inserting the second screw near the low profile gland used for the power cable.
 
@@ -61,7 +65,7 @@ The emonVs unit can be wall mounted using the brackets on the enclosure. Start b
 
 - The emonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options in the OpenEnergyMonitor shop. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply).
 
-- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both).
+- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). The CT sensors have an indicated direction printed on the case `K->L`, where L is the direction of the load. This will ensure the correct sign (+/-) on the power readings.
 
 - Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement.
 
