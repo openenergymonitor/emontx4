@@ -55,7 +55,7 @@ Modify the emonhub.conf entry with the full path e.g:
 
 ---
 
-## 433Mhz radio data connection
+## 433MHz radio data connection
 
 Data can be transferred between the emonTx4 and emonPi via 433Mhz radio. 
 
