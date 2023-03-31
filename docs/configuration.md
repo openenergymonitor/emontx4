@@ -37,6 +37,8 @@ To use the emonTx4 with a different CT arrangement, or radio node and group thes
 
 With the emonTx connected to a computer via a [USB-C to USB-A cable](https://shop.openenergymonitor.com/1m-usb-c-cable/) (USB-C to USB-C is **not** supported), it's possible to configure the emonTx directly from a WebSerial compatible internet browser. 
 
+*Note: To connect to a computer that only has a USB-C port, use a USB-C to USB-A cable, together with a USB-A to USB-C adaptor.*
+
 The process is plug-and-play on Mac and Linux, but windows users will need to install a driver for the emonTx serial (CP210x): [Windows 10 Driver Download](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads)
 
 Compatible browsers: [Chrome, Edge, Opera](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API#browser_compatibility)
