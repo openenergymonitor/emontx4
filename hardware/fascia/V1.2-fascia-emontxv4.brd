@@ -211,17 +211,16 @@
 <wire x1="23.25" y1="8.7" x2="23.25" y2="22.7" width="0.001" layer="20"/>
 <wire x1="23.25" y1="22.7" x2="9.25" y2="22.7" width="0.001" layer="20"/>
 <wire x1="9.25" y1="22.7" x2="9.25" y2="8.7" width="0.001" layer="20"/>
-<text x="30.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">1</text>
-<text x="43.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">2</text>
-<text x="56.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">3</text>
-<text x="69.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">4</text>
-<text x="82.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">5</text>
-<text x="95.25" y="17" size="3.81" layer="20" ratio="0" align="bottom-center">6</text>
-<text x="62.75" y="23" size="2.54" layer="20" ratio="0" align="bottom-center">333mV CT Inputs</text>
-<wire x1="48" y1="24" x2="27" y2="24" width="0.001" layer="20"/>
-<wire x1="98.5" y1="23.5" x2="77.5" y2="23.5" width="0.001" layer="20"/>
+<text x="30.25" y="17" size="5.08" layer="20" ratio="0" align="bottom-center">1</text>
+<text x="43.25" y="17" size="5.08" layer="20" ratio="0" align="bottom-center">2</text>
+<text x="56.25" y="17" size="5.08" layer="20" ratio="0" align="bottom-center">3</text>
+<text x="69.25" y="17" size="5.08" layer="20" ratio="0" align="bottom-center">4</text>
+<text x="82.25" y="17" size="5.08" layer="20" ratio="0" align="bottom-center">5</text>
+<text x="95.25" y="17" size="5.08" layer="20" ratio="0" align="bottom-center">6</text>
+<text x="62.65" y="24.6" size="2.54" layer="20" ratio="0" align="bottom-center">333mV CT Inputs</text>
+<wire x1="48.1" y1="25.5" x2="27.1" y2="25.5" width="0.001" layer="20"/>
+<wire x1="98.5" y1="25.5" x2="77.5" y2="25.5" width="0.001" layer="20"/>
 <text x="17.25" y="24" size="2.54" layer="20" ratio="0" align="bottom-center">emonVS</text>
-<text x="16.55" y="5" size="2.54" layer="20" ratio="0" align="bottom-center">PSU</text>
 <wire x1="29.15" y1="71" x2="29.15" y2="79.9" width="0.001" layer="20"/>
 <wire x1="64.85" y1="71" x2="64.85" y2="63" width="0.001" layer="20"/>
 <wire x1="11.25" y1="63" x2="11.25" y2="79.9" width="0.001" layer="20"/>
@@ -233,20 +232,20 @@
 <wire x1="29.15" y1="71" x2="64.85" y2="71" width="0.001" layer="20"/>
 <circle x="91.25" y="70.4" radius="3.55" width="0.001" layer="20"/>
 <wire x1="11.25" y1="63" x2="64.85" y2="63" width="0.001" layer="20"/>
-<text x="53.95" y="2.3" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org      emonTx V4</text>
-<text x="72.5" y="69.5" size="2.54" layer="20" ratio="0" align="bottom-center">USB</text>
-<text x="47.9" y="79.1" size="2.54" layer="20" ratio="0" align="bottom-center">1wire temp &amp; aux I/O</text>
-<text x="54.05" y="57" size="2.54" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org      emonTx V4</text>
-<text x="32.1" y="74.5" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
-<text x="36" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
-<text x="64" y="73.9" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
-<text x="60" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
-<text x="56.1" y="74.5" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
-<text x="52" y="73.9" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
-<text x="48" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
-<text x="40.1" y="74.1" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
-<text x="44.1" y="74.5" size="2.1844" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
-<text x="91.5" y="79" size="2.54" layer="20" ratio="0" rot="R180" align="bottom-center">433Mhz</text>
+<text x="54.75" y="1.9" size="3.81" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org   emonTx V4</text>
+<text x="72.5" y="69.5" size="3.81" layer="20" ratio="0" align="bottom-center">USB</text>
+<text x="45.3" y="79.4" size="3.81" layer="20" ratio="0" align="bottom-center">temperature</text>
+<text x="55.45" y="57.1" size="3.81" layer="20" ratio="0" align="bottom-center">OpenEnergyMonitor.org   emonTx V4</text>
+<text x="32.6" y="75.1" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
+<text x="36" y="74.7" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
+<text x="64" y="74.6" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
+<text x="60" y="74.7" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
+<text x="56.1" y="75.1" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
+<text x="52" y="74.5" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
+<text x="47.9" y="74.8" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">DAT</text>
+<text x="40.1" y="74.5" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">3V3</text>
+<text x="44" y="75.2" size="2.54" layer="20" ratio="0" rot="R90" align="bottom-center">GND</text>
+<text x="91.5" y="79" size="3.81" layer="20" ratio="0" rot="R180" align="bottom-center">433Mhz</text>
 </plain>
 <libraries>
 </libraries>

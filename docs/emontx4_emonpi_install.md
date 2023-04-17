@@ -9,7 +9,7 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/emontx4
 There are two ways to add an emonTx4 to an existing emonPi or emonBase installation:
 
 1. Direct USB data connection
-2. 433Mhz radio data connection
+2. 433MHz radio data connection
 
 ---
 
@@ -55,9 +55,9 @@ Modify the emonhub.conf entry with the full path e.g:
 
 ---
 
-## 433Mhz radio data connection
+## 433MHz radio data connection
 
-Data can be transferred between the emonTx4 and emonPi via 433Mhz radio. 
+Data can be transferred between the emonTx4 and emonPi via 433MHz radio. 
 
 **A key thing to watch out for here** is that the default radio packet format for the latest emonTx4 is based on the **LowPowerLabs RFM69** code which is **not compatible** with an emonPi running the original JeeLib 'classic' code.
 

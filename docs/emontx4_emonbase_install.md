@@ -108,8 +108,8 @@ Unless otherwise selected in the shop, the emonTx4 is pre-calibrated with the fo
 - Connect the emonTx4 to your computer using a USB-C cable,
 - Open the web-serial configuration tool [https://openenergymonitor.org/serial](https://openenergymonitor.org/serial) (Browser must be Chrome, Edge or Opera). Firefox and Safari do not currently support the web-serial technology used by this tool.
 - Click on 'Connect' and select the emonTx4 serial port in the pop up menu. It should be listed as 'CP2102N USB to UART Bridge Controller..'
-- After a couple of seconds the emonTx4 will print out it's current configuration which will populate the interface.
-- Adjust the  CT type to match the CT sensor that you have installed on each channel.
+- After a couple of seconds the emonTx4 will print out its current configuration which will populate the interface.
+- Adjust the  CT rating to match the CT sensor that you have installed on each channel.
 - Click on 'Save Changes' to ensure that the new configuration is recorded such that it persists when you power cycle the board.
 
 ```{note} 

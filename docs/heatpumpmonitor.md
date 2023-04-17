@@ -74,7 +74,7 @@ It's then often convenient to add additional CT sensors at the location of the i
 The CT sensors connect to the CT sensor inputs on the emonTx4. 
 
 **Voltage sensing**<br>
-For accurate electricity monitoring we would always recommend a voltage sensor. Without a voltage sensor the standby electricity consumption of a heat pump can read as high as ~270W when the real (active) power reading should actually be 12W! The EcoDan heat pumps that we have tested this on so far have all exhibited very low power factor power supplies leading to these large differences between real (active) power and apparent power. The power factor is usually better when the heat pump is running with a difference of 10-20% between real power and apparent power.
+For accurate electricity monitoring we would always recommend a voltage sensor. Without a voltage sensor the standby electricity consumption of a heat pump can read as high as ~270W when the real (active) power reading should actually be 12W! The EcoDan heat pumps that we have tested this on so far have all exhibited very low power factor power, leading to these large differences between real (active) power and apparent power. The power factor is usually better when the heat pump is running with a difference of 10-20% between real power and apparent power.
 
 The emonTx4 can either use the full emonVs-psu (voltage sensor and power supply) or the cheaper emonVs-mini (voltage sensor only). If using the emonVs-mini a separate USB power supply is required. The installation picture above shows an installation with the full emonVS-psu.
 
@@ -91,7 +91,7 @@ We are also measuring the flow and return temperatures on the radiator side of t
 
 It can also be worthwhile measuring:
 
-- Outside temperature: can be used together with flow temperature to estimate carnot COP)
+- Outside temperature: can be used together with flow temperature to estimate Carnot COP)
 - DHW tank temperature: useful for analysing DHW cycle timing and hot water use.
 - Room temperatures: useful for analysing fabric efficiency or effectiveness of heat pump in providing comfort.
 
@@ -131,7 +131,7 @@ Testing the difference between sensor pockets and pipe surface measurement sugge
 
 ### Temperature sensing error
 
-A small error in temperature measurement can make a large difference to heat output measurement accuracy. To give an example, lets say we have a relative error between the flow and return temperature measurement of 0.2°C. If the flow rate is 20 L/min, the heat error is: 
+A small error in temperature measurement can make a large difference to heat output measurement accuracy. To give an example, let's say we have a relative error between the flow and return temperature measurement of 0.2°C. If the flow rate is 20 L/min, the heat error is: 
 
     4200 J/kg.K x (20 L/min / 60 s/min) x 0.2 K = 280W
 
@@ -191,7 +191,7 @@ The following example emonTx4 heat pump monitoring firmware is an adaptation of 
 
 ## 5. Basestation or wifi adapter
 
-The emonTx4 can transmit it's data via: 
+The emonTx4 can transmit its data via: 
 
 1. 433 MHz radio to a receiving emonBase basestation or emonPi.
 2. USB cable direct connection to an emonBase/emonPi
