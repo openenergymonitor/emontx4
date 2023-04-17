@@ -21,6 +21,7 @@ v1.5.2: emonEProm fixed EEWL overlap
 v1.5.3: Slightly slower sample rate to improve zero power performance
         temperature sensing disabled if no temperature sensors detected at startup
 v1.5.4: Fix emonEProm EEWL overlap properly
+v1.5.5: RFM69_LPL library update use setPins
 
 */
 #define Serial Serial3
@@ -62,7 +63,7 @@ copy the following into emonhub.conf:
 #include <avr/wdt.h>
 
 #if RadioFormat == RFM69_LOW_POWER_LABS
-  #include "RFM69.h"
+  #include "RFM69_LPL.h"
 #else
   #include "RFM69_JeeLib.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
 #endif
@@ -227,6 +228,9 @@ void setup()
     #endif
     
     // Frequency is currently hardcoded to 433Mhz in library
+    #if RadioFormat == RFM69_LOW_POWER_LABS
+    rf.setPins(PIN_PB5,PIN_PC0,PIN_PC1,PIN_PC2);
+    #endif
     rf.initialize(RF69_433MHZ, EEProm.nodeID, EEProm.networkGroup); 
     rf.encrypt("89txbe4p8aik5kt3"); // ignored if jeelib classic
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
