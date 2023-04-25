@@ -22,6 +22,8 @@ v1.5.3: Slightly slower sample rate to improve zero power performance
         temperature sensing disabled if no temperature sensors detected at startup
 v1.5.4: Fix emonEProm EEWL overlap properly
 v1.5.5: RFM69_LPL library update use setPins
+v1.5.6: uses version 3.0.8 of EmonLibCM avrdb branch
+        reduces interference caused by DS18B20 temperature sensing
 
 */
 #define Serial Serial3
@@ -32,7 +34,7 @@ v1.5.5: RFM69_LPL library update use setPins
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.4\n\r"};
+const char *firmware_version = {"1.5.6\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
