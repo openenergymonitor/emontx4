@@ -24,6 +24,7 @@ v1.5.4: Fix emonEProm EEWL overlap properly
 v1.5.5: RFM69_LPL library update use setPins
 v1.5.6: uses version 3.0.8 of EmonLibCM avrdb branch
         reduces interference caused by DS18B20 temperature sensing
+v1.5.7: Fix disabling of temperature sensing at startup if none detected
 
 */
 #define Serial Serial3
@@ -308,8 +309,7 @@ void setup()
   byte numSensors = EmonLibCM_getTemperatureSensorCount();
   if (numSensors==0) {
     Serial.println(F("No temperature sensors detected, disabling temperature"));
-    EEProm.temp_enable = 0;
-    EmonLibCM_TemperatureEnable(EEProm.temp_enable); 
+    EmonLibCM_TemperatureEnable(false); 
   }
   
   // Speed up startup by making first reading 2s
