@@ -304,12 +304,15 @@ void setup()
   EmonLibCM_TemperatureEnable(EEProm.temp_enable);  
   EmonLibCM_Init();                                                    // Start continuous monitoring.
   emontx.Msg = 0;
-  printTemperatureSensorAddresses();
+  
+  if (EEProm.temp_enable) {
+    printTemperatureSensorAddresses();
 
-  byte numSensors = EmonLibCM_getTemperatureSensorCount();
-  if (numSensors==0) {
-    Serial.println(F("No temperature sensors detected, disabling temperature"));
-    EmonLibCM_TemperatureEnable(false); 
+    byte numSensors = EmonLibCM_getTemperatureSensorCount();
+    if (numSensors==0) {
+      Serial.println(F("No temperature sensors detected, disabling temperature"));
+      EmonLibCM_TemperatureEnable(false); 
+    }
   }
   
   // Speed up startup by making first reading 2s
