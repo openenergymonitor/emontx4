@@ -35,7 +35,7 @@ v1.5.7: Fix disabling of temperature sensing at startup if none detected
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.6\n\r"};
+const char *firmware_version = {"1.5.7\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
