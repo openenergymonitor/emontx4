@@ -21,6 +21,10 @@ v1.5.2: emonEProm fixed EEWL overlap
 v1.5.3: Slightly slower sample rate to improve zero power performance
         temperature sensing disabled if no temperature sensors detected at startup
 v1.5.4: Fix emonEProm EEWL overlap properly
+v1.5.5: RFM69_LPL library update use setPins
+v1.5.6: uses version 3.0.8 of EmonLibCM avrdb branch
+        reduces interference caused by DS18B20 temperature sensing
+v1.5.7: Fix disabling of temperature sensing at startup if none detected
 
 */
 #define Serial Serial3
@@ -31,7 +35,7 @@ v1.5.4: Fix emonEProm EEWL overlap properly
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"1.5.4\n\r"};
+const char *firmware_version = {"1.5.7\n\r"};
 /*
 
 emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
@@ -62,7 +66,7 @@ copy the following into emonhub.conf:
 #include <avr/wdt.h>
 
 #if RadioFormat == RFM69_LOW_POWER_LABS
-  #include "RFM69.h"
+  #include "RFM69_LPL.h"
 #else
   #include "RFM69_JeeLib.h"                                        // Minimal radio library that supports both original JeeLib format and later native format
 #endif
@@ -228,6 +232,9 @@ void setup()
     #endif
     
     // Frequency is currently hardcoded to 433Mhz in library
+    #if RadioFormat == RFM69_LOW_POWER_LABS
+    rf.setPins(PIN_PB5,PIN_PC0,PIN_PC1,PIN_PC2);
+    #endif
     rf.initialize(RF69_433MHZ, EEProm.nodeID, EEProm.networkGroup); 
     rf.encrypt("89txbe4p8aik5kt3"); // ignored if jeelib classic
     delay(random(EEProm.nodeID * 20));                                 // try to avoid r.f. collisions at start-up
@@ -298,15 +305,16 @@ void setup()
   EmonLibCM_TemperatureEnable(EEProm.temp_enable);  
   EmonLibCM_Init();                                                    // Start continuous monitoring.
   emontx.Msg = 0;
-  printTemperatureSensorAddresses();
-
-  byte numSensors = EmonLibCM_getTemperatureSensorCount();
-  if (numSensors==0) {
-    Serial.println(F("No temperature sensors detected, disabling temperature"));
-    EEProm.temp_enable = 0;
-    EmonLibCM_TemperatureEnable(EEProm.temp_enable); 
-  }
   
+  if (EEProm.temp_enable) {
+    printTemperatureSensorAddresses();
+
+    byte numSensors = EmonLibCM_getTemperatureSensorCount();
+    if (numSensors==0) {
+      Serial.println(F("No temperature sensors detected, disabling temperature"));
+      EmonLibCM_TemperatureEnable(false);
+    }
+  }
   // Speed up startup by making first reading 2s
   EmonLibCM_datalog_period(2.0);
 }
