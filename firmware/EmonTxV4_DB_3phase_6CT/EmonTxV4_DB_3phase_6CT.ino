@@ -16,13 +16,14 @@ v1.2.0: LowPowerLabs radio format, with option to switch to JeeLib classic or na
 v1.3.0: Read and calibrate reference voltage at startup
 v1.4.0: Option to output serial data as JSON (Brian Orpin)
 v1.5.0: emonEProm fixed pulse count data type issue
-v1.5.1: default node id set to 17, swap nodeid DIP, zero all 6 energy values
+v1.5.1: default node id set to 17, swap nodeid DIP, zero all 6 energy values (
 v1.5.2: emonEProm fixed EEWL overlap
 v1.5.3: Slightly slower sample rate to improve zero power performance
         temperature sensing disabled if no temperature sensors detected at startup
 v1.5.4: Fix emonEProm EEWL overlap properly
 v1.5.5: RFM69_LPL library update use setPins
 v2.0.0: Single phase 6CT energy monitor based on EmonLibDB library
+v2.0.1: Default nodeid set to 27
 
 */
 #define Serial Serial3
@@ -33,14 +34,14 @@ v2.0.0: Single phase 6CT energy monitor based on EmonLibDB library
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"2.0.0\n\r"};
+const char *firmware_version = {"2.0.1\n\r"};
 /*
 
-emonhub.conf node decoder (nodeid is 17 when switch is off, 18 when switch is on)
+emonhub.conf node decoder (nodeid is 27 when switch is off, 18 when switch is on)
 See: https://github.com/openenergymonitor/emonhub/blob/emon-pi/configuration.md
 copy the following into emonhub.conf:
 
-[[17]]
+[[27]]
   nodename = EmonTx4_DB
   [[[rx]]]
     names = MSG, V1, V2, V3, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, pulse
@@ -103,7 +104,7 @@ static void showString (PGM_P s);
 struct {
   byte RF_freq = RF69_433MHZ;                              // Frequency of radio module can be RFM_433MHZ, RFM_868MHZ or RFM_915MHZ. 
   byte networkGroup = 210;                                 // wireless network group, must be the same as emonBase / emonPi and emonGLCD. OEM default is 210
-  byte nodeID = 17;                                        // node ID for this emonTx.
+  byte nodeID = 27;                                        // node ID for this emonTx.
   byte rf_on = 1;                                          // RF - 0 = no RF, 1 = RF on.
   byte rfPower = 25;                                       // 7 = -10.5 dBm, 25 = +7 dBm for RFM12B; 0 = -18 dBm, 31 = +13 dBm for RFM69CW. Default = 25 (+7 dBm)
   float vCal  = 100.0;                                     // Only single vCal for three phase in this firmware
