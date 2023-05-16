@@ -24,6 +24,7 @@ v1.5.4: Fix emonEProm EEWL overlap properly
 v1.5.5: RFM69_LPL library update use setPins
 v2.0.0: Single phase 6CT energy monitor based on EmonLibDB library
 v2.0.1: Default nodeid set to 27
+v2.0.1: Re-configure CT phase order 
 
 */
 #define Serial Serial3
@@ -34,10 +35,10 @@ v2.0.1: Default nodeid set to 27
 
 #define RadioFormat RFM69_LOW_POWER_LABS
 
-const char *firmware_version = {"2.0.1\n\r"};
+const char *firmware_version = {"2.0.2\n\r"};
 /*
 
-emonhub.conf node decoder (nodeid is 27 when switch is off, 18 when switch is on)
+emonhub.conf node decoder (nodeid is 27 when switch is off, 28 when switch is on)
 See: https://github.com/openenergymonitor/emonhub/blob/emon-pi/configuration.md
 copy the following into emonhub.conf:
 
@@ -255,10 +256,10 @@ void setup()
   #if NUM_V_CHANNELS == 3
     
     EmonLibDB_set_pInput(1, 1); // Phase 1
-    EmonLibDB_set_pInput(2, 1); // Phase 1
-    EmonLibDB_set_pInput(3, 2); // Phase 2
-    EmonLibDB_set_pInput(4, 2); // Phase 2
-    EmonLibDB_set_pInput(5, 3); // Phase 3
+    EmonLibDB_set_pInput(2, 2); // Phase 2
+    EmonLibDB_set_pInput(3, 3); // Phase 3
+    EmonLibDB_set_pInput(4, 1); // Phase 1
+    EmonLibDB_set_pInput(5, 2); // Phase 2
     EmonLibDB_set_pInput(6, 3); // Phase 3
     /*
     EmonLibDB_set_pInput(1, 1, 2);               // CT1 between V1 & V2    
