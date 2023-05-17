@@ -255,17 +255,17 @@ void setup()
   #if NUM_V_CHANNELS == 3
     
     EmonLibDB_set_pInput(1, 1); // Phase 1
-    EmonLibDB_set_pInput(2, 1); // Phase 1
-    EmonLibDB_set_pInput(3, 2); // Phase 2
-    EmonLibDB_set_pInput(4, 2); // Phase 2
-    EmonLibDB_set_pInput(5, 3); // Phase 3
+    EmonLibDB_set_pInput(2, 2); // Phase 2
+    EmonLibDB_set_pInput(3, 3); // Phase 3
+    EmonLibDB_set_pInput(4, 1); // Phase 1
+    EmonLibDB_set_pInput(5, 2); // Phase 2
     EmonLibDB_set_pInput(6, 3); // Phase 3
     /*
     EmonLibDB_set_pInput(1, 1, 2);               // CT1 between V1 & V2    
-    EmonLibDB_set_pInput(2, 1, 2);               // CT2 between V2 & V3  (etc)
-    EmonLibDB_set_pInput(3, 2, 3);  
-    EmonLibDB_set_pInput(4, 2, 3);  
-    EmonLibDB_set_pInput(5, 3, 1);
+    EmonLibDB_set_pInput(2, 2, 3);               // CT2 between V2 & V3  (etc)
+    EmonLibDB_set_pInput(3, 3, 1);  
+    EmonLibDB_set_pInput(4, 1, 2);  
+    EmonLibDB_set_pInput(5, 2, 3);
     EmonLibDB_set_pInput(6, 3, 1);
     */
   #else
