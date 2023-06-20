@@ -50,7 +50,7 @@ Alternatively to upload the same pre-compiled firmware via command line using av
     
 You will need avrdude installed (tested on version 6.3-2017) and the custom DxCore avrdude.conf. This can be downloaded here: [DxCore avrdude.conf](https://raw.githubusercontent.com/openenergymonitor/emontx4/main/firmware/avrdude.conf).
 
-## How to compile and upload firmware:
+## How to compile and upload firmware
 
 If you don’t already have the Arduino IDE it can be downloaded from here (As far as Im aware this needs to be the legacy version 1.8.19 for now):<br>
 [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software)
