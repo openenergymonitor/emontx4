@@ -34,129 +34,129 @@ Screw in the torx screws (torx size T10):
 
 The standard EmonTx4 firmware **does not support the 6 CT expansion board** and there are no pre-compiled firmwares available yet via the standard emonSD emoncms upload feature.
 
-The firmware example that supports the 6 CT expansion board is available as part of the EmonLibDB library and needs to be configured and uploaded to the EmonTx4 manually using the Arduino IDE. To do this:
+The firmware example that supports the 6 CT expansion board is available as part of the [EmonLibDB library](https://github.com/openenergymonitor/emonlibdb) and needs to be configured and uploaded to the EmonTx4 manually using the Arduino IDE. To do this:
 
-1\. Start by following the existing [EmonTx4 How to compile and upload firmware guide](https://docs.openenergymonitor.org/emontx4/firmware.html#how-to-compile-and-upload-firmware). While the `EmonTx4DB_rf` firmware example does not use all of the libraries listed (it just needs emonLibDB and RFM69_LPL), it is worthwhile installing them all so that you have the capability to compile all EmonTx4 firmwares. I've updated the guide to include the new `emonLibDB` library alongside the others.
+1\. Start by following the existing [EmonTx4 How to compile and upload firmware guide](https://docs.openenergymonitor.org/emontx4/firmware.html#how-to-compile-and-upload-firmware). While the `EmonTx4DB_rf` firmware example does not use all of the libraries listed (it just needs emonLibDB and RFM69_LPL), it is worthwhile installing them all so that you have the capability to compile all EmonTx4 firmwares. 
 
 2\. Using the Arduino IDE, open the `EmonTx4DB_rf` firmware example. Navigate to:
 
-       File > Examples > emonLibDB > Examples > EmonTx4DB_rf
+    File > Examples > emonLibDB > Examples > EmonTx4DB_rf
        
-![](EmonTx4DB_rf.png)
+![](img/6CT/EmonTx4DB_rf.png)
 
 3\. With the example open, save as a new local copy e.g `EmonTx4DB_rf_mycopy`.
 
 4\. Check that the EXPANSION_BOARD has been defined (line 33):
 
-       #define EXPANSION_BOARD
+    #define EXPANSION_BOARD
 
 5\. **Note that the Node ID for txPacket1 is set to 28 and txPacket2 is set to 29** (line 42, 61). If you have multiple EmonTx4 units, make sure that the NodeID's set here are unique on your system. Set as required.
 
 6\. **Configure the emonVs voltage sensor calibration values** (lines 119-124). If you want to have 3 phase voltage sensing, make sure all 3 lines are present as default:
 
-       EmonLibDB_set_vInput(1, 100.0, 0.16);  
-        
-       /* Include the next two lines if you have a 3-phase emonVS */
-       
-       EmonLibDB_set_vInput(2, 100.0, 0.16); 
-       EmonLibDB_set_vInput(3, 100.0, 0.16); 
-  
-    100.0 here refers to 100% of the default calibration value. 
-    *To be updated with more detailed note here*.
-    *Please see emonLibDB user guide for more info as well*
+    EmonLibDB_set_vInput(1, 100.0, 0.16);  
 
-    0.16 refers to the voltage sensor phase calibration. 
+    /* Include the next two lines if you have a 3-phase emonVS */
+
+    EmonLibDB_set_vInput(2, 100.0, 0.16); 
+    EmonLibDB_set_vInput(3, 100.0, 0.16); 
+  
+100.0 here refers to 100% of the default calibration value.<br>
+*To be updated with more detailed note here*.<br>
+*Please see emonLibDB user guide for more info as well*<br>
+
+0.16 refers to the voltage sensor phase calibration.
 
 7\. **Configure the CT channel calibration values** (lines 126-140):
 
-        EmonLibDB_set_cInput(1, 100.0, 0.3);         // 0.3° @ 20 A for 100 A CT
-        EmonLibDB_set_cInput(2, 100.0, 0.3);
-        EmonLibDB_set_cInput(3, 100.0, 0.3);
-        EmonLibDB_set_cInput(4, 100.0, 0.3);
-        EmonLibDB_set_cInput(5, 100.0, 0.3);
-        EmonLibDB_set_cInput(6, 100.0, 0.3);
+    EmonLibDB_set_cInput(1, 100.0, 0.3);         // 0.3° @ 20 A for 100 A CT
+    EmonLibDB_set_cInput(2, 100.0, 0.3);
+    EmonLibDB_set_cInput(3, 100.0, 0.3);
+    EmonLibDB_set_cInput(4, 100.0, 0.3);
+    EmonLibDB_set_cInput(5, 100.0, 0.3);
+    EmonLibDB_set_cInput(6, 100.0, 0.3);
 
-        EmonLibDB_set_cInput(7, 100.0, 0.3);
-        EmonLibDB_set_cInput(8, 100.0, 0.3);
-        EmonLibDB_set_cInput(9, 100.0, 0.3);
-        EmonLibDB_set_cInput(10, 100.0, 0.3);
-        EmonLibDB_set_cInput(11, 100.0, 0.3);
-        EmonLibDB_set_cInput(12, 100.0, 0.3);
+    EmonLibDB_set_cInput(7, 100.0, 0.3);
+    EmonLibDB_set_cInput(8, 100.0, 0.3);
+    EmonLibDB_set_cInput(9, 100.0, 0.3);
+    EmonLibDB_set_cInput(10, 100.0, 0.3);
+    EmonLibDB_set_cInput(11, 100.0, 0.3);
+    EmonLibDB_set_cInput(12, 100.0, 0.3);
 
-    100.0 here refers to 100A CT sensors. If you have 20A or 50A CT sensors change the relevant channels to 20.0 or 50.0 to match the CT sensor.
+100.0 here refers to 100A CT sensors. If you have 20A or 50A CT sensors change the relevant channels to 20.0 or 50.0 to match the CT sensor.<br>
 
-    0.3 refers to the CT sensor phase calibration.
-   *To be updated with more detailed note here*.
+0.3 refers to the CT sensor phase calibration.<br>
+*To be updated with more detailed note here*.
 
 8\. **Link voltage and current sensors to define the power & energy measurements** (lines 156-170). The default example is for a single phase setup with 12 CT sensors all on phase 1. 
 
-        EmonLibDB_set_pInput(1, 1);
-        EmonLibDB_set_pInput(2, 1);
-        EmonLibDB_set_pInput(3, 1);
-        EmonLibDB_set_pInput(4, 1);  
-        EmonLibDB_set_pInput(5, 1);
-        EmonLibDB_set_pInput(6, 1);
-        
-        EmonLibDB_set_pInput(7, 1);
-        EmonLibDB_set_pInput(8, 1);
-        EmonLibDB_set_pInput(9, 1);
-        EmonLibDB_set_pInput(10, 1);  
-        EmonLibDB_set_pInput(11, 1);
-        EmonLibDB_set_pInput(12, 1);
+    EmonLibDB_set_pInput(1, 1);
+    EmonLibDB_set_pInput(2, 1);
+    EmonLibDB_set_pInput(3, 1);
+    EmonLibDB_set_pInput(4, 1);  
+    EmonLibDB_set_pInput(5, 1);
+    EmonLibDB_set_pInput(6, 1);
 
-    These can be adjusted as required. Four sets of 3 phase measurements could look like this:
+    EmonLibDB_set_pInput(7, 1);
+    EmonLibDB_set_pInput(8, 1);
+    EmonLibDB_set_pInput(9, 1);
+    EmonLibDB_set_pInput(10, 1);  
+    EmonLibDB_set_pInput(11, 1);
+    EmonLibDB_set_pInput(12, 1);
 
-        EmonLibDB_set_pInput(1, 1);  // CT1, phase 1
-        EmonLibDB_set_pInput(2, 2);  // CT2, phase 2
-        EmonLibDB_set_pInput(3, 3);  // CT3, phase 3
-        EmonLibDB_set_pInput(4, 1);  
-        EmonLibDB_set_pInput(5, 2);
-        EmonLibDB_set_pInput(6, 3);
-        
-        EmonLibDB_set_pInput(7, 1);
-        EmonLibDB_set_pInput(8, 2);
-        EmonLibDB_set_pInput(9, 3);
-        EmonLibDB_set_pInput(10, 1);  
-        EmonLibDB_set_pInput(11, 2);
-        EmonLibDB_set_pInput(12, 3);
+These can be adjusted as required. Four sets of 3 phase measurements could look like this:
 
-    *Note: It is also possible to measure Line-Line loads, see Line-Line loads: example lines 175-188.*
+    EmonLibDB_set_pInput(1, 1);  // CT1, phase 1
+    EmonLibDB_set_pInput(2, 2);  // CT2, phase 2
+    EmonLibDB_set_pInput(3, 3);  // CT3, phase 3
+    EmonLibDB_set_pInput(4, 1);  
+    EmonLibDB_set_pInput(5, 2);
+    EmonLibDB_set_pInput(6, 3);
+
+    EmonLibDB_set_pInput(7, 1);
+    EmonLibDB_set_pInput(8, 2);
+    EmonLibDB_set_pInput(9, 3);
+    EmonLibDB_set_pInput(10, 1);  
+    EmonLibDB_set_pInput(11, 2);
+    EmonLibDB_set_pInput(12, 3);
+
+*Note: It is also possible to measure Line-Line loads, see Line-Line loads: example lines 175-188.*
 
 9\. **Compile and upload your configured firmware to the EmonTx4.** Note compilation and upload settings as covered in the  [EmonTx4 How to compile and upload firmware guide](https://docs.openenergymonitor.org/emontx4/firmware.html#how-to-compile-and-upload-firmware). 
 
 10\. **To receive the radio packet data on an emonPi or emonBase** first make sure that you are running LowPowerLabs radio firmware on the emonPi or emonBase receiver. 
 
-    If you have existing nodes running the original JeeLib classic radio format, the firmware on these will also need to be updated if everything is to continue talking to each other. 
+If you have existing nodes running the original JeeLib classic radio format, the firmware on these will also need to be updated if everything is to continue talking to each other. 
 
-    If you have an emonPi make sure that it's running the latest emonPi LowPowerLabs firmware, this can be uploaded from the local emoncms Admin > Update page.
+If you have an emonPi make sure that it's running the latest emonPi LowPowerLabs firmware, this can be uploaded from the local emoncms Admin > Update page.
 
-    If you bought an emonBase alongside an emonTx4 and selected the standard radio format option the radio configuration should already be correct and ready to receive data from the EmonTx4 running the above firmware example.
+If you bought an emonBase alongside an emonTx4 and selected the standard radio format option the radio configuration should already be correct and ready to receive data from the EmonTx4 running the above firmware example.
 
 11\. **Configure emonHub to decode the `EmonTx4DB_rf` radio packet**. 
 
-    If you have the latest version of emonhub with autoconf enabled, it will automatically populate the node decoder configuration below. If you have an older system with autoconf disabled, follow the following manual steps:
+If you have the latest version of emonhub with autoconf enabled, it will automatically populate the node decoder configuration below. If you have an older system with autoconf disabled, follow the following manual steps:
 
-    On your local emonPi/emonBase navigate to Setup > Emonhub > Edit Config.
+On your local emonPi/emonBase navigate to Setup > Emonhub > Edit Config.
 
-    If you already have a node configuration in the `[nodes]` section for the EmonTx4 under the same nodeid as above, remove this first. 
+If you already have a node configuration in the `[nodes]` section for the EmonTx4 under the same nodeid as above, remove this first. 
 
-    Add the following node decoder in its place (Adjust the nodeid to match the configured nodeid as set in the firmware above):
+Add the following node decoder in its place (Adjust the nodeid to match the configured nodeid as set in the firmware above):
 
-        [[28]]
-            nodename = emonTx4_28
-            [[[rx]]]
-                names = MSG, Vrms1, Vrms2, Vrms3, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, pulse, Analog
-                datacodes = L, h, h, h, h, h, h, h, h, h, l, l, l, l, l, l, L, H
-                scales = 1.0, 0.01, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
-                units = n, V, V, V, W, W, W, W, W, W, Wh, Wh, Wh, Wh, Wh, Wh, p, n
+    [[28]]
+        nodename = emonTx4_28
+        [[[rx]]]
+            names = MSG, Vrms1, Vrms2, Vrms3, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, pulse, Analog
+            datacodes = L, h, h, h, h, h, h, h, h, h, l, l, l, l, l, l, L, H
+            scales = 1.0, 0.01, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
+            units = n, V, V, V, W, W, W, W, W, W, Wh, Wh, Wh, Wh, Wh, Wh, p, n
 
-        [[29]]
-            nodename = emonTx4_29
-            [[[rx]]]
-                names = MSG, Vrms2, Vrms3, P7, P8, P9, P10, P11, P12, E7, E8, E9, E10, E11, E12, digPulse, anaPulse
-                datacodes = L, h, h, h, h, h, h, h, h, l, l, l, l, l, l, L, L
-                scales = 1.0, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
-                units = n, V, V, W, W, W, W, W, W, Wh, Wh, Wh, Wh, Wh, Wh, p, p
+    [[29]]
+        nodename = emonTx4_29
+        [[[rx]]]
+            names = MSG, Vrms2, Vrms3, P7, P8, P9, P10, P11, P12, E7, E8, E9, E10, E11, E12, digPulse, anaPulse
+            datacodes = L, h, h, h, h, h, h, h, h, l, l, l, l, l, l, L, L
+            scales = 1.0, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
+            units = n, V, V, W, W, W, W, W, W, Wh, Wh, Wh, Wh, Wh, Wh, p, p
 
 12\. **That should be it!** you should now see the EmonTx4 data appear both in the EmonHub log window and as inputs on the Emoncms inputs page :tada:
 
