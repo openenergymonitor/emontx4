@@ -1,8 +1,8 @@
 # 6 CT Expansion board
 
-The 6 CT Expansion board adds a further 6x CT inputs to the EmonTx4, giving a total of 12 CT inputs. These can be used with example firmware that is provided as part of the new EmonLibDB library, supporting both single phase and 3 phase monitoring. 
+The 6 CT Expansion board adds a further 6x CT inputs to the EmonTx4, giving a total of 12 CT inputs. This can be used with example firmware that is provided as part of the new EmonLibDB library, supporting both single phase and 3 phase monitoring. 
 
-**Note: Firmware configuration, compilation and upload required using the Arduino IDE.**
+**Note: Firmware configuration, compilation and upload required using the Arduino IDE, see firmware guide below for details.**
 
 ## Installation guide
 
