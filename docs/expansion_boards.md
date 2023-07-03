@@ -117,8 +117,6 @@ Configure EmonHub to use the EmonHubOEMInterfacer:<br>
 
 ## 6 CT Expansion Board
 
-More details to follow...
-
-![ctext.png](img/ctext.png)
+See dedicated page: [6 CT Expansion board](6ct_expansion_board.md)
 
 
