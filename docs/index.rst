@@ -15,3 +15,4 @@ emonTx4 User Guide
    voltage_sensors.md
    Temperature, Pulse & Analog <other_sensors.md>
    expansion_boards.md
+   6ct_expansion_board.md
