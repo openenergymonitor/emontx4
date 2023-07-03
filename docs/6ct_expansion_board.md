@@ -16,9 +16,9 @@ Solder the pins on the bottom side, taking care not to bridge across the pins:
 
 ![](img/6CT/6ct_ext3.jpg)
 
-**Note:** The mechanical attachment of the expansion board is not very secure. It relies on the 9 way PCB header connection. Care needs to be taken when plugging in expansion board CTs as the board can flex on the header. This is something we plan to fix on future versions.
+**Note:** The mechanical attachment of the expansion board is not very secure. It relies on the 9 way PCB header connection. Care needs to be taken when plugging in expansion board CTs as the board can flex on the header. This is something we plan to improve on future versions.
 
-We recommend connecting the CT sensors through the face plate, outside of the aluminium enclosure first and then attaching the face plate to the enclosure second. See pictures below.
+We recommend connecting the CT sensors through the face plate, outside of the aluminium enclosure first and then attaching the face plate to the enclosure second. This ensures that the CT's are all fully inserted and that the pressure on the header is minimised. See pictures below.
 
 ![](img/6CT/6ct_ext4.jpg)
 
