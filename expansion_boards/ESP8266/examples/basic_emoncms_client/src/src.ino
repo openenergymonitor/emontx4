@@ -5,9 +5,10 @@
 // #define DEBUG
 
 const char* ssid = "SSID";
-const char* password = "PSK";
+const char* password = "passkey";
 String serverName = "http://emoncms.org/input/post";
 String apikey = "APIKEY";
+String node = "emontx4";
 
 String line = "";
 String data = "";
@@ -15,6 +16,7 @@ String sub = "";
 int data_ready = 0;
 
 int LEDpin = 2;
+unsigned long last_connection_attempt = 0;
 
 void setup() {
   pinMode(LEDpin,OUTPUT);
@@ -23,25 +25,7 @@ void setup() {
   Serial.begin(115200);
   
   WiFi.begin(ssid, password);
-  #ifdef DEBUG
-  Serial.println("Connecting");
-  #endif
-  
-  led_state(0);
-  while(WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    #ifdef DEBUG
-    Serial.print(".");
-    #endif
-    led_flash(50);
-  }
-  
-  #ifdef DEBUG
-  Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
-  Serial.println(WiFi.localIP());
-  #endif
-  led_flash(500);
+  last_connection_attempt = millis();
 }
 
 void loop() {
@@ -68,6 +52,17 @@ void loop() {
     }
   }
 
+  // If WiFi has disconnected, reconnect
+  if (WiFi.status() != WL_CONNECTED) {
+    if (millis() - last_connection_attempt > 30000) {
+        last_connection_attempt = millis();
+        #ifdef DEBUG
+        Serial.println("WiFi disconnected, reconnecting");
+        #endif
+        WiFi.begin(ssid, password);
+    }
+  }
+
   //Send an HTTP POST request every 10 minutes
   if (data_ready) {
     data_ready = 0;
@@ -78,7 +73,7 @@ void loop() {
       WiFiClient client;
       HTTPClient http;
 
-      String serverPath = serverName + "?node=emontx4&data="+data+"&apikey="+apikey;
+      String serverPath = serverName + "?node=" + node + "&data="+data+"&apikey="+apikey;
       #ifdef DEBUG
       Serial.println(serverPath);
       #endif
