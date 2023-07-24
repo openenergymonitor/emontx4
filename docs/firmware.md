@@ -4,14 +4,13 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/firmwar
 
 # Firmware
 
-The emonTx v4 firmware can be edited and compiled using the [Arduino IDE](https://www.arduino.cc/) with [DxCore installed](https://github.com/SpenceKonde/DxCore).
-DxCore is an Arduino core for the AVR-DB microcontroller range, developed by SpenceKonde.
+The emonTx v4 firmware can be edited and compiled using [PlatformIO](https://platfomrio.org/) (recommended) or [Arduino IDE](https://www.arduino.cc/) with [DxCore installed](https://github.com/SpenceKonde/DxCore). DxCore is an Arduino core for the AVR-DB microcontroller range, developed by SpenceKonde.
 
 ## Available Firmware
 
-**[EmonTxV4 (lastest v1.5.7):](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4)** Single phase, 6 CT channel, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define), 3x DS18B20 temperature sensors supported by default, serial configuration and data output.
+**[EmonTxV4:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4)** Single phase, 6 CT channel, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define), 3x DS18B20 temperature sensors supported by default, serial configuration and data output.
 
-Pre-compiled hex v1.5.7: [https://github.com/openenergymonitor/emontx4/releases/tag/1.5.7](https://github.com/openenergymonitor/emontx4/releases/tag/1.5.7)
+Pre-compiled hex: [https://github.com/openenergymonitor/emontx4/releases/tag/1.5.7](https://github.com/openenergymonitor/emontx4/releases)
 
 **[EmonTxV4_6x_temperature:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_6x_temperature)** As above but configured to read and transmit 6x DS18B20 temperature sensor readings. Please see [EmonTx4 DS18B20 Temperature sensing & firmware release 1.5.7](https://community.openenergymonitor.org/t/emontx4-ds18b20-temperature-sensing-firmware-release-1-5-7/23496/2) for note on performance implications that also apply to the above 3x temperature sensor example.
 
@@ -38,19 +37,68 @@ Refresh the update page after connecting the USB cable. You should now see port 
 
 ![emonsd_firmware_upload.png](img/emonsd_firmware_upload2.png)
 
-Double check the serial port, this is likely to be 'ttyUSB0' when plugged in via USB. Select 'emonTx4' from hardware.
+Double check the serial port, this is likely to be 'ttyUSB0' when plugged in via USB device connected. Select 'emonTx4' from hardware.
 
 The standard radio format is 'LowPowerLabs', if you wish to use the emonTx4 with an existing system running JeeLib classic radio format you can select the JeeLib classic radio format here.
 
-## Uploading pre-compiled firmware
+## Upload pre-comnpiled using EmonScripts emonupload2 tool (recomended)
 
-Alternatively to upload the same pre-compiled firmware via command line using avrdude, the command to do this is:
+On the emonPi/emonBase ensure EmonScrips is updated to latest version then run emonupload2 tool 
+
+    /opt/openenergymonitor/EmonScripts/emonupload2.py
+
+Select hardware then firmware version
+
+```
+Select hardware:
+  1. emonTx4
+  2. emonPi
+  3. emonTx3
+  4. rfm69pi
+  5. rfm12pi
+  6. emonTH2
+  7. emonTH1
+Enter number:1
+
+Select firmware:
+1. emonTxV4_LPL
+2. emonTxV4_JeeLib_Native
+3. emonTxV4_JeeLib_Classic
+4. EmonTxV4_DB_3phase_6CT
+```
+
+emonupload2 tool can also be ran on any other linux computer by cloning the EmonScripts repo then running the emonupload2.py python script. Python3 required 
+
+    git clone https://github.com/openenergymonitor/EmonScripts
+
+## Upload pre-compiled manual avrdude 
+
+Alternatively to upload the same pre-compiled firmware via command line on emonPi / emonBase: 
+
+    avrdude -C/opt/openenergymonitor/EmonScripts/update/avrdude.conf -v -pavr128db48 -carduino -D -P/dev/ttyUSB0 -b115200 -Uflash:w:EmonTxV4_LPL.hex:i 
+
+Or using differant computer, ensure `avrdude.conf` has `avr128db48` entry i.e DxCore see below instructions 
 
     avrdude -Cavrdude.conf -v -pavr128db48 -carduino -D -P/dev/ttyUSB0 -b115200 -Uflash:w:EmonTxV4_LPL.hex:i 
     
 You will need avrdude installed (tested on version 6.3-2017) and the custom DxCore avrdude.conf. This can be downloaded here: [DxCore avrdude.conf](https://raw.githubusercontent.com/openenergymonitor/emontx4/main/firmware/avrdude.conf).
 
-## How to compile and upload firmware:
+## How to compile and upload firmware
+
+### Compile and Upload using PlatformIO (recomended)
+
+Clone the emonTx V4 repo 
+
+    git clone https://github.com/openenergymonitor/emontx4
+    cd emontx4/firmware/EmonTxV4
+    
+Install PlatformIO core then to compile and upload  
+
+    pio run -t upload
+
+On first run PlatformIO will download all the required liberties and automatically. You can also use the PlatformIO GUI. 
+
+### Compile and Upload using Arduino IDE 
 
 If you don’t already have the Arduino IDE it can be downloaded from here (As far as Im aware this needs to be the legacy version 1.8.19 for now):<br>
 [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software)
