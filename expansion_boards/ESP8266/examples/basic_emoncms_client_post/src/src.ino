@@ -3,19 +3,23 @@
 #include <WiFiClient.h>
 
 // #define DEBUG
-const char* ssid = "SSID";
-const char* password = "passkey";
-String serverName = "http://emoncms.org/input/post";
-String apikey = "APIKEY";
-String node = "emontx4";
+const char* ssid = "";
+const char* password = "";
 
-String line = "";
-String data = "";
-String sub = "";
-int data_ready = 0;
+#define PACKET_LEN 384
+
+char serverName[] = "http://emoncms.org/input/post";
+char nodestr[] = "node=emontx4&apikey=APIKEY&data=";
+char packet[PACKET_LEN];
+uint8_t packet_index = 0;
 
 int LEDpin = 2;
 unsigned long last_connection_attempt = 0;
+
+bool data_ready = false;
+unsigned long esp_msg_count = 0;
+unsigned long esp_recconect_count = 0;
+bool connected = false;
 
 void setup() {
   pinMode(LEDpin,OUTPUT);
@@ -25,34 +29,40 @@ void setup() {
   
   WiFi.begin(ssid, password);
   last_connection_attempt = millis();
+
+  // Reset packet to nodestr
+  memset(packet, 0, PACKET_LEN);
+  strcpy(packet,nodestr);
+  packet_index = strlen(nodestr);
 }
 
 void loop() {
 
   while (Serial.available()) {
-  
     char c = char(Serial.read());
-  
     if (c=='\n') {
-        data = line;
-        data.trim();
-        line = "";
-        
-        sub = data.substring(0, 3);
-        if (sub=="MSG") {
-            #ifdef DEBUG
-            Serial.println(data);
-            #endif
-            data_ready = 1;
-            led_flash(50);
-        }
+      if (strncmp(packet+strlen(nodestr),"MSG:",3)==0) {
+        #ifdef DEBUG
+        Serial.println(packet);
+        #endif
+        data_ready = true;
+        led_flash(50);
+      } else {
+        memset(packet, 0, PACKET_LEN);
+        strcpy(packet,nodestr);
+        packet_index = strlen(nodestr);
+      }
     } else {
-        line = line + c; 
+      if (packet_index < PACKET_LEN) {
+        packet[packet_index] = c;
+        packet_index++;
+      }
     }
   }
 
   // If WiFi has disconnected, reconnect
   if (WiFi.status() != WL_CONNECTED) {
+    connected = false;
     if (millis() - last_connection_attempt > 30000) {
         last_connection_attempt = millis();
         #ifdef DEBUG
@@ -64,26 +74,46 @@ void loop() {
 
   //Send an HTTP POST request every 10 minutes
   if (data_ready) {
-    data_ready = 0;
+    data_ready = false;
+    esp_msg_count++;
     //Check WiFi connection status
     if(WiFi.status()== WL_CONNECTED){
+      // If WiFi has just connected, increment esp_recconect_count
+      if (!connected) {
+        connected = true;
+        esp_recconect_count++;
+      }
+
       led_state(0);
-      
+
+      // Add esp_msg_count to packet string
+      char msg_count_str[10];
+      sprintf(msg_count_str, "%lu", esp_msg_count);
+      strcat(packet,",esp_msg:");
+      strcat(packet,msg_count_str);
+
+      // Add esp_recconect_count to packet string
+      char recconect_count_str[10];
+      sprintf(recconect_count_str, "%lu", esp_recconect_count);
+      strcat(packet,",esp_con:");
+      strcat(packet,recconect_count_str);
+
       WiFiClient client;
       HTTPClient http;
 
       // Your Domain name with URL path or IP address with path
-      http.begin(client,serverName.c_str());
+      http.begin(client,serverName);
 
       // Set content type header
       http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
       // Send HTTP POST request with URL-encoded data
-      String postData = "node=" + node + "&data=" + data + "&apikey=" + apikey;
       #ifdef DEBUG
-      Serial.println(postData);
+      Serial.println(packet);
       #endif
-      int httpResponseCode = http.POST(postData);
+      // uint8_t packetSize = strlen(packet);
+
+      int httpResponseCode = http.POST(packet);
       
       if (httpResponseCode>0) {
         #ifdef DEBUG
@@ -111,6 +141,9 @@ void loop() {
       Serial.println("WiFi Disconnected");
       #endif
     }
+    memset(packet, 0, PACKET_LEN);
+    strcpy(packet,nodestr);
+    packet_index = strlen(nodestr);
   }
 }
 
