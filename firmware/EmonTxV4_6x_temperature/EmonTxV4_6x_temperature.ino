@@ -47,7 +47,7 @@ copy the following into emonhub.conf:
   [[[rx]]]
     names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, T4, T5, T6, pulse
     datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,h,h,h,L
-    scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,0.01,0.01,0.01,1
+    scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,0.01,0.01,0.01,1
     units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,C,C,C,p
 
 */
