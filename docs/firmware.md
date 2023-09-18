@@ -18,7 +18,7 @@ Pre-compiled hex: [https://github.com/openenergymonitor/emontx4/releases/tag/1.5
 
 **[EmonTxV4_DB_3phase_6CT:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_DB_3phase_6CT)** New 3-phase 6 CT channel firmware using the emonLibDB library, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define). Serial configuration and data output. Please note that temperature sensing is not supported.
 
-## Updating firmware using an emonPi/emonBase
+## Updating firmware using an emonPi/emonBase (recomended)
 
 The easiest way of updating the emonTx4 firmware is to connect it to an emonBase with a USB cable and then use the firmware upload tool available at `Setup > Admin > Update > Firmware`.
 
@@ -41,7 +41,7 @@ Double check the serial port, this is likely to be 'ttyUSB0' when plugged in via
 
 The standard radio format is 'LowPowerLabs', if you wish to use the emonTx4 with an existing system running JeeLib classic radio format you can select the JeeLib classic radio format here.
 
-## Upload pre-comnpiled using EmonScripts emonupload2 tool (recomended)
+## Upload pre-comnpiled using EmonScripts emonupload2 tool 
 
 On the emonPi/emonBase ensure EmonScrips is updated to latest version then run emonupload2 tool 
 
