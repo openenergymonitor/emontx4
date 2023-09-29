@@ -455,6 +455,13 @@ void loop()
       Serial.print(F(",P4:")); Serial.print(emontx.P4);
       Serial.print(F(",P5:")); Serial.print(emontx.P5);
       Serial.print(F(",P6:")); Serial.print(emontx.P6);
+      
+      Serial.print(F(",I1:")); Serial.print(emontx.I1);
+      Serial.print(F(",I2:")); Serial.print(emontx.I2);
+      Serial.print(F(",I3:")); Serial.print(emontx.I3);
+      Serial.print(F(",I4:")); Serial.print(emontx.I4);
+      Serial.print(F(",I5:")); Serial.print(emontx.I5);
+      Serial.print(F(",I6:")); Serial.print(emontx.I6);
          
       Serial.print(F(",E1:")); Serial.print(emontx.E1);
       Serial.print(F(",E2:")); Serial.print(emontx.E2);
@@ -462,6 +469,8 @@ void loop()
       Serial.print(F(",E4:")); Serial.print(emontx.E4);
       Serial.print(F(",E5:")); Serial.print(emontx.E5);
       Serial.print(F(",E6:")); Serial.print(emontx.E6);
+      
+
        
       if (emontx.T1!=30000) { Serial.print(F(",T1:")); Serial.print(emontx.T1*0.01); }
       if (emontx.T2!=30000) { Serial.print(F(",T2:")); Serial.print(emontx.T2*0.01); }
