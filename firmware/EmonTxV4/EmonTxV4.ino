@@ -87,7 +87,7 @@ RFM69 rf;
 
 typedef struct {
     unsigned long Msg;
-    int Vrms,P1,P2,P3,P4,P5,P6; 
+    int Vrms,P1,P2,P3,P4,P5,P6,I1,I2,I3,I4,I5,I6; 
     long E1,E2,E3,E4,E5,E6; 
     int T1,T2,T3;
     unsigned long pulse;
@@ -348,21 +348,29 @@ void loop()
     
     emontx.P1 = EmonLibCM_getRealPower(0); 
     emontx.E1 = EmonLibCM_getWattHour(0); 
+    emontx.I1 = EmonLibCM_getIrms(0);
 
     emontx.P2 = EmonLibCM_getRealPower(1); 
     emontx.E2 = EmonLibCM_getWattHour(1); 
+    emontx.I2 = EmonLibCM_getIrms(1);
     
     emontx.P3 = EmonLibCM_getRealPower(2); 
     emontx.E3 = EmonLibCM_getWattHour(2); 
+    emontx.I3 = EmonLibCM_getIrms(2);
   
     emontx.P4 = EmonLibCM_getRealPower(3); 
     emontx.E4 = EmonLibCM_getWattHour(3); 
+    emontx.I4 = EmonLibCM_getIrms(3);
 
     emontx.P5 = EmonLibCM_getRealPower(4); 
-    emontx.E5 = EmonLibCM_getWattHour(4); 
+    emontx.E5 = EmonLibCM_getWattHour(4);
+    emontx.I4 = EmonLibCM_getIrms(4); 
 
     emontx.P6 = EmonLibCM_getRealPower(5); 
     emontx.E6 = EmonLibCM_getWattHour(5); 
+    emontx.I6 = EmonLibCM_getIrms(5);
+    
+    
 
     if (EmonLibCM_acPresent()) {
       emontx.Vrms = EmonLibCM_getVrms() * 100;
@@ -417,6 +425,13 @@ void loop()
       Serial.print(F(",\"E4\":")); Serial.print(emontx.E4);
       Serial.print(F(",\"E5\":")); Serial.print(emontx.E5);
       Serial.print(F(",\"E6\":")); Serial.print(emontx.E6);
+      
+      Serial.print(F(",\"I1\":")); Serial.print(emontx.I1);
+      Serial.print(F(",\"I2\":")); Serial.print(emontx.I2);
+      Serial.print(F(",\"I3\":")); Serial.print(emontx.I3);
+      Serial.print(F(",\"I4\":")); Serial.print(emontx.I4);
+      Serial.print(F(",\"I5\":")); Serial.print(emontx.I5);
+      Serial.print(F(",\"I6\":")); Serial.print(emontx.I6);
 
       if (emontx.T1!=30000) { Serial.print(F(",\"T1\":")); Serial.print(emontx.T1*0.01); }
       if (emontx.T2!=30000) { Serial.print(F(",\"T2\":")); Serial.print(emontx.T2*0.01); }

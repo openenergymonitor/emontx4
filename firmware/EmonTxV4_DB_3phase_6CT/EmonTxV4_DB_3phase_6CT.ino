@@ -119,7 +119,7 @@ struct {
   bool  pulse_enable = true;                               // pulse counting
   int   pulse_period = 100;                                // pulse min period - 0 = no de-bounce
   bool  showCurrents = false;                              // Print to serial voltage, current & p.f. values
-  bool  json_enabled = false;                              // JSON Enabled - false = key,Value pair, true = JSON, default = false: Key,Value pair.  
+  bool  json_enabled = true;                              // JSON Enabled - false = key,Value pair, true = JSON, default = false: Key,Value pair.  
 } EEProm;
 
 uint16_t eepromSig = 0x0020;                               // oemEProm signature - see oemEProm Library documentation for details.
