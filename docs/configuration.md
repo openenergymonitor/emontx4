@@ -6,7 +6,7 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/configu
 
 ## Default configuration
 
-The emonTx4 comes configured as standard with the following default configuration:
+The emonTx4 comes as standard with the following default configuration:
 
 - **emonVs:** (Vcal: 807.86)
 - **CT 1:** 100A 0.333V (Ical: 300.3, Ilead: 3.2)
@@ -22,10 +22,9 @@ The emonTx4 comes configured as standard with the following default configuratio
 - **Datalogging period:** 9.8s 
 - **Minimum pulse period:** 100ms
 
-To use the emonTx4 with a different CT arrangement, or radio node and group these settings can be adjusted over serial, using either an online web tool or directly via a serial console.
+To use the emonTx4 with a different CT arrangement, radio node or group, these settings can be adjusted over serial using either an online web tool or directly via a serial console. 
 
-- **Ical\<x\>:** Amplitude calibration for CT channel x.
-- **Ilead\<x\>:** Phase calibration for CT channel x.
+Alternatively it’s possible to configure the emonTx4 directly via serial using the arduino serial.
 
 ## Using the web tool
 

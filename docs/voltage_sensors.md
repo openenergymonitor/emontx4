@@ -8,8 +8,6 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/voltage
 
 There are 3 different voltage sensor options that are compatible with the emonTx4. While the **standard voltage sensor available in the bundle is the emonVs-PSU** (voltage sensor and power supply) you may want to select a different voltage sensor depending on your installation and requirements.
 
-**The emonTx4 firmware currently only supports single-phase operation, 3-phase firmware will be available in 2023. It is possible to order the 3-phase version of the emonVs-PSU unit which will then be compatible with the 3-phase firmware once it is available.**
-
 Here is a quick overview of the 3 options:
 
 ![voltage_sensor_options.png](img/voltage_sensor_options.png)

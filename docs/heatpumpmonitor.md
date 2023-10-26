@@ -74,10 +74,9 @@ It's then often convenient to add additional CT sensors at the location of the i
 The CT sensors connect to the CT sensor inputs on the emonTx4. 
 
 **Voltage sensing**<br>
-For accurate electricity monitoring we would always recommend a voltage sensor. Without a voltage sensor the standby electricity consumption of a heat pump can read as high as ~270W when the real (active) power reading should actually be 12W! The EcoDan heat pumps that we have tested this on so far have all exhibited very low power factor power, leading to these large differences between real (active) power and apparent power. The power factor is usually better when the heat pump is running with a difference of 10-20% between real power and apparent power.
+For accurate electricity monitoring we would always recommend a voltage sensor. Without a voltage sensor the standby electricity consumption of a heat pump can read as high as ~270W when the real (active) power reading should actually be 12W! The EcoDan heat pumps that we have tested this on so far have all exhibited very low power factor, leading to these large differences between real (active) power and apparent power. The power factor is usually better when the heat pump is running with a difference of 10-20% between real power and apparent power.
 
-The emonTx4 can either use the full emonVs-psu (voltage sensor and power supply) or the cheaper emonVs-mini (voltage sensor only). If using the emonVs-mini a separate USB power supply is required. The installation picture above shows an installation with the full emonVS-psu.
-
+The emonTx4 can either use the full emonVs-psu (voltage sensor and power supply) or the cheaper emonVs-mini (voltage sensor only). If using the emonVs-mini, a separate USB power supply is required. The installation picture above shows an installation with the full emonVs-psu.
 
 ## 2. Temperature sensing
 
@@ -175,7 +174,7 @@ The Sika VFS flow sensor that is usually installed alongside Mitsubushi EcoDan h
 
 We can see that at 23, 32 & 40 L/min the output voltage is higher than the 0-1.024V range of the analog input on the emonTx4. We therefore need to scale this voltage down to better fit the emonTx4 input voltage range. This can be done with a simple voltage divider.
 
-In the example pictured below I have choosen a voltage divider with equall values for both top and bottom resistors, 100k each. This halves the voltage seen at the emonTx4 analog input pin. 1.61V will now become 0.8V and the maximum measurable flow rate is just over 50L/min.
+In the example pictured below I have choosen a voltage divider with equal values for both top and bottom resistors, 100k each. This halves the voltage seen at the emonTx4 analog input pin. 1.61V will now become 0.8V and the maximum measurable flow rate is just over 50L/min.
 
 Different voltage divider values can be choosen to best fit the range of flow rates expected.
 
@@ -189,7 +188,7 @@ The following example emonTx4 heat pump monitoring firmware is an adaptation of 
 
 [https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_heatpump](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_heatpump)
 
-## 5. Basestation or wifi adapter
+## 5. Basestation or Wi-Fi adapter
 
 The emonTx4 can transmit its data via: 
 
@@ -216,7 +215,7 @@ If transmitting via 433 MHz radio, the following emonhub.conf node decoder is re
     units = n,V,W,W,W,Wh,Wh,Wh,a,Lmin,W,C,C,C,C,p
 ```
 
-## 6. Emoncms & My Heat pump app
+## 6. Emoncms & MyHeatpump app
 
 Emoncms includes an application specific heat pump dashboard available in the Apps module. The following video gives a good overview of what this dashboard can do, how to access daily electricity consumption and heat output data as well as detailed system temperature and power data.
 

@@ -30,7 +30,7 @@ It's possible to change the function of the 'Data' pin on each of the terminal b
 Move the solder link as required to configure these for your application. Additional firmware changes are required to make use of the digital input/output PA7 and the analog input AIN19 (CT12).
 ```
 
-The emonTx4 firmware supports up to 3x temperature sensors by default. This can be extended to support more temperature sensors with firmware modification. *However it is worth noting that due to the way that the one wire protocol works, specifically it's requirement for precise timing requiring brief periods of disabling other interrupts on the microcontroller, that there is a minor negative impact on energy monitoring performance as you add more temperature sensors. This can manifest as a ±1-4W error on some CT channels. This effect can be mitigated to some extent by reducing the electricity monitoring sample rate.*
+The emonTx4 firmware supports up to 3x temperature sensors by default. This can be extended to support more temperature sensors with firmware modification. *However it is worth noting that due to the way that the one wire protocol works, specifically its requirement for precise timing requiring brief periods of disabling other interrupts on the microcontroller, that there is a minor negative impact on energy monitoring performance as you add more temperature sensors. This can manifest as a ±1-4W error on some CT channels. This effect can be mitigated to some extent by reducing the electricity monitoring sample rate.*
 
 ## Pulse counting
 
@@ -53,7 +53,7 @@ It's possible to link analog input AIN19 (CT12) to right-most terminal block as 
 ![emontx4_solderpad_analog.jpg](img/emontx4_solderpad_analog.jpg)
 
 ```{warning}
-The analog input voltage must be in the range **0 - 1.024V**. This ADC is configured for this range in order to suit the 333mV CT sensors. 
+The analog input voltage must be in the range **0 - 1.024V**. This ADC is configured for this range in order to suit the 333mV CT sensors. This analog input can not be used when using the emonTx4 with the C.T Extender board.
 ```
 
 **How to use the analog input:**

@@ -82,7 +82,7 @@ The following LTSpice schematic & simulation describes the emonTx4 voltage sensi
 
 2. The ZMPT101B precision voltage transformer itself has a 1:1 relationship between primary and secondary current. While the suggested current is 2mA on the datasheet the transformer is rated up to 10ma and the phase error is significantly less at 4mA than 2ma. 
 
-3. Next we convert the secondary current to a voltage using the burden resistor (R2, 75R, 0.1%, xxxmW). The burden resistor alone would give a voltage output of 299.4mV RMS when the mains voltage is 240V.
+3. Next we convert the secondary current to a voltage using the burden resistor (R2, 75R, 0.1%). The burden resistor alone would give a voltage output of 299.4mV RMS when the mains voltage is 240V.
 
 4. The actual output voltage is a little less due to the impedance of the bias circuit. We can treat R5 (180k) and R6 (33k) as being in parallel with the burden resistor R2. The effective resistance is then: 1/((1/75)+(1/33000)+(1/180000)) = 74.799 Ohms. This gives an output voltage of 298.6 mV.
 

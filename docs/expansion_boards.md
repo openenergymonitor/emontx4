@@ -4,15 +4,13 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/expansi
 
 # Expansion boards
 
-The emonTx4 has been designed to make it possible to expand it's capability through expansion boards. These mostly focus around adding Wi-Fi communications but there's also a CT channel expansion board for more channels.
-
-The following boards will be available soon as development boards that require some component sourcing, soldering and firmware uploading. These are all currently relatively early stage developments and so are not as finely finished as the standard system.
+The emonTx4 has been designed to make it possible to expand its capability through expansion boards. These mostly focus around adding Wi-Fi communications but there's also a CT channel expansion board for more channels.
 
 ---
 
 ## Pi Pico WiFi Expansion Board
 
-The new Raspberry Pi Pico W is a wireless-enabled version of the original Pi Pico based on the RP2040 chip. This simple expansion board just maps the Pi Pico W pins to the UART and SPI headers on the emonTx4.
+The Raspberry Pi Pico W is a wireless-enabled version of the original Pi Pico based on the RP2040 chip. This simple expansion board just maps the Pi Pico W pins to the UART and SPI headers on the emonTx4.
 
 ![pipico_ext.jpeg](img/pipico_ext.jpeg)
 
@@ -77,8 +75,6 @@ When mounted on the emonTx4, the ESP8266 Huzzah module sits inverted so as to fi
 
 ## ESP32 Wi-Fi Expansion Board
 
-More details to follow...
-
 ![esp32_ext.jpeg](img/esp32_ext.jpeg)
 
 ### Software Examples
@@ -94,8 +90,6 @@ More details to follow...
 ---
 
 ## Pi Zero Expansion Board
-
-More details to follow...
 
 ![pizero_ext.jpeg](img/pizero_ext.jpeg)
 

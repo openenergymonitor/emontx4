@@ -20,15 +20,16 @@ The following guide covers installation of the [emonTx4 6x input energy monitor]
 
 ## Quick Start
 
-1. Clip the CT current sensors around Live OR Neutral cable of the AC circuit to be measured (not both), note CT direction K -> L (L: Load).
+1. Clip the CT current sensors around Live OR Neutral cable of the AC circuit to be measured (not both), note CT direction K -> L (L: Load), That’s on the Line conductor, the arrow points
+away from the load on the Neutral.
 
 2. Plug the CT current sensors into emonTx4 via 3.5mm jack plugs
 
-3. Plug emonVS RJ11 cable into emonTx4
+3. Plug emonVs RJ11 cable into emonTx4
 
-4. Plug emonVS USB-C cable into emonBase Raspberry Pi base-station power input connector
+4. Plug emonVs USB-C cable into emonBase Raspberry Pi base-station power input connector
 
-5. Plug emonVS into mains power via a domestic wall socket
+5. Plug emonVs into mains power via a domestic wall socket
 
 6. (optionally) connect emonBase Raspberry Pi base-station to Ethernet
 
@@ -53,7 +54,7 @@ A good place to start is to assess the location where you wish to install the em
 
 There are two different ways of installing the emonVs voltage sensor:
 
-**Using the mains plug supplied:** If you have a convenient socket near-by this is be the easiest and quickest option.<br>
+**Using the mains plug supplied:** If you have a convenient socket near-by this will be the easiest and quickest option.<br>
 
 **Direct installation:** The emonVs can be hardwired by a suitably competent person into a 6A or lower circuit protection device in the fuse board (consumer unit) or a 3A fused spur. The supplied emonVs mains power cable has a cross sectional area of 1.0mm<sup>2</sup>. This can provide a tidy installation if no socket is available and helps ensure higher monitoring uptime if sockets are at risk of being unplugged for use by other appliances.
 
@@ -65,7 +66,7 @@ The emonVs unit can be wall mounted using the brackets on the enclosure. Start b
 
 - The emonTx4 supports a wide variety of 333mV voltage output CT sensors. We stock 20A, 50A, 100A & 200A options in the OpenEnergyMonitor shop. The physical size of these CT sensors is also roughly proportional to their current rating. For highest accuracy it's a good idea to choose CT sensors that match the rating of the circuit being monitored. As an example a 20A CT should be used for 16A or 20A circuits, a 50A CT for 32A EV chargers or 100A CT for whole house monitoring (assuming a 100A rated supply).
 
-- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). The CT sensors have an indicated direction printed on the case `K->L`, where L is the direction of the load. This will ensure the correct sign (+/-) on the power readings.
+- CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). The CT sensors have an indicated direction printed on the case `K->L`, where L is the direction of the load. That’s on the Line conductor, the arrow points away from the load on the Neutral. This will ensure the correct sign (+/-) on the power readings.
 
 - Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement.
 
@@ -122,13 +123,13 @@ The USB-C connection on the emonTx4 only works in one orientation for data trans
 - The emonBase can receive data from the emonTx4 either via 433 MHz radio or if near by via wired USB connection.
 - If near by, the emonBase can be powered by the emonVs USB-C cable.
 - Alternatively a separate USB-C power supply will be required if located elsewhere.
-- Before powering up the emonBase, you may want to enable SSH an pre-configure your WiFi details on the SD card first. See [emonSD: before bootup SSH & WiFi configuration](../emonsd/download.md).
+- Before powering up the emonBase, you may want to enable SSH and pre-configure your WiFi details on the SD card first. See [emonSD: before bootup SSH & WiFi configuration](../emonsd/download.md).
 
 ## 5. emonBase setup
 
 - **If the emonBase is powered up without Ethernet connected it will create a Wi-Fi Access Point** called `emonsd`. Connect to this using password `emonsd2022`. Browse the IP address [http://192.168.42.1](http://192.168.42.1) and follow the setup wizard to connect the device to your local Wi-Fi network.
-- **Once connected via Wi-Fi or Ethernet** the base-station can be accessed via [http://emonpi](http://emonpi) or [http://emonpi.local](http://emonpi.local). If you are unable to locate the emonBase via this hostname, try using a network scanner app such as ['Fing'](https://play.google.com/store/apps/details?id=com.overlook.android.fing&hl=en_GB&gl=US) or ['Network Analyser'](https://play.google.com/store/apps/details?id=net.techet.netanalyzerlite.an&hl=en_GB&gl=US) to list the IP addresses of devices on your network.
-- **The emonBase should now present the emoncms login screen.** Create a local account and login.
+- **Once connected via Wi-Fi or Ethernet** the base-station can be accessed via [http://emonpi](http://emonpi) or [http://emonpi.local](http://emonpi.local). If you are unable to locate the emonBase via this hostname, try using a network scanner app such as ['Fing'](https://play.google.com/store/apps/details?id=com.overlook.android.fing&hl=en_GB&gl=US) or ['Network Analyser'](https://play.google.com/store/apps/details?id=net.techet.netanalyzerlite.an&hl=en_GB&gl=US) to list the IP addresses of devices on your network or check the device list on your router.
+- **The emonBase should now present the emoncms login screen.** Create a local account, save the password and login.
 - **Configure inputs by navigating to Setup > Inputs.** The emonTx4 will pop up here automatically under the emonTx4_xx node name. If you have connected the emonTx4 to the emonBase directly via USB it will appear twice, first under the emonTx4_xx node name corresponding to data received over radio and second under the 'emonTx4' node name corresponding to data received directly over USB. You may wish to disable the radio link at this point.
 
 ```{note} 
@@ -138,7 +139,7 @@ The USB-C connection on the emonTx4 only works in one orientation for data trans
 ```{tip} 
 **The emonTx4 radio can be disabled if using USB:** on the emonBase local Emoncms webpage navigate to Admin > Serial Config to bring up the emonTx4 serial configuration interface. This version runs locally on the emonBase and is compatible with all browsers. Click on 'Stop EmonHub' and then click on 'Start' for the serial connection above it. In the console entry box type 'w0' and click 'Send'. You should see 'RF off' printed in the console log window below. Next enter the character 's' for save in the console entry box and click 'Send' again. This will save and persist this setting. You can at this point use the serial configuration interface to adjust CT calibration if needed. Once complete click on 'Stop Serial' and then 'Start EmonHub' again. Navigate back to Setup > Inputs, after about 20s the USB inputs should resume.
 ```
-- **The next step is to log the input data to feeds.** Inputs are just placeholders showing the latest values sent from the emonTx4, we need to create feeds if we want to record a time-series of these values. It's possible to either manually configure each input as required or if you just want to record everything for now and delete what you don't need later. it's possible to use the preconfigured Device template.
+- **The next step is to log the input data to feeds.** Inputs are just placeholders showing the latest values sent from the emonTx4, we need to create feeds if we want to record a time-series of these values. It’s possible to either manually configure each input as required, or if you just want to record everything for now and delete what you don’t need later, then you can use the pre-configured Device Template.
 
     **Tip: Input configuration using the emonTx4 device template:** On the Setup > Inputs page, Click on the cog icon (top right corner) of the emonTx4 node. The 'Configure Device' window will appear, click on 'emonTx4 Standard', you may need to scroll down a little in the Devices pane to find. Click 'Save' and 'Initialize'. This will create feeds that record real power and cumulative energy for each channel, Vrms, total message count, temperatures and total pulse count. Navigate to Setup > Feeds to see these feeds.
 

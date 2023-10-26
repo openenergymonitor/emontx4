@@ -18,7 +18,7 @@ Pre-compiled hex: [https://github.com/openenergymonitor/emontx4/releases/tag/1.5
 
 **[EmonTxV4_DB_3phase_6CT:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_DB_3phase_6CT)** New 3-phase 6 CT channel firmware using the emonLibDB library, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define). Serial configuration and data output. Please note that temperature sensing is not supported.
 
-## Updating firmware using an emonPi/emonBase (recomended)
+## Updating firmware using an emonPi/emonBase (recommended)
 
 The easiest way of updating the emonTx4 firmware is to connect it to an emonBase with a USB cable and then use the firmware upload tool available at `Setup > Admin > Update > Firmware`.
 
@@ -41,9 +41,9 @@ Double check the serial port, this is likely to be 'ttyUSB0' when plugged in via
 
 The standard radio format is 'LowPowerLabs', if you wish to use the emonTx4 with an existing system running JeeLib classic radio format you can select the JeeLib classic radio format here.
 
-## Upload pre-comnpiled using EmonScripts emonupload2 tool 
+## Upload pre-compiled using EmonScripts emonupload2 tool 
 
-On the emonPi/emonBase ensure EmonScrips is updated to latest version then run emonupload2 tool 
+On the emonPi/emonBase ensure EmonScripts is updated to latest version then run emonupload2 tool 
 
     /opt/openenergymonitor/EmonScripts/emonupload2.py
 
@@ -67,11 +67,11 @@ Select firmware:
 4. EmonTxV4_DB_3phase_6CT
 ```
 
-emonupload2 tool can also be ran on any other linux computer by cloning the EmonScripts repo then running the emonupload2.py python script. Python3 required 
+emonupload2 tool can also be run on any other linux computer by cloning the EmonScripts repo then running the emonupload2.py python script. Python3 required 
 
     git clone https://github.com/openenergymonitor/EmonScripts
 
-## Upload pre-compiled manual avrdude 
+## Upload pre-compiled manually using avrdude
 
 Alternatively to upload the same pre-compiled firmware via command line on emonPi / emonBase: 
 
@@ -85,7 +85,7 @@ You will need avrdude installed (tested on version 6.3-2017) and the custom DxCo
 
 ## How to compile and upload firmware
 
-### Compile and Upload using PlatformIO (recomended)
+### Compile and Upload using PlatformIO (recommended)
 
 Clone the emonTx V4 repo 
 
@@ -96,11 +96,11 @@ Install PlatformIO core then to compile and upload
 
     pio run -t upload
 
-On first run PlatformIO will download all the required liberties and automatically. You can also use the PlatformIO GUI. 
+On first run PlatformIO will download automatically all the required libraries. You can also use the PlatformIO GUI. 
 
 ### Compile and Upload using Arduino IDE 
 
-If you don’t already have the Arduino IDE it can be downloaded from here (As far as Im aware this needs to be the legacy version 1.8.19 for now):<br>
+If you don’t already have the Arduino IDE it can be downloaded from here:<br>
 [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software)
 
 Once you have the IDE installed, you then need to install [Spence Konde’s DxCore](https://github.com/SpenceKonde/DxCore). This can be done by first pasting the following board manager URL in Arduino IDE > File > Preferences:
@@ -115,9 +115,8 @@ For more information on DxCore installation see: [https://github.com/SpenceKonde
 
 **Libraries**
 
-Next install the libraries used by the main firmware, download and place these in your Arduino libraries directory. 
+Locate or create your Arduino Sketchbook directory (location found in Arduino preferences). If it doesnt already exist, create a directory called libraries in the Sketchbook directory and install the following libraries:
 
-The libraries folder is a folder that must be added to your Arduino Sketchbook directory (location found in Arduino preferences). Simply create the folder named libraries in that folder and place the libraries you need, there.
 
 1\. Download EmonLibCM library (avrdb branch)<br>
 [https://github.com/openenergymonitor/EmonLibCM/tree/avrdb](https://github.com/openenergymonitor/EmonLibCM/tree/avrdb)
