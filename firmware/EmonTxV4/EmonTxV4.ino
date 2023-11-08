@@ -45,10 +45,10 @@ copy the following into emonhub.conf:
 [[17]]
   nodename = emonTx4_17
   [[[rx]]]
-    names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
-    datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,L
-    scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,1
-    units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,p
+    names = MSG, Vrms, P1, P2, P3, P4, P5, P6, I1, I2, I3, I4, I5, I6, T1, T2, T3, pulse
+    datacodes = L,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,h,L
+    scales = 1,0.01,1,1,1,1,1,1,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01,1
+    units = n,V,W,W,W,W,W,W,I,I,I,I,I,I,C,C,C,p
 
 */
 // Comment/Uncomment as applicable
@@ -87,8 +87,8 @@ RFM69 rf;
 
 typedef struct {
     unsigned long Msg;
-    int Vrms,P1,P2,P3,P4,P5,P6,I1,I2,I3,I4,I5,I6; 
-    long E1,E2,E3,E4,E5,E6; 
+    int Vrms,P1,P2,P3,P4,P5,P6,I1,I2,I3,I4,I5,I6;; 
+//    long E1,E2,E3,E4,E5,E6; 
     int T1,T2,T3;
     unsigned long pulse;
 } PayloadTX;                                                  // create a data packet for the RFM
@@ -347,28 +347,27 @@ void loop()
     // Power Factor:   EmonLibCM_getPF(ch)
     
     emontx.P1 = EmonLibCM_getRealPower(0); 
-    emontx.E1 = EmonLibCM_getWattHour(0); 
-    emontx.I1 = EmonLibCM_getIrms(0);
+//    emontx.E1 = EmonLibCM_getWattHour(0); 
+    emontx.I1 = EmonLibCM_getIrms(0)*100;
 
     emontx.P2 = EmonLibCM_getRealPower(1); 
-    emontx.E2 = EmonLibCM_getWattHour(1); 
-    emontx.I2 = EmonLibCM_getIrms(1);
+    emontx.I2 = EmonLibCM_getIrms(1)*100;
     
     emontx.P3 = EmonLibCM_getRealPower(2); 
-    emontx.E3 = EmonLibCM_getWattHour(2); 
-    emontx.I3 = EmonLibCM_getIrms(2);
+//    emontx.E3 = EmonLibCM_getWattHour(2); 
+    emontx.I3 = EmonLibCM_getIrms(2)*100;
   
     emontx.P4 = EmonLibCM_getRealPower(3); 
-    emontx.E4 = EmonLibCM_getWattHour(3); 
-    emontx.I4 = EmonLibCM_getIrms(3);
+//    emontx.E4 = EmonLibCM_getWattHour(3); 
+    emontx.I4 = EmonLibCM_getIrms(3)*100;
 
     emontx.P5 = EmonLibCM_getRealPower(4); 
-    emontx.E5 = EmonLibCM_getWattHour(4);
-    emontx.I4 = EmonLibCM_getIrms(4); 
+//    emontx.E5 = EmonLibCM_getWattHour(4);
+    emontx.I4 = EmonLibCM_getIrms(4)*100; 
 
     emontx.P6 = EmonLibCM_getRealPower(5); 
-    emontx.E6 = EmonLibCM_getWattHour(5); 
-    emontx.I6 = EmonLibCM_getIrms(5);
+ //   emontx.E6 = EmonLibCM_getWattHour(5); 
+    emontx.I6 = EmonLibCM_getIrms(5)*100;
     
     
 
@@ -419,12 +418,12 @@ void loop()
       Serial.print(F(",\"P5\":")); Serial.print(emontx.P5);
       Serial.print(F(",\"P6\":")); Serial.print(emontx.P6);
 
-      Serial.print(F(",\"E1\":")); Serial.print(emontx.E1);
-      Serial.print(F(",\"E2\":")); Serial.print(emontx.E2);
-      Serial.print(F(",\"E3\":")); Serial.print(emontx.E3);
-      Serial.print(F(",\"E4\":")); Serial.print(emontx.E4);
-      Serial.print(F(",\"E5\":")); Serial.print(emontx.E5);
-      Serial.print(F(",\"E6\":")); Serial.print(emontx.E6);
+//      Serial.print(F(",\"E1\":")); Serial.print(emontx.E1);
+//      Serial.print(F(",\"E2\":")); Serial.print(emontx.E2);
+//      Serial.print(F(",\"E3\":")); Serial.print(emontx.E3);
+//      Serial.print(F(",\"E4\":")); Serial.print(emontx.E4);
+//      Serial.print(F(",\"E5\":")); Serial.print(emontx.E5);
+//      Serial.print(F(",\"E6\":")); Serial.print(emontx.E6);
       
       Serial.print(F(",\"I1\":")); Serial.print(emontx.I1);
       Serial.print(F(",\"I2\":")); Serial.print(emontx.I2);
@@ -463,12 +462,12 @@ void loop()
       Serial.print(F(",I5:")); Serial.print(emontx.I5);
       Serial.print(F(",I6:")); Serial.print(emontx.I6);
          
-      Serial.print(F(",E1:")); Serial.print(emontx.E1);
-      Serial.print(F(",E2:")); Serial.print(emontx.E2);
-      Serial.print(F(",E3:")); Serial.print(emontx.E3);
-      Serial.print(F(",E4:")); Serial.print(emontx.E4);
-      Serial.print(F(",E5:")); Serial.print(emontx.E5);
-      Serial.print(F(",E6:")); Serial.print(emontx.E6);
+//      Serial.print(F(",E1:")); Serial.print(emontx.E1);
+//      Serial.print(F(",E2:")); Serial.print(emontx.E2);
+//      Serial.print(F(",E3:")); Serial.print(emontx.E3);
+//      Serial.print(F(",E4:")); Serial.print(emontx.E4);
+//      Serial.print(F(",E5:")); Serial.print(emontx.E5);
+//      Serial.print(F(",E6:")); Serial.print(emontx.E6);
       
 
        
@@ -501,7 +500,7 @@ void loop()
     }
     digitalWrite(LEDpin,HIGH); delay(50);digitalWrite(LEDpin,LOW);
     // End of print out ----------------------------------------------------
-    storeEValues(emontx.E1,emontx.E2,emontx.E3,emontx.E4,emontx.E5,emontx.E6,emontx.pulse);
+    //storeEValues(emontx.E1,emontx.E2,emontx.E3,emontx.E4,emontx.E5,emontx.E6,emontx.pulse);
   }
   wdt_reset();
   delay(20);
