@@ -4,7 +4,7 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/firmwar
 
 # Firmware
 
-The emonTx v4 firmware can be edited and compiled using [PlatformIO](https://platfomrio.org/) (recommended) or [Arduino IDE](https://www.arduino.cc/) with [DxCore installed](https://github.com/SpenceKonde/DxCore). DxCore is an Arduino core for the AVR-DB microcontroller range, developed by SpenceKonde.
+The emonTx v4 firmware can be edited and compiled using [PlatformIO](https://platformio.org/) (recommended) or [Arduino IDE](https://www.arduino.cc/) with [DxCore installed](https://github.com/SpenceKonde/DxCore). DxCore is an Arduino core for the AVR-DB microcontroller range, developed by SpenceKonde.
 
 ## Available Firmware
 
