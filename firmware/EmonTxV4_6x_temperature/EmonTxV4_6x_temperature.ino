@@ -183,7 +183,7 @@ void setup()
   if (digitalRead(DIP_switch2)==ON) EEProm.nodeID++;                         // IF DIP switch 1 is switched on (LOW) then add 1 from nodeID
 
   #ifdef DEBUG
-    Serial.print(F("emonTx V4 CM Continuous Monitoring V")); Serial.write(firmware_version);
+    Serial.print(F("emonTx V4 6x Temp CM Continuous Monitoring V")); Serial.write(firmware_version);
     Serial.println(F("OpenEnergyMonitor.org"));
   #else
     Serial.println(F("describe:EmonTX4CM"));
