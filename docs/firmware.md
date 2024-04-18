@@ -16,7 +16,9 @@ Pre-compiled hex: [https://github.com/openenergymonitor/emontx4/releases/tag/1.5
 
 **[EmonTxV4_heatpump:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_heatpump)** Single phase, 3 CT channel, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define), 4x DS18B20 temperature sensors supported by default, serial configuration and data output. Designed for use with Sika VFS flow meter, measures the analog voltage output to calculate flow rate, which combined with flow and return temperature measurements allow calculation of heat pump heat output.
 
-**[EmonTxV4_DB_3phase_6CT:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_DB_3phase_6CT)** New 3-phase 6 CT channel firmware using the emonLibDB library, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define). Serial configuration and data output. Please note that temperature sensing is not supported.
+**[EmonTxV4_DB_3phase_6CT:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_DB_3phase_6CT)** 3-phase 6 CT channel firmware using the emonLibDB library, continuous sampling, cumulative energy persisted to EEPROM, LowPowerLabs RFM69 radio format (JeeLib also supported via #define). Serial configuration and data output. Please note that temperature sensing is not supported.
+
+**[EmonTx4_DB_12CT_serial:](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTx4_DB_12CT_serial)** 12 CT channel firmware using the emonLibDB library, continuous sampling. Serial output only for use with EmonESP ESP8266 WiFi module or direct USB connection to an emonBase/emonPi.
 
 ## Updating firmware using an emonPi/emonBase (recommended)
 

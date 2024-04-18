@@ -1,4 +1,4 @@
-// EmonTx4_DB_12CT_WiFi 
+// EmonTx4_DB_12CT_serial
 // This default example prints 1 voltage and 12 power values to the serial port
 // this is then either picked up by an EmonESP 8266 WiFi module or can be used
 // for direct USB link to a emonBase/emonPi via emonHub.
@@ -23,7 +23,7 @@ void setup()
   Serial.end();
   Serial.begin(115200);
   
-  Serial.println("\nEmonTx4_DB_12CT_WIFI"); 
+  Serial.println("\nEmonTx4_DB_12CT_serial"); 
 
   
   /****************************************************************************
