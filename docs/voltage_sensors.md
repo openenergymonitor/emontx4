@@ -22,7 +22,7 @@ The following picture shows what is inside the box for the single phase configur
 
 - Supports a range of mains voltages 120-240V, US, EU, UK.
 - Output AC voltage signal on RJ11 @ 120V = (120V / 60k 0.1%) x 75R 0.1% = 150 mV
-- Output AC voltage signal on RJ11 @ 240V = (120V / 60k 0.1%) x 75R 0.1% = 300 mV
+- Output AC voltage signal on RJ11 @ 240V = (240V / 60k 0.1%) x 75R 0.1% = 300 mV
 - Precision current-type voltage transformer: ZMPT101B (0.2%) 
 - Combined tolerance of voltage sensor components: 0.4%
 - 10W Mornsun power supply can power both the emonTx v4 (via RJ11) and the emonBase (via USB-C)
@@ -39,7 +39,7 @@ This can be a good solution if you have sockets near by and a spare USB power su
 
 - Supports a range of mains voltages 120-240V, US, EU, UK.
 - Output AC voltage signal on RJ11 @ 120V = (120V / 60k 0.1%) x 75R 0.1% = 150 mV
-- Output AC voltage signal on RJ11 @ 240V = (120V / 60k 0.1%) x 75R 0.1% = 300 mV
+- Output AC voltage signal on RJ11 @ 240V = (240V / 60k 0.1%) x 75R 0.1% = 300 mV
 - Precision current-type voltage transformer: ZMPT101B (0.2%)
 - Combined tolerance of voltage sensor components: 0.4%
 - 1A Fuse & MOV surge protector
