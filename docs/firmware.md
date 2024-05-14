@@ -4,13 +4,42 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/firmwar
 
 # Firmware
 
-**Updated: 14th May 2024**
-
+**Updated: 14th May 2024**<br>
 There are currently 3 pre-compiled firmware options available via both the Emoncms firmware upload tool and the command line emonupload.py firmware tool:
 
-- **emonTx4_DB_6CT_1phase_LPL**: emonTx4 DB single phase, 6 channel firmware, pulse on analog.
-- **emonTx4_DB_6CT_3phase_LPL**: emonTx4 DB three phase, 6 channel firmware, pulse on analog.
-- **emonTx4_CM_6CT_temperature_LPL**: emonTx4 CM single phase, 6 channel firmware with temperature sensing support. Pulse on analog. Can be used without an emonVs voltage sensor (current only).
+---
+
+**emonTx4_DB_6CT_1phase_LPL**<br>
+Use this firmware for single phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the emonTx4 analog input port which can be configured using a solder bridge. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
+
+Note: This firmware **does not support temperature sensing**, please use the `emonTx4_CM_6CT_temperature_LPL` firmware if you wish to use temperature sensors.
+
+This firmware uses the emonLibDB library and is compiled from the `emon_DB_6CT` base firmware.
+
+**emonTx4_DB_6CT_3phase_LPL**:<br>
+Use this firmware for three phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the emonTx4 analog input port which can be configured using a solder bridge. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
+
+The phase allocation for each CT is as follows:
+
+- CT1: phase 1
+- CT2: phase 2
+- CT3: phase 3
+- CT4: phase 1
+- CT5: phase 2
+- CT6: phase 3
+
+Note: This firmware **does not support temperature sensing**, temperature sensing is only available via the single-phase `emonTx4_CM_6CT_temperature_LPL` firmware.
+
+This firmware uses the emonLibDB library and is compiled from the `emon_DB_6CT` base firmware with the `#define NUM_V_CHANNELS 3`.
+
+**emonTx4_CM_6CT_temperature**<br>
+Use this firmware for single phase applications that either require temperature sensing or/and installations without an emonVs voltage sensor. This firmware uses the older emonLibCM electricity monitoring library that provides temperature sensing support and a fallback option to an assumed RMS voltage value if no AC voltage signal is detected. The value of this `assumedVrms` can be set via serial configuration. This firmware is compiled from the `emon_CM_6CT_temperature` base firmware. 
+
+*Note: Temperature sensing support is achieved with a very slight degradation in electricity monitoring performance, see forum thread about this [here](https://community.openenergymonitor.org/t/emontx4-ds18b20-temperature-sensing-firmware-release-1-5-7/23496/3).*
+
+*The default maximum number of temperature sensors that can be connected is 3 but this can be increased up to 6 by changing the `#define MAX_TEMPS 3` value at the top of the firmware when compiling and uploading from source.*
+
+---
 
 These are now built from a set of base firmware's common to all AVR-DB hardware variants (emonTx4, emonTx5 and emonPi2) available in the [avrdb_firmware repository](https://github.com/openenergymonitor/avrdb_firmware/). The base firmware's include further options available when compiling and uploading these firmwares via the Arduino IDE including:
 
