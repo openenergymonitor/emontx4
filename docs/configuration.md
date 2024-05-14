@@ -6,15 +6,17 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/configu
 
 ## Default configuration
 
+**Updated 14th May 2024 to reflect updated configuration for new firmware release**. These use the same calibration format for both emonLibCM based firmwares and emonLibDB based firmwares.
+
 The emonTx4 comes as standard with the following default configuration:
 
-- **emonVs:** (Vcal: 807.86)
-- **CT 1:** 100A 0.333V (Ical: 300.3, Ilead: 3.2)
-- **CT 2:** 50A 0.333V (Ical: 150.15, Ilead: 3.2)
-- **CT 3:** 50A 0.333V (Ical: 150.15, Ilead: 3.2)
-- **CT 4:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
-- **CT 5:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
-- **CT 6:** 20A 0.333V (Ical: 60.06, Ilead: 3.2)
+- **emonVs:** (Vcal: 101.3)
+- **CT 1:** 100A 0.333V (Ical: 100.0, Ilead: 3.2)
+- **CT 2:** 50A 0.333V (Ical: 50.0, Ilead: 3.2)
+- **CT 3:** 50A 0.333V (Ical: 50.0, Ilead: 3.2)
+- **CT 4:** 20A 0.333V (Ical: 20.0, Ilead: 3.2)
+- **CT 5:** 20A 0.333V (Ical: 20.0, Ilead: 3.2)
+- **CT 6:** 20A 0.333V (Ical: 20.0, Ilead: 3.2)
 - **Transmit via RFM69CW:** ON
 - **Radio nodeid:** 17
 - **Radio group:** 210
