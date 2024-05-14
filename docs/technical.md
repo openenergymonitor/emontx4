@@ -8,33 +8,31 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/technic
 
 The emonTx4 includes a 433 MHz RFM69CW radio on the board. This can be used to transmit data to an emonPi or emonBase base station. These radios provide a neat and simple way of sending data between devices.
 
-The emonTx4 supports 3 different RFM69 radio formats:
+The emonTx4 supports two different RFM69 radio formats:
 
 1. LowPowerLabs (Default & Recommended)
 2. JeeLib Classic (backwards compatibility mode)
-3. JeeLib Native
+
 
 There is a shop option to select between Standard (LowPowerLabs) and Backwards compatibility (JeeLib Classic) when ordering an emonTx4.
 
 ![firmware_selection_shop_standard.png](img/firmware_selection_shop_standard.png)
 
-Pre-compiled hex files are available for all three of these, see: [https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4/compiled](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4/compiled).
+The radio format can also be changed by updating the firmware later using either the local emoncms firmware upload tool or the command line emonupload.py tool. See [Firmware](firmware.md).
 
-The format can also be chosen when compiling the firmware, see: [https://github.com/openenergymonitor/emontx4/blob/main/firmware/EmonTxV4/EmonTxV4.ino#L31](https://github.com/openenergymonitor/emontx4/blob/main/firmware/EmonTxV4/EmonTxV4.ino#L31)
+The format can also be chosen when compiling the firmware, see the #define option towards the top of each firmware option:
 
 ```
-#define RFM69_JEELIB_CLASSIC 1
-#define RFM69_JEELIB_NATIVE 2
-#define RFM69_LOW_POWER_LABS 3
-
-#define RadioFormat RFM69_LOW_POWER_LABS
+// 2. Set radio format
+// Options: RFM69_JEELIB_CLASSIC, RFM69_JEELIB_NATIVE, RFM69_LOW_POWER_LABS
+#define RFM69_LOW_POWER_LABS
 ```
 
-The LowPowerLabs and JeeLib Native formats both support encryption. Please see encryption section below for details on how to secure this.
+The LowPowerLabs format supports encryption. Please see encryption section below for details on how to secure this.
 
 ### Background on libraries and formats
 
-We have used the RFM69 radio now for quite a few years but the release of the emonTx4 brings with it an important change in the software implementation used for the radio. Up until this point we had been using the **JeeLib 'Classic' packet format.** This was built around compatibility with an earlier generation radio module called RFM12. The benefit of backwards compatibility however meant that some of the new features implemented on the RFM69 module could not be used. These included the FIFO data buffers which reduce the requirement to interrupt the main microcontroller (useful for energy monitoring) and hardware encryption. 
+We have used the RFM69CW radio now for quite a few years but the release of the emonTx4 brings with it an important change in the software implementation used for the radio. Up until this point we had been using the **JeeLib 'Classic' packet format.** This was built around compatibility with an earlier generation radio module called RFM12. The benefit of backwards compatibility however meant that some of the new features implemented on the RFM69 module could not be used. These included the FIFO data buffers which reduce the requirement to interrupt the main microcontroller (useful for energy monitoring) and hardware encryption. 
 
 Jean Claude Wippler who originally developed the JeeLib library did develop a version of the library that made use of the new RFM69 features. He called the resulting packet format the **'Native' packet format**. There's a useful post on the differences [here](https://jeelabs.org/book/1522a/index.html). More recently Robert Wall adapted this JeeLib native library for use with the emonPi, to make continuous sampling possible.
 
@@ -88,11 +86,13 @@ The following LTSpice schematic & simulation describes the emonTx4 voltage sensi
 
 5. The output voltage as simulated by LTSpice taking into account the indicated inductance values of the voltage sensing transformer, small effect of the RJ11 cable resistance and capacitor C1 is a little lower at 297.55 mV.
 
-6. The above suggests a calibration value of 240 / 0.29755 = 806.58
+6. The above suggests a calibration value of 240 / 0.29755 = 806.58.  
 
-7. If we use this calibration value in the emonTx4 firmware and compare the resulting RMS voltage with parallel measurement from SDM120 electric meters we usually see the SDM120 voltage measurement reading about 0.3% higher. This suggests a calibration value of:<br>`806.58 × 1.003 = 809.0`.
+**Update 14th May 2024:** The actual calibration value as applied over serial or hardcoded for emonTx4 firmware now uses the emonLibDB approach of setting this as a % value of 800, where 800 would be 100.0% and 806.58 is 100.8%.
 
-8. If we compare with a non-isolated version of the circuit above (omitting the ZMPT101B) consisting of a voltage divider with R1 (top) = 60k and R2 (bottom) = 75 Ohms. The RMS voltage difference is ~0.2%. This suggests that the voltage calibration for a single emonTx4 should be:<br>`806.58 × 1.002 = 808.2`.
+7. If we use this calibration value in the emonTx4 firmware and compare the resulting RMS voltage with parallel measurement from SDM120 electric meters we usually see the SDM120 voltage measurement reading about 0.3% higher. This suggests a calibration value of:<br>`806.58 × 1.003 = 809.0` or 101.1%
+
+8. If we compare with a non-isolated version of the circuit above (omitting the ZMPT101B) consisting of a voltage divider with R1 (top) = 60k and R2 (bottom) = 75 Ohms. The RMS voltage difference is ~0.2%. This suggests that the voltage calibration for a single emonTx4 should be:<br>`806.58 × 1.002 = 808.2` or 101.0%.
 
 9. The difference between the LTSpice simulated voltage output derived calibration and calibration based on comparison to an SDM120 or the non-isolated voltage sensor test is likely due to three main factors:
 
