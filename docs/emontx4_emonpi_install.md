@@ -17,7 +17,7 @@ There are two ways to add an emonTx4 to an existing emonPi or emonBase installat
 
 The emonTx4 can be connected to an existing emonPi via a USB-C to USB-A cable (as shown in the example picture above), measurement data can be transferred over USB. This provides a simple and reliable setup.
 
-**Tip:** For a lower cost single-phase configuration the emonTx4 can be powered from the emonPi over the same USB connection. The emonTx4 can then use the emonVs-mini pictured above (voltage sensor only - *Available soon*) rather than the full emonVs-psu (voltage sensor with integrated power supply).
+**Tip:** For a lower cost single-phase configuration the emonTx4 can be powered from the emonPi over the same USB connection. The emonTx4 can then use the emonVs-mini pictured above (voltage sensor only) rather than the full emonVs-psu (voltage sensor with integrated power supply).
 
 **Configuration**<br>The main thing we need to do here is tell a piece of software on the emonPi called emonHub to read from the USB serial port. 
 
@@ -35,6 +35,8 @@ The emonTx4 can be connected to an existing emonPi via a USB-C to USB-A cable (a
         pubchannels = ToEmonCMS,
         nodename = emonTx4
 ```
+
+*If you have a relative new emonSD image, this interfacer configuration will already be populated*.
 
 With that in place you should now see the emonTx4 inputs appear in your Emoncms inputs list.
 
@@ -63,7 +65,7 @@ Data can be transferred between the emonTx4 and emonPi via 433MHz radio.
 
 It is however easy to **change a new emonTx4 to transmit using the original JeeLib classic format** so that compatibility is maintained.
 
-We will soon also offer a new firmware release for existing emonPi systems for those keen to upgrade to the new LowPowerLabs RFM69 format which offers hardware encryption and a packet acknowledgment/retry mechanism to minimize packet loss. LowPowerLabs firmware is available for existing emonBase systems, see [https://docs.openenergymonitor.org/emonbase/rfm69-pi.html](https://docs.openenergymonitor.org/emonbase/rfm69-pi.html).
+Alternatively it is possible up upgrade the firmware on an existing emonPi system to use the LowPowerLabs RFM69 radio format which offers hardware encryption and a packet acknowledgment/retry mechanism to minimize packet loss. LowPowerLabs firmware is also available for existing emonBase systems. Both are upgradable via the local Emoncms > Admin > Firmware update tool.
 
 ### 1. Shop option at time of purchase
 
@@ -94,16 +96,14 @@ Start by following the [EmonTx4: How to compile and upload firmware](firmware.md
 At the top of the EmonTx4 firmware you will see the option to define the RadioFormat:
 
 ```
-#define RFM69_JEELIB_CLASSIC 1
-#define RFM69_JEELIB_NATIVE 2
-#define RFM69_LOW_POWER_LABS 3
-
-#define RadioFormat RFM69_LOW_POWER_LABS
+// 2. Set radio format
+// Options: RFM69_JEELIB_CLASSIC, RFM69_JEELIB_NATIVE, RFM69_LOW_POWER_LABS
+#define RFM69_LOW_POWER_LABS
 ```
 
-For existing system compatibility set RadioFormat to JeeLib Classic:
+For existing system compatibility change to:
 
-    #define RadioFormat RFM69_JEELIB_CLASSIC
+    #define RFM69_JEELIB_CLASSIC
 
 **Continue to EmonHub Configuration:**
 
