@@ -2,11 +2,11 @@
 github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/overview.md"
 ---
 
-<a class="btn" href="https://shop.openenergymonitor.com/single-phase-6-channel-energy-monitoring-emontx-v4/">Buy in Shop</a>
-
 # Overview
 
-The emonTx4 is the latest generation of OpenEnergyMonitor open source monitoring hardware, redesigned with a focus on higher accuracy, more CT channels, precision voltage sensing and a new microcontroller core. When combined with the new emonVs voltage sensor, the emonBase base-station and a selection of CT sensors, it provides an end-to-end electricity monitoring solution perfect for monitoring home consumption, solar generation, EV charging, heat pumps, battery storage or any AC electrical circuit for that matter.
+The emonTx4 is part of the AVR-DB based hardware family which now includes the emonPi2 and soon to be released emonTx5. While no longer available in the shop the emonTx4 is still actively supported as part of the latest generation of hardware.
+
+These units provide a redesigned focus on higher accuracy, more CT channels and precision voltage sensing. When combined with the emonVs voltage sensor, the emonBase base-station and a selection of CT sensors, the emonTx4 provides an end-to-end electricity monitoring solution perfect for monitoring home consumption, solar generation, EV charging, heat pumps, battery storage or any AC electrical circuit for that matter.
 
 ![emontx4-CTs.png](img/emontx4-CTs.png)
 
