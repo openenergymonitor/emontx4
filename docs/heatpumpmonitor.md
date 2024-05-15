@@ -4,10 +4,6 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/heatpum
 
 # EmonTx4 Heatpump Monitor
 
-```{admonition} Guide under construction
-This guide is not quite complete. Shared here as a first draft.
-```
-
 This guide covers how to setup an emonTx4 as a heat pump monitor, measuring:
 
 - Heat pump electrical consumption
@@ -96,7 +92,7 @@ It can also be worthwhile measuring:
 
 ### Temperature sensor installation
 
-The emonTx4 supports temperature sensing using DS18B20 temperature sensors. We supply these as encapsulated waterproof sensors in our shop. One of the challenges to accurate temperature measurement is mounting these to the flow and return primary pipework. John Cantor of [heatpumps.co.uk](https://heatpumps.co.uk), who we have worked with on heat pump monitoring, wrote a useful blog post with suggestions for different ways to mount these sensors here [Temperature sensing with OpenEnergyMonitor](https://heatpumps.co.uk/2015/06/08/temperature-sensing-with-openenergymonitor/).
+The emonTx4 single phase *emonTx4_CM_6CT_temperature* firmware supports temperature sensing using DS18B20 temperature sensors. We supply these as encapsulated waterproof sensors in our shop. One of the challenges to accurate temperature measurement is mounting these to the flow and return primary pipework. John Cantor of [heatpumps.co.uk](https://heatpumps.co.uk), who we have worked with on heat pump monitoring, wrote a useful blog post with suggestions for different ways to mount these sensors here [Temperature sensing with OpenEnergyMonitor](https://heatpumps.co.uk/2015/06/08/temperature-sensing-with-openenergymonitor/).
 
 The most accurate mounting method would be to use temperature sensor pockets which immerse the sensor in the fluid being measured. These however require a system drain down and plumbing work to install. 
 
@@ -184,9 +180,39 @@ Different voltage divider values can be choosen to best fit the range of flow ra
 
 ## 4. Firmware
 
-The following example emonTx4 heat pump monitoring firmware is an adaptation of the main EmonTx4 firmware. In order to make more room in the radio packet payload to send the additional analog reading, flow rate, heat output value and four temperature sensors, it reduces the number of CT channel readings sent via radio to 3 channels, which is enough to monitor heat pump consumption, central heating pumps and an immersion heater.
+Open the base firmware `emon_CM_6CT_temperature` from the [avrdb_firmware](https://github.com/openenergymonitor/avrdb_firmware) firmware repository.
 
-[https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_heatpump](https://github.com/openenergymonitor/emontx4/tree/main/firmware/EmonTxV4_heatpump)
+1\. Make sure to select emonTx4 as the hardware variant:
+
+```
+// 1. Set hardware variant
+// Options: EMONTX4, EMONTX5, EMONPI2
+#define EMONTX4
+```
+
+2\. Uncomment the line `#define ENABLE_ANALOG`:
+
+```
+// 6. Enable analog reading (disabled by default)
+// IF ENABLED CHANGE NUM_I_CHANNELS = 5
+// #define ENABLE_ANALOG
+```
+
+3\. Set `NUM_I_CHANNELS = 5`. We need to use one of the CT sensor ADC channel input allocations for the analog input instead:
+
+```
+// 4. Set number of current channels
+#define NUM_I_CHANNELS 5
+```
+
+4\. Increase the number of temperature sensors if required (the first image above shows an example with 4x temperature sensors: primary flow and return and secondary flow and return after the low loss header). E.g increase the default MAX_TEMPS 3 to 4 if required:
+
+```
+// 8. The maximum number of temperature sensors that can be read
+#define MAX_TEMPS 4
+```
+
+5\. Compile and upload the firmware to the emonTx4. 
 
 ## 5. Basestation or Wi-Fi adapter
 
@@ -207,15 +233,29 @@ If transmitting via 433 MHz radio, the following emonhub.conf node decoder is re
 
 ```
 [[17]]
-  nodename = emonTx4_17
+  nodename = emon_CM_6CT_temperature_17
   [[[rx]]]
-    names = MSG, Vrms, P1, P2, P3, E1, E2, E3, analog, flowrate, heat, FT, RT, FT2, RT2, pulse
-    datacodes = L,h,h,h,h,l,l,l,h,h,h,h,h,h,h,L
-    scales = 1,0.01,1,1,1,1,1,1,1,0.01,1,0.01,0.01,0.01,0.01,1
-    units = n,V,W,W,W,Wh,Wh,Wh,a,Lmin,W,C,C,C,C,p
+    names = MSG, Vrms, P1, P2, P3, P4, P5, E1, E2, E3, E4, E5, T1, T2, T3, T4, pulse, analog
+    datacodes = L,h,h,h,h,h,h,l,l,l,l,l,h,h,h,L,h
+    scales = 1,0.01,1,1,1,1,1,1,1,1,0.01,0.01,0.01,1,1
+    units = n,V,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,C,C,C,p,
 ```
 
-## 6. Emoncms & MyHeatpump app
+## 6. Emoncms input configuration
+
+The following set of screenshots gives an example of configuring this analog input for use in reading the flow rate from the Sika VFS flow sensor. The flow rate is then used together with measurement of flow and return temperature to calculate heat.
+
+These screenshots are from the emonPi2 guide, the process is however exactly the same for the emonTx4:
+
+![sika_inputs.png](img/sika_inputs.png)
+
+![analog_input_processors.png](img/analog_input_processors.png)
+
+![dt_heat_processors.png](img/dt_heat_processors.png)
+
+![sika_feeds.png](img/sika_feeds.png)
+
+## 7. Emoncms & MyHeatpump app
 
 Emoncms includes an application specific heat pump dashboard available in the Apps module. The following video gives a good overview of what this dashboard can do, how to access daily electricity consumption and heat output data as well as detailed system temperature and power data.
 
