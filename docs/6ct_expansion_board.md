@@ -34,97 +34,103 @@ Screw in the torx screws (torx size T10):
 
 ## Firmware guide
 
-The standard EmonTx4 firmware **does not support the 6 CT expansion board** and there are no pre-compiled firmwares available yet via the standard emonSD emoncms upload feature.
+Using the 6 CT channel expansion board requires compiling and uploading custom configuration of the emonTx4 firmware. Start by setting up the Arduino IDE environment following the [firmware guide](firmware.md).
 
-The firmware example that supports the 6 CT expansion board is available as part of the [EmonLibDB library](https://github.com/openenergymonitor/emonlibdb) and needs to be configured and uploaded to the EmonTx4 manually using the Arduino IDE. 
+Open the base firmware `emon_DB_12CT` from the [avrdb_firmware](https://github.com/openenergymonitor/avrdb_firmware) firmware repository.
 
-To do this:
+1\. Make sure to **select emonTx4 as the hardware variant**:
 
-1\. Start by following the existing [EmonTx4 How to compile and upload firmware guide](https://docs.openenergymonitor.org/emontx4/firmware.html#how-to-compile-and-upload-firmware). While the `EmonTx4DB_rf` firmware example does not use all of the libraries listed (it just needs emonLibDB and RFM69_LPL), it is worthwhile installing them all so that you have the capability to compile all EmonTx4 firmwares. 
+```
+// 1. Set hardware variant
+// Options: EMONTX4, EMONTX5, EMONPI2
+#define EMONTX4
+```
 
-2\. Using the Arduino IDE, open the `EmonTx4DB_rf` firmware example. Navigate to:
+2\. **Set `NUM_V_CHANNELS`** to 1 for single phase or 3 for three phase: 
 
-    File > Examples > emonLibDB > Examples > EmonTx4DB_rf
-       
-![](img/6CT/EmonTx4DB_rf.png)
+```
+// 3. Set number of voltage channels (1 for single phase, 3 for three phase)
+#define NUM_V_CHANNELS 3
+```
 
-3\. With the example open, save as a new local copy e.g `EmonTx4DB_rf_mycopy`.
+3\. **Adjust voltage and CT sensor calibration as required** (lines 187-207):
 
-4\. Check that the EXPANSION_BOARD has been defined (line 33):
+**Voltage inputs:**
+101.3 here refers to 101.3% of the default calibration value. Please see [emonLibDB user guide](https://github.com/openenergymonitor/emonLibDB/blob/main/guide.md) for more info as well. 0.16 refers to the voltage sensor phase calibration.
 
-    #define EXPANSION_BOARD
 
-5\. **Note that the Node ID for txPacket1 is set to 28 and txPacket2 is set to 29** (line 42, 61). If you have multiple EmonTx4 units, make sure that the NodeID's set here are unique on your system. Set as required.
+```
+  EmonLibDB_set_vInput(1, 101.3, 0.16);  
+#if NUM_V_CHANNELS == 3
+  EmonLibDB_set_vInput(2, 101.3, 0.16); 
+  EmonLibDB_set_vInput(3, 101.3, 0.16); 
+#endif
+```
 
-6\. **Configure the emonVs voltage sensor calibration values** (lines 119-124). If you want to have 3 phase voltage sensing, make sure all 3 lines are present as default:
+**Current channel inputs:** 100.0 here refers to 100A CT sensors. If you have 20A or 50A CT sensors change the relevant channels to 20.0 or 50.0 to match the CT sensor. 3.2 refers to the CT sensor phase calibration.
 
-    EmonLibDB_set_vInput(1, 100.0, 0.16);  
 
-    /* Include the next two lines if you have a 3-phase emonVS */
-
-    EmonLibDB_set_vInput(2, 100.0, 0.16); 
-    EmonLibDB_set_vInput(3, 100.0, 0.16); 
+```
+  EmonLibDB_set_cInput(1, 20.0, 3.2);
+  EmonLibDB_set_cInput(2, 20.0, 3.2);
+  EmonLibDB_set_cInput(3, 20.0, 3.2);
+  EmonLibDB_set_cInput(4, 20.0, 3.2);
+  EmonLibDB_set_cInput(5, 20.0, 3.2);
+  EmonLibDB_set_cInput(6, 20.0, 3.2);
   
-100.0 here refers to 100% of the default calibration value.<br>
-Please see [emonLibDB user guide](https://github.com/openenergymonitor/emonLibDB/blob/main/guide.md) for more info as well<br>
-0.16 refers to the voltage sensor phase calibration.
+#ifdef EXPANSION_BOARD
+  EmonLibDB_set_cInput(7, 20.0, 3.2);
+  EmonLibDB_set_cInput(8, 20.0, 3.2);
+  EmonLibDB_set_cInput(9, 20.0, 3.2);
+  EmonLibDB_set_cInput(10, 20.0, 3.2);
+  EmonLibDB_set_cInput(11, 20.0, 3.2);
+  EmonLibDB_set_cInput(12, 20.0, 3.2);
+#endif  
+```
 
-7\. **Configure the CT channel calibration values** (lines 126-140):
+4\. **Link voltage and current sensors to define the power & energy measurements.** The firmware includes default configuration for the selected NUM_V_CHANNELS (1 phase or 3 phase). In the single phase example all CT sensors are connected to voltage phase 1. In the three phase code, the allocation is CT1 = phase1, CT2 = phase2, CT3 = phase3 etc.
 
-    EmonLibDB_set_cInput(1, 100.0, 0.3);         // 0.3° @ 20 A for 100 A CT
-    EmonLibDB_set_cInput(2, 100.0, 0.3);
-    EmonLibDB_set_cInput(3, 100.0, 0.3);
-    EmonLibDB_set_cInput(4, 100.0, 0.3);
-    EmonLibDB_set_cInput(5, 100.0, 0.3);
-    EmonLibDB_set_cInput(6, 100.0, 0.3);
+```
+#if NUM_V_CHANNELS == 1
+  EmonLibDB_set_pInput(1, 1);                  // CT1, V1 (etc)
+  EmonLibDB_set_pInput(2, 1);
+  EmonLibDB_set_pInput(3, 1);
+  EmonLibDB_set_pInput(4, 1);  
+  EmonLibDB_set_pInput(5, 1);
+  EmonLibDB_set_pInput(6, 1);
+#ifdef EXPANSION_BOARD
+  EmonLibDB_set_pInput(7, 1);                  // CT7, V1 (etc)
+  EmonLibDB_set_pInput(8, 1);
+  EmonLibDB_set_pInput(9, 1);
+  EmonLibDB_set_pInput(10, 1);  
+  EmonLibDB_set_pInput(11, 1);
+  EmonLibDB_set_pInput(12, 1);
+#endif
+#endif
 
-    EmonLibDB_set_cInput(7, 100.0, 0.3);
-    EmonLibDB_set_cInput(8, 100.0, 0.3);
-    EmonLibDB_set_cInput(9, 100.0, 0.3);
-    EmonLibDB_set_cInput(10, 100.0, 0.3);
-    EmonLibDB_set_cInput(11, 100.0, 0.3);
-    EmonLibDB_set_cInput(12, 100.0, 0.3);
+#if NUM_V_CHANNELS == 3
+  EmonLibDB_set_pInput(1, 1);                  // CT1, V1 (etc)
+  EmonLibDB_set_pInput(2, 2);
+  EmonLibDB_set_pInput(3, 3);
+  EmonLibDB_set_pInput(4, 1);  
+  EmonLibDB_set_pInput(5, 2);
+  EmonLibDB_set_pInput(6, 3);
+#ifdef EXPANSION_BOARD
+  EmonLibDB_set_pInput(7, 1);                  // CT7, V1 (etc)  
+  EmonLibDB_set_pInput(8, 2);
+  EmonLibDB_set_pInput(9, 3);
+  EmonLibDB_set_pInput(10, 1);  
+  EmonLibDB_set_pInput(11, 2);
+  EmonLibDB_set_pInput(12, 3);
+#endif
+#endif
+```
 
-100.0 here refers to 100A CT sensors. If you have 20A or 50A CT sensors change the relevant channels to 20.0 or 50.0 to match the CT sensor.<br>
-0.3 refers to the CT sensor phase calibration.<br>
+*Note: It is also possible to measure Line-Line loads, see Line-Line loads: example lines 253-267.*
 
-8\. **Link voltage and current sensors to define the power & energy measurements** (lines 156-170). The default example is for a single phase setup with 12 CT sensors all on phase 1. 
+5\. **Compile and upload your configured firmware to the EmonTx4.** Note compilation and upload settings as covered in the  [EmonTx4 How to compile and upload firmware guide](firmware.md). 
 
-    EmonLibDB_set_pInput(1, 1);
-    EmonLibDB_set_pInput(2, 1);
-    EmonLibDB_set_pInput(3, 1);
-    EmonLibDB_set_pInput(4, 1);
-    EmonLibDB_set_pInput(5, 1);
-    EmonLibDB_set_pInput(6, 1);
-
-    EmonLibDB_set_pInput(7, 1);
-    EmonLibDB_set_pInput(8, 1);
-    EmonLibDB_set_pInput(9, 1);
-    EmonLibDB_set_pInput(10, 1);
-    EmonLibDB_set_pInput(11, 1);
-    EmonLibDB_set_pInput(12, 1);
-
-These can be adjusted as required. Four sets of 3 phase measurements could look like this:
-
-    EmonLibDB_set_pInput(1, 1);  // CT1, phase 1
-    EmonLibDB_set_pInput(2, 2);  // CT2, phase 2
-    EmonLibDB_set_pInput(3, 3);  // CT3, phase 3
-    EmonLibDB_set_pInput(4, 1);
-    EmonLibDB_set_pInput(5, 2);
-    EmonLibDB_set_pInput(6, 3);
-
-    EmonLibDB_set_pInput(7, 1);
-    EmonLibDB_set_pInput(8, 2);
-    EmonLibDB_set_pInput(9, 3);
-    EmonLibDB_set_pInput(10, 1);
-    EmonLibDB_set_pInput(11, 2);
-    EmonLibDB_set_pInput(12, 3);
-
-*Note: It is also possible to measure Line-Line loads, see Line-Line loads: example lines 175-188.*
-
-9\. **Compile and upload your configured firmware to the EmonTx4.** Note compilation and upload settings as covered in the  [EmonTx4 How to compile and upload firmware guide](https://docs.openenergymonitor.org/emontx4/firmware.html#how-to-compile-and-upload-firmware). 
-
-10\. **To receive the radio packet data on an emonPi or emonBase** first make sure that you are running LowPowerLabs radio firmware on the emonPi or emonBase receiver. 
+6\. **To receive the radio packet data on an emonPi or emonBase** first make sure that you are running LowPowerLabs radio firmware on the emonPi or emonBase receiver. 
 
 If you have existing nodes running the original JeeLib classic radio format, the firmware on these will also need to be updated if everything is to continue talking to each other. 
 
@@ -132,7 +138,7 @@ If you have an emonPi make sure that it's running the latest emonPi LowPowerLabs
 
 If you bought an emonBase alongside an emonTx4 and selected the standard radio format option the radio configuration should already be correct and ready to receive data from the EmonTx4 running the above firmware example.
 
-11\. **Configure emonHub to decode the `EmonTx4DB_rf` radio packet**.<br>
+7\. **Configure emonHub to decode the `emon_DB_12CT` radio packet**.<br>
 If you have the latest version of emonhub with autoconf enabled, it will automatically populate the node decoder configuration below. If you have an older system with autoconf disabled, follow the following manual steps:
 
 On your local emonPi/emonBase navigate to `Setup > Emonhub > Edit Config.`
@@ -157,6 +163,6 @@ Add the following node decoder in its place (Adjust the nodeid to match the conf
             scales = 1.0, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
             units = n, V, V, W, W, W, W, W, W, Wh, Wh, Wh, Wh, Wh, Wh, p, p
 
-12\. **That should be it!** you should now see the EmonTx4 data appear both in the EmonHub log window and as inputs on the Emoncms inputs page :tada:
+8\. **That should be it!** you should now see the EmonTx4 data appear both in the EmonHub log window and as inputs on the Emoncms inputs page :tada:
 
 For more information, please see forum thread: [EmonTx4 3-phase support with emonLibDB](https://community.openenergymonitor.org/t/emontx4-3-phase-support-with-emonlibdb/23541)
