@@ -43,7 +43,7 @@ The *emonTx4_CM_6CT_temperature* firmware supports up to 3x temperature sensors 
 
 Temperature sensing is unfortunately not supported when using the more recent emonLibDB electricity monitoring library and associated firmwares: *emonTx_DB_6CT_1phase*, *emonTx_DB_6CT_3phase* and *emon_DB_12CT*. There is more going on in this electricity monitoring library in order to support 3-phase measurement and it was not possible to integrate temperature sensing in the same way. Please use the earlier single phase emonLibCM based firmware *emonTx4_CM_6CT_temperature* if you do require temperature sensing at the emonTx4 measurement point. 
 
-For applications that require 3phase emonTx4 monitoring or up to the 12 CT sensors that the emonLibDB based firmwares support, we recommend using a seperate USB powered emonTH2 with multiple external temperature sensors to achieve this.
+For applications that require temperature sensing and 3phase emonTx4 monitoring or up to the 12 CT sensors, we recommend using a seperate USB powered emonTH2 with multiple external temperature sensors to achieve this.
 
 ## Pulse counting
 
@@ -71,53 +71,34 @@ The analog input voltage must be in the range **0 - 1.024V**. This ADC is config
 
 **How to use the analog input:**
 
-**1\.** Using the analog input requires compiling and uploading custom code to the emonTx4. Start by setting up the Arduino IDE environment following the [firmware guide](firmware.md).
+Using the analog input requires compiling and uploading custom configuration of the emonTx4 firmware. Start by setting up the Arduino IDE environment following the [firmware guide](firmware.md).
 
-**2\.** Note the first step of installing the arduino libraries 'Download EmonLibCM library (avrdb branch)', you will need the `channel_mean` branch of this library. Select and download this branch from github or if you have used git command line, run: `git checkout channel_mean` to switch to this branch.
+For applications that require an analog input and temperature sensing open the base firmware `emon_CM_6CT_temperature` from the [avrdb_firmware](https://github.com/openenergymonitor/avrdb_firmware) firmware repository.
 
-**3\.** Open the standard EmonTx4 firmware and save as a new copy e.g EmonTx4\_analog\_input. The simplest way of incorporting an analog input alongside everything else that this firmware does is to repurpose the configuration of one of the CT channels for our analog reading. We will repurpose channel CT6 in this example, assuming that we dont need all 6 CT channels.
+1\. Make sure to select emonTx4 as the hardware variant:
 
-**4\.** Find the line:
-
-    EmonLibCM_SetADC_IChannel(9, EEProm.i6Cal, EEProm.i6Lead);
-    
-replace with ADC input 19:
-
-    EmonLibCM_SetADC_IChannel(19, EEProm.i6Cal, EEProm.i6Lead);
-    
-**5\.** Find the line:
-
-    emontx.P6 = EmonLibCM_getRealPower(5); 
-    
-replace with:
-
-    emontx.P6 = EmonLibCM_getMean(5); 
-    
-This will output the 10s mean value of ADC input 19 onto the P6 output.
-
-**Optional:** If you are using this input to interface with a Sika VFS flow sensor and are simultaneously taking flow and return temperature measurements as well using the DS18B20 temperature sensing input, it's worthwhile converting the analog input value to a heat output at this point as well.
-
-Append the following just after line `emontx.T3 = allTemps[2];`:
-
-```{code}
-
-// Sika VFS analog to flow rate conversion
-float sika_m = 31.666;                    // (100.0-5.0 L/min) / (3.5-0.5 V);
-float sika_c = -10.833;                   // 100.0 - (sika_m*3.5);
-float analog_to_voltage = 0.000911765;    // (1.024/4096)/(68k/(180k+68.0k)); voltage divider calibration
-float heat_cal = 4150.0/60.0;             // divide by 60 converts L/min to L/s
-
-float flow_rate = sika_m*(emontx.P6 * analog_to_voltage) + sika_c;
-if (flow_rate<0.5) flow_rate = 0.0;       // if less than 0.5 L/min disable
-float dT = (emontx.T2 - emontx.T1)*0.01;  // Assumes T2 = flow temp and T1 = return temp
-float heat = heat_cal*flow_rate*dT; 
-
-emontx.P6 = heat;                         // set P6 to heat here instead of the raw analog value
+```
+// 1. Set hardware variant
+// Options: EMONTX4, EMONTX5, EMONPI2
+#define EMONTX4
 ```
 
-`emontx.T2` here is the flow temperature and `emontx.T1` is the return temperature measured using DS18B20 temperature sensors.
+2\. Uncomment the line `#define ENABLE_ANALOG`:
 
-The analog_to_voltage calibration includes the voltage divider factor. In this example we have a voltage divider with R<sub>bottom</sub> = 68k and R<sub>top</sub> = 180k, which is scaling down the voltage output of the sika so that 3.5V on the sika is reduced to 0.96V on the analog input pin. These need to be placed externally to the emonTx4 - they are not included on the board.
+```
+// 6. Enable analog reading (disabled by default)
+// IF ENABLED CHANGE NUM_I_CHANNELS = 5
+// #define ENABLE_ANALOG
+```
+
+3\. Set `NUM_I_CHANNELS = 5`. We need to use one of the CT sensor ADC channel input allocations for the analog input instead:
+
+```
+// 4. Set number of current channels
+#define NUM_I_CHANNELS 5
+```
+
+4\. Compile and upload the firmware to the emonTx4. 
 
 ## RJ45 Pinout
 
