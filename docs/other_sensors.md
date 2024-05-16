@@ -47,7 +47,9 @@ For applications that require temperature sensing and 3phase emonTx4 monitoring 
 
 ## Pulse counting
 
-- The pulse counting input on the emonTx4 is available as standard on the RJ45 socket (see pinout below). 
+- The pulse counting input on the emonTx4 is available as standard on the RJ45 socket (see pinout below).
+
+- When compiling firmware make sure to set `#define PULSE_PIN 1` to select the standard emonTx4 digital input.
 
 - The same pulse input can be configured for use on the first pluggable terminal block (closest to the RJ45 socket) as seen in the picture below with a solder bridge on solder jumper marked 'PULSE'. Solder bridge marked 'TMP' must also be removed.
 

@@ -10,14 +10,14 @@ There are currently 3 pre-compiled firmware options available via both the Emonc
 ---
 
 **emonTx4_DB_6CT_1phase_LPL**<br>
-Use this firmware for single phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the emonTx4 analog input port which can be configured using a solder bridge. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
+Use this firmware for single phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the standard emonTx4 digital input port. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
 
 Note: This firmware **does not support temperature sensing**, please use the `emonTx4_CM_6CT_temperature_LPL` firmware if you wish to use temperature sensors.
 
 This firmware uses the emonLibDB library and is compiled from the `emon_DB_6CT` base firmware.
 
 **emonTx4_DB_6CT_3phase_LPL**:<br>
-Use this firmware for three phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the emonTx4 analog input port which can be configured using a solder bridge. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
+Use this firmware for three phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the standard emonTx4 digital input port. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
 
 The phase allocation for each CT is as follows:
 
@@ -127,6 +127,7 @@ Change any other compile options as required e.g:
 
 - to use JeeLib classic radio format for compatibility with an existing installation change `#define RFM69_LOW_POWER_LABS` to `#define RFM69_JEELIB_CLASSIC`.
 - to enable analog read uncomment `#define ENABLE_ANALOG`.
+- change pulse pin to standard emonTx4 digital input if required `#define PULSE_PIN 1`.
     
 Install PlatformIO core then to compile and upload:
 
