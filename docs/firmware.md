@@ -212,3 +212,36 @@ Bootloader serial port: UART3: TXPB0, RXPB1
 
 ![firmware_uart_option.png](img/firmware_uart_option.png)
 
+### EmonHub node decoders:
+
+**emonTx4_CM_6CT_temperature**
+
+3 temperature sensors:
+
+    [[17]]
+        nodename = emonTx4_CM_17
+        [[[rx]]]
+            names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
+            datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,L
+            scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,1
+            units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,p
+            
+4 temperature sensors:
+
+    [[17]]
+        nodename = emonTx4_CM_17
+        [[[rx]]]
+            names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, T4, pulse
+            datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,h,L
+            scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,0.01,1
+            units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,C,p
+            
+6 temperature sensors:
+
+    [[17]]
+        nodename = emonTx4_CM_17
+        [[[rx]]]
+            names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, T4, T5, T6, pulse
+            datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,h,h,h,L
+            scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,0.01,0.01,0.01,1
+            units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,C,C,C,p
