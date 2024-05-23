@@ -5,46 +5,74 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/firmwar
 # Firmware
 
 **Updated: 14th May 2024**<br>
-There are currently 3 pre-compiled firmware options available via both the Emoncms firmware upload tool and the command line emonupload.py firmware tool:
+
+There are currently 8 pre-compiled firmware options for the emonTx4 available via both the Emoncms firmware upload tool and the command line `emonupload.py` firmware tool. 
+
+**To choose the right firmware, there are 4 main questions:**
+
+1. Is the application 1-phase, 3-phase or current only?<br>
+
+2. Are you using a 6 channel expander for a total of 12 CT channels?<br>
+
+3. Do you require temperature sensing?<br>
+
+4. Do you require compatibility firmware that uses the JeeLib Classic radio format for use with an existing pre 2022 monitoring installation?
+
+Select the right firmware from the list that matches the requirements of your application:
+
+| ID | Firmware | Voltage | CT's Channels | Temperature Sensors | Pulse|
+| --- | --- | --- | --- | --- | --- |
+|   | **Radio: LowPowerLabs** |   |   |   |   |
+| 1 | emonTx4_DB_6CT_1phase_LPL | 1-ph | 6 | 0 | 1* |
+| 2 | emonTx4_DB_6CT_3phase_LPL | 3-ph | 6 | 0 | 1* |
+| 3 | emonTx4_DB_12CT_1phase_LPL | 1-ph | 12 | 0 | 3* |
+| 4 | emonTx4_DB_12CT_3phase_LPL | 3-ph | 12 | 0 | 3* |
+| 5 | emonTx4_CM_6CT_temperature_LPL | 1-ph or: current only | 6 | 3 (6 optional) | 1 |
+|   | **Radio: Compatibility mode (JeeLib Classic)** |   |   |   |   |
+| 6 | emonTx4_DB_6CT_1phase_JeeLib_Classic | 1-ph  | 6 | 0 | 1* |
+| 7 | emonTx4_DB_6CT_3phase_JeeLib_Classic | 3-ph  | 6 | 0 | 1* |
+| 8 | emonTx4_CM_6CT_temperature_JeeLib_Classic | 1-ph or: current only | 6 | 3 (6 optional) | 1 |
+
+*The pulse sensor * denote standard firmware radio packet support for the number of pulse sensors given. Firmware modification can extend the number of pulse sensors to 3 on all emonLibDB based firmwares.*
+
+- All firmwares transmit data via 433Mhz RFM69CW radio by default and are designed to be used with a receiving emonPi/emonBase base-station. The radio can be turned off via serial configuration if reading data via USB cable.
+
+- All firmwares include serial configuration of radio, voltage and current channel calibration values.
+
+- **_DB:** EmonLib**DB** electricity monitoring library.<br>
+
+- **_CM:**  EmonLib**CM** electricity monitoring library.
+
+- **3-phase firmwares phase allocation:** follows the following pattern: 
+
+  - CT1: phase 1
+  - CT2: phase 2
+  - CT3: phase 3
+  - CT4: phase 1
+  - CT5: phase 2
+  - CT6: phase 3
+  - continued for 12 CT expansion board...
+
+- **Current only:** Supported by firmware 5 & 8 only, can be used with installations without an emonVs voltage sensor. These firmwares uses the older emonLibCM electricity monitoring library that has a fallback option to an assumed RMS voltage value if no AC voltage signal is detected.
+
+- **Temperature sensing:** 
+  - Supported by firmware 5 & 8 only. Temperature sensing support is achieved with a very slight degradation in electricity monitoring performance, see forum thread about this [here](https://community.openenergymonitor.org/t/emontx4-ds18b20-temperature-sensing-firmware-release-1-5-7/23496/3).
+
+  - The default maximum number of temperature sensors that can be connected is 3 but this can be increased up to 6 by changing the `#define MAX_TEMPS 3` value at the top of the firmware when compiling and uploading from source.
+
+- **Pulse sensing** is configured on the standard emonTx4 digital input port available on the RJ45 socket as well as the terminal block input (if the solder pad is configured). 
+
+- **Analog input:** Reading from the analog input can be enabled for all firmware variants via a `#define` compile option when compiling from source.
+
+**Base firmwares**
+
+These are now built from a set of base firmware's common to all AVR-DB hardware variants (emonTx4, emonTx5 and emonPi2) available in the [avrdb_firmware repository](https://github.com/openenergymonitor/avrdb_firmware/)
+
+- Firmwares 1, 2, 6 & 7 compiled from the `emon_DB_6CT` base firmware.
+- Firmwares 3 & 4 are compiled from the `emon_DB_12CT` base firmware.
+- Firmwares 5 & 8 are compiled from the `emon_CM_6CT_temperature` base firmware.
 
 ---
-
-**emonTx4_DB_6CT_1phase_LPL**<br>
-Use this firmware for single phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the standard emonTx4 digital input port. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
-
-Note: This firmware **does not support temperature sensing**, please use the `emonTx4_CM_6CT_temperature_LPL` firmware if you wish to use temperature sensors.
-
-This firmware uses the emonLibDB library and is compiled from the `emon_DB_6CT` base firmware.
-
-**emonTx4_DB_6CT_3phase_LPL**:<br>
-Use this firmware for three phase electricity monitoring with up to 6 CT sensors. Pulse sensing is configured on the standard emonTx4 digital input port. Radio data is transmitted to a receiving emonPi/emonBase via RFM69CW radio. Voltage & CT sensor calibration, pulse sensor configuration and radio settings can be applied via serial configuration.
-
-The phase allocation for each CT is as follows:
-
-- CT1: phase 1
-- CT2: phase 2
-- CT3: phase 3
-- CT4: phase 1
-- CT5: phase 2
-- CT6: phase 3
-
-Note: This firmware **does not support temperature sensing**, temperature sensing is only available via the single-phase `emonTx4_CM_6CT_temperature_LPL` firmware.
-
-This firmware uses the emonLibDB library and is compiled from the `emon_DB_6CT` base firmware with the `#define NUM_V_CHANNELS 3`.
-
-**emonTx4_CM_6CT_temperature**<br>
-Use this firmware for single phase applications that either require temperature sensing or/and installations without an emonVs voltage sensor. This firmware uses the older emonLibCM electricity monitoring library that provides temperature sensing support and a fallback option to an assumed RMS voltage value if no AC voltage signal is detected. The value of this `assumedVrms` can be set via serial configuration. This firmware is compiled from the `emon_CM_6CT_temperature` base firmware. 
-
-*Note: Temperature sensing support is achieved with a very slight degradation in electricity monitoring performance, see forum thread about this [here](https://community.openenergymonitor.org/t/emontx4-ds18b20-temperature-sensing-firmware-release-1-5-7/23496/3).*
-
-*The default maximum number of temperature sensors that can be connected is 3 but this can be increased up to 6 by changing the `#define MAX_TEMPS 3` value at the top of the firmware when compiling and uploading from source.*
-
----
-
-These are now built from a set of base firmware's common to all AVR-DB hardware variants (emonTx4, emonTx5 and emonPi2) available in the [avrdb_firmware repository](https://github.com/openenergymonitor/avrdb_firmware/). The base firmware's include further options available when compiling and uploading these firmwares via the Arduino IDE including:
-
-- **emon_DB_12CT:** emonLibDB, single and three phase, 12 channel firmware support for the expansion board.
-- **Analog input:** Reading from the analog input can be enabled for all firmware variants via a `#define` compile option.
 
 ## Updating firmware using an emonPi/emonBase (recommended)
 
@@ -93,7 +121,13 @@ Enter number:3
 Select firmware:
 1. emonTx4_DB_6CT_1phase_LPL               2.1.0      (Standard LowPowerLabs)
 2. emonTx4_DB_6CT_3phase_LPL               2.1.0      (Standard LowPowerLabs)
-3. emonTx4_CM_6CT_temperature_LPL          1.6.0      (Standard LowPowerLabs)
+3. emonTx4_DB_12CT_1phase_LPL              1.2.0      (Standard LowPowerLabs)
+4. emonTx4_DB_12CT_3phase_LPL              1.2.0      (Standard LowPowerLabs)
+5. emonTx4_CM_6CT_temperature_LPL          1.6.0      (Standard LowPowerLabs)
+6. emonTx4_DB_6CT_1phase_JeeLib_Classic    2.1.0      (Compatibility)
+7. emonTx4_DB_6CT_3phase_JeeLib_Classic    2.1.0      (Compatibility)
+8. emonTx4_CM_6CT_temperature_JeeLib_Classic1.6.0      (Compatibility)
+
 ```
 
 emonupload2 tool can also be run on any other linux computer by cloning the EmonScripts repo then running the emonupload2.py python script. Python3 required 
@@ -222,9 +256,9 @@ Bootloader serial port: UART3: TXPB0, RXPB1
         nodename = emonTx4_CM_17
         [[[rx]]]
             names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, pulse
-            datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,L
-            scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,1
-            units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,p
+            datacodes = L,h, h,h,h,h,h,h, l,l,l,l,l,l, h,h,h,L
+            scales = 1,0.01, 1,1,1,1,1,1, 1,1,1,1,1,1, 0.01,0.01,0.01,1
+            units = n,V, W,W,W,W,W,W, Wh,Wh,Wh,Wh,Wh,Wh, C,C,C,p
             
 4 temperature sensors:
 
@@ -232,9 +266,9 @@ Bootloader serial port: UART3: TXPB0, RXPB1
         nodename = emonTx4_CM_17
         [[[rx]]]
             names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, T4, pulse
-            datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,h,L
-            scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,0.01,1
-            units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,C,p
+            datacodes = L,h, h,h,h,h,h,h, l,l,l,l,l,l, h,h,h,h,L
+            scales = 1,0.01, 1,1,1,1,1,1, 1,1,1,1,1,1, 0.01,0.01,0.01,0.01,1
+            units = n,V, W,W,W,W,W,W, Wh,Wh,Wh,Wh,Wh,Wh, C,C,C,C,p
             
 6 temperature sensors:
 
@@ -242,6 +276,6 @@ Bootloader serial port: UART3: TXPB0, RXPB1
         nodename = emonTx4_CM_17
         [[[rx]]]
             names = MSG, Vrms, P1, P2, P3, P4, P5, P6, E1, E2, E3, E4, E5, E6, T1, T2, T3, T4, T5, T6, pulse
-            datacodes = L,h,h,h,h,h,h,h,l,l,l,l,l,l,h,h,h,h,h,h,L
-            scales = 1,0.01,1,1,1,1,1,1,1,1,1,1,0.01,0.01,0.01,0.01,0.01,0.01,1
-            units = n,V,W,W,W,W,W,W,Wh,Wh,Wh,Wh,Wh,Wh,C,C,C,C,C,C,p
+            datacodes = L,h, h,h,h,h,h,h, l,l,l,l,l,l, h,h,h,h,h,h, L
+            scales = 1,0.01, 1,1,1,1,1,1, 1,1,1,1,1,1, 0.01,0.01,0.01,0.01,0.01,0.01,1
+            units = n,V, W,W,W,W,W,W, Wh,Wh,Wh,Wh,Wh,Wh, C,C,C,C,C,C,p
