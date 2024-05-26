@@ -20,18 +20,18 @@ There are currently 8 pre-compiled firmware options for the emonTx4 available vi
 
 Select the right firmware from the list that matches the requirements of your application:
 
-| ID | Firmware | Voltage | CT's Channels | Temperature Sensors | Pulse|
+| ID | Firmware | Voltage | CTs | Temperature | Pulse|
 | --- | --- | --- | --- | --- | --- |
 |   | **Radio: LowPowerLabs** |   |   |   |   |
 | 1 | emonTx4_DB_6CT_1phase_LPL | 1-ph | 6 | 0 | 1* |
 | 2 | emonTx4_DB_6CT_3phase_LPL | 3-ph | 6 | 0 | 1* |
 | 3 | emonTx4_DB_12CT_1phase_LPL | 1-ph | 12 | 0 | 3* |
 | 4 | emonTx4_DB_12CT_3phase_LPL | 3-ph | 12 | 0 | 3* |
-| 5 | emonTx4_CM_6CT_temperature_LPL | 1-ph or: current only | 6 | 3 (6 optional) | 1 |
+| 5 | emonTx4_CM_6CT_temperature_LPL | 1-ph or current only | 6 | 3 (6\*\*) | 1 |
 |   | **Radio: Compatibility mode (JeeLib Classic)** |   |   |   |   |
 | 6 | emonTx4_DB_6CT_1phase_JeeLib_Classic | 1-ph  | 6 | 0 | 1* |
 | 7 | emonTx4_DB_6CT_3phase_JeeLib_Classic | 3-ph  | 6 | 0 | 1* |
-| 8 | emonTx4_CM_6CT_temperature_JeeLib_Classic | 1-ph or: current only | 6 | 3 (6 optional) | 1 |
+| 8 | emonTx4_CM_6CT_temperature_JeeLib_Classic | 1-ph or current only | 6 | 3 (6\*\*) | 1 |
 
 *The pulse sensor * denote standard firmware radio packet support for the number of pulse sensors given. Firmware modification can extend the number of pulse sensors to 3 on all emonLibDB based firmwares.*
 
@@ -58,14 +58,13 @@ Select the right firmware from the list that matches the requirements of your ap
 - **Temperature sensing:** 
   - Supported by firmware 5 & 8 only. Temperature sensing support is achieved with a very slight degradation in electricity monitoring performance, see forum thread about this [here](https://community.openenergymonitor.org/t/emontx4-ds18b20-temperature-sensing-firmware-release-1-5-7/23496/3).
 
-  - The default maximum number of temperature sensors that can be connected is 3 but this can be increased up to 6 by changing the `#define MAX_TEMPS 3` value at the top of the firmware when compiling and uploading from source.
+  - \*\*The default maximum number of temperature sensors that can be connected is 3 but this can be increased up to 6 by changing the `#define MAX_TEMPS 3` value at the top of the firmware when compiling and uploading from source.
 
 - **Pulse sensing** is configured on the standard emonTx4 digital input port available on the RJ45 socket as well as the terminal block input (if the solder pad is configured). 
 
 - **Analog input:** Reading from the analog input can be enabled for all firmware variants via a `#define` compile option when compiling from source.
 
-**Base firmwares**
-
+**Base firmwares**<br>
 These are now built from a set of base firmware's common to all AVR-DB hardware variants (emonTx4, emonTx5 and emonPi2) available in the [avrdb_firmware repository](https://github.com/openenergymonitor/avrdb_firmware/)
 
 - Firmwares 1, 2, 6 & 7 compiled from the `emon_DB_6CT` base firmware.
