@@ -10,7 +10,7 @@ There are currently 8 pre-compiled firmware options for the emonTx4 available vi
 
 **To choose the right firmware, there are 4 main questions:**
 
-1. Is the application 1-phase, 3-phase or current only?<br>
+1. Is the application 1-phase, 3-phase (4-wire) or current only?<br>
 
 2. Are you using a 6 channel expander for a total of 12 CT channels?<br>
 
@@ -52,6 +52,10 @@ Select the right firmware from the list that matches the requirements of your ap
   - CT5: phase 2
   - CT6: phase 3
   - continued for 12 CT expansion board...
+
+- **3-phase (4-wire):** 3-phase support is for 3-phase, 4-wire systems only. That is systems with an L1, L2, L3 and a NEUTRAL wire. For 3-phase, 3-wire systems please contact us.
+
+- **North American split-phase systems:** The 3-phase voltage sensor can also be used to provide voltage measurement for North American split-phase systems. A custom phase allocation will likely be required for this configuration which can be achieved by minor firmware modification.
 
 - **Current only:** Supported by firmware 5 & 8 only, can be used with installations without an emonVs voltage sensor. These firmwares uses the older emonLibCM electricity monitoring library that has a fallback option to an assumed RMS voltage value if no AC voltage signal is detected.
 
