@@ -34,7 +34,9 @@ Screw in the torx screws (torx size T10):
 
 ## Firmware guide
 
-Using the 6 CT channel expansion board requires compiling and uploading custom configuration of the emonTx4 firmware. Start by setting up the Arduino IDE environment following the [firmware guide](firmware.md).
+If you are using the newer "LowPowerLabs" radio firmware, you will be able to flash precompiled firmware. See the [firmware guide](firmware.md) to determine which firmware you require for your needs.
+
+If you are using the older "JeeLib Classic" radio firmware (pre 2022 monitoring installations), using the 6 CT channel expansion board may require compiling and uploading custom configuration of the emonTx4 firmware. Start by setting up the Arduino IDE environment following the [firmware guide](firmware.md).
 
 Open the base firmware `emon_DB_12CT` from the [avrdb_firmware](https://github.com/openenergymonitor/avrdb_firmware) firmware repository.
 
