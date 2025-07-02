@@ -68,6 +68,8 @@ The emonVs unit can be wall mounted using the brackets on the enclosure. Start b
 
 - CT sensors need to be clipped around the Live OR Neutral cable of the AC circuit to be measured (not both). The CT sensors have an indicated direction printed on the case `K->L`, where L is the direction of the load. That’s on the Line conductor, the arrow points away from the load on the Neutral. This will ensure the correct sign (+/-) on the power readings.
 
+![CTs on cables](img/CTs-on-cables-333mV.webp)
+
 - Take care not to compress the sensor with any sideways force as this can affect the accuracy of the measurement.
 
 - The new range of CT sensors used with the emonTx4 are all voltage output CT sensors with integrated burden resistors and so are safe to clip on to the circuits that you wish to measure before plugging into the emonTx4 if that makes installation easier.
