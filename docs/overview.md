@@ -4,7 +4,9 @@ github_url: "https://github.com/openenergymonitor/emontx4/blob/main/docs/overvie
 
 # Overview
 
-The emonTx4 is part of the AVR-DB based hardware family which now includes the emonPi2 and soon to be released emonTx5. While no longer available in the shop the emonTx4 is still actively supported as part of the latest generation of hardware.
+The emonTx4 is part of the AVR-DB based hardware family which now includes the emonPi2 and the emonTx5.
+
+While no longer available in the shop the emonTx4 is still actively supported as part of the latest generation of hardware.
 
 These units provide a redesigned focus on higher accuracy, more CT channels and precision voltage sensing. When combined with the emonVs voltage sensor, the emonBase base-station and a selection of CT sensors, the emonTx4 provides an end-to-end electricity monitoring solution perfect for monitoring home consumption, solar generation, EV charging, heat pumps, battery storage or any AC electrical circuit for that matter.
 
