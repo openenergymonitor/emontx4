@@ -28,7 +28,7 @@ The on-board USB to serial chip will make it easier and neater to have a hard-wi
 
 ## Documentation
 
-[View on read the docs](https://openenergymonitor.org/guide/emontx4/docs/overview.html)
+[View on read the docs](https://docs.openenergymonitor.org/emontx4/index.html)
 
 Or here on github:
 
